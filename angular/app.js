@@ -5,7 +5,7 @@
  | Angular IntShop Admin module
  |--------------------------------------------------------------------------
  */
-angular.module('intshop', ['restangular']);
+angular.module('intshop', ['restangular', 'datatables']);
 
 /**
  * App constants

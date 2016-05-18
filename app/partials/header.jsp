@@ -12,17 +12,19 @@
     <link href="https://fonts.googleapis.com/css?family=Oxygen:400,700,300" rel="stylesheet" type="text/css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.4/css/angular-datatables.min.css"/>
     <link href="assets/dist/all.css" rel="stylesheet">
 
     <!-- Scripts (CDN to be faster) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.12.0/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/restangular/1.5.2/restangular.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-    <script src="assets/dist/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.4/angular-datatables.min.js"></script>
     <script src="assets/dist/app.js"></script>
+    <script src="assets/dist/scripts.js"></script>
 
     <!--[if lt IE 9]>
     <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -32,7 +34,7 @@
 <body>
 
 
-<div class="top_bar">
+<div class="top_bar" ng-controller="headerController">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -57,10 +59,18 @@
                 <div class="top_menu">
                     <div class="dashboard_menu navbar-collapse collapse">
                         <ul id="menu" class="loged_user_menu nav navbar-nav">
-                            <li class="active"><a href="shops.html">Shops</a></li>
-                            <li><a href="drivers.html">Drivers</a></li>
-                            <li><a href="orders.html">Orders List</a></li>
-                            <li><a href="clients.html">Clients</a></li>
+                            <li ng-class="{active: activePage == 'shops'}">
+                                <a href="shops.jsp">Shops</a>
+                            </li>
+                            <li ng-class="{active: activePage == 'drivers'}">
+                                <a href="drivers.jsp">Drivers</a>
+                            </li>
+                            <li ng-class="{active: activePage == 'orders'}">
+                                <a href="orders.jsp">Orders List</a>
+                            </li>
+                            <li ng-class="{active: activePage == 'clients'}">
+                                <a href="clients.jsp">Clients</a>
+                            </li>
                         </ul>
                     </div>
 

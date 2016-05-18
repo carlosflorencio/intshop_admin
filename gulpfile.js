@@ -53,6 +53,7 @@ gulp.task('app', function () {
 gulp.task('styles', function () {
     return gulp.src([
             paths.assetsCssFolder + "/style.css",
+            paths.assetsCssFolder + "/custom.css",
             paths.assetsCssFolder + "/responsive.css"
         ])
         .pipe(sourcemaps.init())
@@ -95,6 +96,7 @@ gulp.task('watch', ['styles', 'scripts', 'app'], function () {
     });
 
     gulp.watch([paths.assetsCssFolder + "/*.css"], ['styles']);
+    gulp.watch([paths.assetsJsFolder + "/**/*.js"], ['scripts']);
     gulp.watch([paths.appFolder + "/**/*.js"], ['app']);
 
     gulp.watch(paths.jspFolder + "/**/*.jsp").on('change', reload);

@@ -1,0 +1,26 @@
+.dt-i-m {
+    margin-top: 15px;
+}
+
+
+.dataTables_length,
+.dataTables_info
+{
+    float: none !important;
+    display: inline-block !important;
+    font-size: 12px !important;
+    color: #aaaaaa !important;
+    font-weight: 700 !important;
+}
+
+.dataTables_length {
+
+}
+
+.dataTables_info {
+    margin-left: 30px !important;
+}
+
+.dataTables_wrapper {
+   padding: 0 !important;
+}
