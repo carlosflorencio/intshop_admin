@@ -6,19 +6,23 @@
 var gulp = require('gulp'),
     notify = require("gulp-notify"),
     concat = require('gulp-concat'),
-    browserify = require('gulp-browserify'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
-    ngAnnotate = require('gulp-ng-annotate');
+    ngAnnotate = require('gulp-ng-annotate'),
+    browserSync = require('browser-sync').create();
 
+var reload  = browserSync.reload;
 
 var paths = {
-    appFolder: "./app",
-    assetsJsFolder: "./assets/js",
-    assetsCssFolder: "./assets/css",
-    distFolder: "./assets/dist"
+    appFolder: "./angular",
+    assetsJsFolder: "./app/assets/js",
+    assetsCssFolder: "./app/assets/css",
+    distFolder: "./app/assets/dist",
+    jspFolder: "./app"
 };
 
+var server = 'intshop-admin.dev:8080',
+    page = '/index.jsp';
 
 /*
  |--------------------------------------------------------------------------
@@ -57,6 +61,7 @@ gulp.task('styles', function () {
         .pipe(concat('all.css'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.distFolder))
+        .pipe(browserSync.stream())
         .pipe(notify({message: 'CSS Compiled'}));
 });
 
@@ -87,8 +92,19 @@ gulp.task('scripts', function () {
  |--------------------------------------------------------------------------
  */
 gulp.task('watch', ['styles', 'scripts', 'app'], function () {
+
+    browserSync.init({
+        proxy: server,
+        open: true,
+        notify: true,
+        startPath: page
+    });
+
     gulp.watch([paths.assetsCssFolder + "/*.css"], ['styles']);
     gulp.watch([paths.appFolder + "/**/*.js"], ['app']);
+
+    gulp.watch(paths.jspFolder + "/**/*.jsp").on('change', reload);
+    gulp.watch(paths.distFolder + "/*.js").on('change', reload);
 });
 
 

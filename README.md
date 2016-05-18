@@ -11,7 +11,7 @@
 - gulp app - to compile the angular app to assets/dist/app.js
 
 ### Instructions to develop
-- gulp (will start all tasks and watch files to compile on change)
+- gulp (will start all tasks and watch files to compile on change also reloads the browser)
 
 ### Todo
 - Add gulp task to minify the styles and scripts for production
