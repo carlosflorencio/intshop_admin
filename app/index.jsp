@@ -1,17 +1,7 @@
-<!doctype html>
-<html lang="en-US">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
 <%@include file="partials/header.jsp" %>
 
-Index
+<h1>Index</h1>
 
 <%@include file="partials/footer.jsp" %>
-</body>
-</html>
 
 

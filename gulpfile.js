@@ -22,7 +22,7 @@ var paths = {
 };
 
 var server = 'intshop-admin.dev:8080',
-    page = '/index.jsp';
+    page = '/shops.jsp';
 
 /*
  |--------------------------------------------------------------------------
@@ -35,11 +35,11 @@ gulp.task('app', function () {
             paths.appFolder + "/app.js",
             paths.appFolder + "/**/*.js"
         ])
-        .pipe(sourcemaps.init())
+        //.pipe(sourcemaps.init())
         .pipe(concat('app.js'))
         .pipe(ngAnnotate())
-        .pipe(uglify())
-        .pipe(sourcemaps.write())
+        //.pipe(uglify())
+        //.pipe(sourcemaps.write())
         .pipe(notify({message: 'App Compiled'}))
         .pipe(gulp.dest(paths.distFolder));
 });
@@ -52,10 +52,8 @@ gulp.task('app', function () {
  */
 gulp.task('styles', function () {
     return gulp.src([
-            //paths.assetsCssFolder + "/owl.carousel.css",
-            //paths.assetsCssFolder + "/owl.theme.css",
-            //paths.assetsCssFolder + "/style.css",
-            //paths.assetsCssFolder + "/responsive.css"
+            paths.assetsCssFolder + "/style.css",
+            paths.assetsCssFolder + "/responsive.css"
         ])
         .pipe(sourcemaps.init())
         .pipe(concat('all.css'))
@@ -73,12 +71,8 @@ gulp.task('styles', function () {
  */
 gulp.task('scripts', function () {
     return gulp.src([
-            //paths.assetsJsFolder + "/vendors/owl.carousel.min.js",
-            //paths.assetsJsFolder + "/vendors/svgcolor.js",
-            //paths.assetsJsFolder + "/vendors/jquery.sticky.js",
-            //paths.assetsJsFolder + "/vendors/jquery.scrollToTop.min.js",
-            //paths.assetsJsFolder + "/vendors/scrollingplugin.js",
-            //paths.assetsJsFolder + "/main.js"
+            paths.assetsJsFolder + "/vendor/jquery.sticky.js",
+            paths.assetsJsFolder + "/main.js"
 
         ])
         .pipe(concat('scripts.js'))

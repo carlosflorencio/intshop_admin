@@ -1,2 +1,76 @@
-"use strict";angular.module("intshop",["restangular"]),angular.module("intshop").constant("CONSTANTS",function(){return{CURRENCY:"£"}}()),angular.module("intshop").config(["RestangularProvider",function(t){t.setBaseUrl("url")}]),angular.module("intshop").run(["$rootScope","cartService","store",function(t,e,o){}]),angular.module("intshop").service("store",["$window",function(t){return{get:function(e){if(t.localStorage.getItem(e)){var o=angular.fromJson(t.localStorage.getItem(e));return JSON.parse(o)}return!1},set:function(e,o){return void 0===o?t.localStorage.removeItem(e):t.localStorage.setItem(e,angular.toJson(o)),t.localStorage.getItem(e)}}}]);
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC5qcyIsInNoYXJlZC9Mb2NhbFN0b3JhZ2VTZXJ2aWNlLmpzIl0sIm5hbWVzIjpbImFuZ3VsYXIiLCJtb2R1bGUiLCJjb25zdGFudCIsIkNVUlJFTkNZIiwiY29uZmlnIiwiUmVzdGFuZ3VsYXJQcm92aWRlciIsInNldEJhc2VVcmwiLCJydW4iLCIkcm9vdFNjb3BlIiwiY2FydFNlcnZpY2UiLCJzdG9yZSIsInNlcnZpY2UiLCIkd2luZG93IiwiZ2V0Iiwia2V5IiwibG9jYWxTdG9yYWdlIiwiZ2V0SXRlbSIsImNhcnQiLCJmcm9tSnNvbiIsIkpTT04iLCJwYXJzZSIsInNldCIsInZhbCIsInVuZGVmaW5lZCIsInJlbW92ZUl0ZW0iLCJzZXRJdGVtIiwidG9Kc29uIl0sIm1hcHBpbmdzIjoiQUFBQSxZQU9BQSxTQUFBQyxPQUFBLFdBQUEsZ0JBS0FELFFBQUFDLE9BQUEsV0FBQUMsU0FBQSxZQUFBLFdBQ0EsT0FDQUMsU0FBQSxTQU9BSCxRQUFBQyxPQUFBLFdBQUFHLFFBQUEsc0JBQUEsU0FBQUMsR0FDQUEsRUFBQUMsV0FBQSxVQU1BTixRQUFBQyxPQUFBLFdBQUFNLEtBQUEsYUFBQSxjQUFBLFFBQUEsU0FBQUMsRUFBQUMsRUFBQUMsT0NyQkFWLFFBQUFDLE9BQUEsV0FBQVUsUUFBQSxTQUFBLFVBQUEsU0FBQUMsR0FDQSxPQUNBQyxJQUFBLFNBQUFDLEdBQ0EsR0FBQUYsRUFBQUcsYUFBQUMsUUFBQUYsR0FBQSxDQUNBLEdBQUFHLEdBQUFqQixRQUFBa0IsU0FBQU4sRUFBQUcsYUFBQUMsUUFBQUYsR0FDQSxPQUFBSyxNQUFBQyxNQUFBSCxHQUVBLE9BQUEsR0FLQUksSUFBQSxTQUFBUCxFQUFBUSxHQU9BLE1BTEFDLFVBQUFELEVBQ0FWLEVBQUFHLGFBQUFTLFdBQUFWLEdBRUFGLEVBQUFHLGFBQUFVLFFBQUFYLEVBQUFkLFFBQUEwQixPQUFBSixJQUVBVixFQUFBRyxhQUFBQyxRQUFBRiIsImZpbGUiOiJhcHAuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XHJcblxyXG4vKlxyXG4gfC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXHJcbiB8IEFuZ3VsYXIgSW50U2hvcCBBZG1pbiBtb2R1bGVcclxuIHwtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxyXG4gKi9cclxuYW5ndWxhci5tb2R1bGUoJ2ludHNob3AnLCBbJ3Jlc3Rhbmd1bGFyJ10pO1xyXG5cclxuLyoqXHJcbiAqIEFwcCBjb25zdGFudHNcclxuICovXHJcbmFuZ3VsYXIubW9kdWxlKCdpbnRzaG9wJykuY29uc3RhbnQoJ0NPTlNUQU5UUycsIChmdW5jdGlvbiAoKSB7XHJcbiAgICByZXR1cm4ge1xyXG4gICAgICAgIENVUlJFTkNZOiAnwqMnXHJcbiAgICB9XHJcbn0pKCkpO1xyXG5cclxuLyoqXHJcbiAqIENvbmZpZ3VyZSBSZXN0YW5ndWxhclxyXG4gKi9cclxuYW5ndWxhci5tb2R1bGUoJ2ludHNob3AnKS5jb25maWcoZnVuY3Rpb24gKFJlc3Rhbmd1bGFyUHJvdmlkZXIpIHtcclxuICAgIFJlc3Rhbmd1bGFyUHJvdmlkZXIuc2V0QmFzZVVybCgndXJsJyk7XHJcbn0pO1xyXG5cclxuLyoqXHJcbiAqIEluaXQgc29tZSB0aGluZ3NcclxuICovXHJcbmFuZ3VsYXIubW9kdWxlKCdpbnRzaG9wJykucnVuKGZ1bmN0aW9uICgkcm9vdFNjb3BlLCBjYXJ0U2VydmljZSwgc3RvcmUpIHtcclxuXHJcblxyXG59KTsiLCIndXNlIHN0cmljdCc7XHJcblxyXG4vKlxyXG58LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cclxufCBMb2NhbCBTdG9yYWdlIFNlcnZpY2VcclxufC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXHJcbiovXHJcbmFuZ3VsYXIubW9kdWxlKCdpbnRzaG9wJykuc2VydmljZSgnc3RvcmUnLCBbJyR3aW5kb3cnLCBmdW5jdGlvbiAoJHdpbmRvdykge1xyXG4gICAgcmV0dXJuIHtcclxuICAgICAgICBnZXQ6IGZ1bmN0aW9uIChrZXkpIHtcclxuICAgICAgICAgICAgaWYgKCAkd2luZG93LmxvY2FsU3RvcmFnZS5nZXRJdGVtKGtleSkgKSAge1xyXG4gICAgICAgICAgICAgICAgdmFyIGNhcnQgPSBhbmd1bGFyLmZyb21Kc29uKCAkd2luZG93LmxvY2FsU3RvcmFnZS5nZXRJdGVtKGtleSkgKSA7XHJcbiAgICAgICAgICAgICAgICByZXR1cm4gSlNPTi5wYXJzZShjYXJ0KTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICByZXR1cm4gZmFsc2U7XHJcblxyXG4gICAgICAgIH0sXHJcblxyXG5cclxuICAgICAgICBzZXQ6IGZ1bmN0aW9uIChrZXksIHZhbCkge1xyXG5cclxuICAgICAgICAgICAgaWYgKHZhbCA9PT0gdW5kZWZpbmVkKSB7XHJcbiAgICAgICAgICAgICAgICAkd2luZG93LmxvY2FsU3RvcmFnZS5yZW1vdmVJdGVtKGtleSk7XHJcbiAgICAgICAgICAgIH0gZWxzZSB7XHJcbiAgICAgICAgICAgICAgICAkd2luZG93LmxvY2FsU3RvcmFnZS5zZXRJdGVtKCBrZXksIGFuZ3VsYXIudG9Kc29uKHZhbCkgKTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICByZXR1cm4gJHdpbmRvdy5sb2NhbFN0b3JhZ2UuZ2V0SXRlbShrZXkpO1xyXG4gICAgICAgIH1cclxuICAgIH1cclxufV0pOyJdLCJzb3VyY2VSb290IjoiL3NvdXJjZS8ifQ==
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Angular IntShop Admin module
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop', ['restangular']);
+
+/**
+ * App constants
+ */
+angular.module('intshop').constant('CONSTANTS', (function () {
+    return {
+        CURRENCY: '£'
+    }
+})());
+
+/**
+ * Configure Restangular
+ */
+angular.module('intshop').config(["RestangularProvider", function (RestangularProvider) {
+    RestangularProvider.setBaseUrl('http://test.intshop.com');
+}]);
+
+/**
+ * Init some things
+ */
+angular.module('intshop').run(["$rootScope", "store", function ($rootScope, store) {
+
+
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Local Storage Service
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').service('store', ['$window', function ($window) {
+    return {
+        get: function (key) {
+            if ( $window.localStorage.getItem(key) )  {
+                var cart = angular.fromJson( $window.localStorage.getItem(key) ) ;
+                return JSON.parse(cart);
+            }
+            return false;
+
+        },
+
+
+        set: function (key, val) {
+
+            if (val === undefined) {
+                $window.localStorage.removeItem(key);
+            } else {
+                $window.localStorage.setItem( key, angular.toJson(val) );
+            }
+            return $window.localStorage.getItem(key);
+        }
+    }
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Shops Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('shopsController', ["$scope", "Restangular", function ($scope, Restangular) {
+
+    // Fetch shops
+    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
+        $scope.shops = result;
+    });
+}]);

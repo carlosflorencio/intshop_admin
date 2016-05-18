@@ -1,0 +1,1010 @@
+/* Base CSS */
+.alignleft {
+    float: left;
+    margin-right: 15px;
+}
+.alignright {
+    float: right;
+    margin-left: 15px;
+}
+.aligncenter {
+    display: block;
+    margin: 0 auto 15px;
+}
+a:focus { outline: 0 solid }
+a { text-decoration: none!important; }
+a:hover { text-decoration: none }
+input:focus, select:focus, textarea:focus, button:focus { outline: none }
+ul {margin:0px; padding:0px; list-style:none}
+img {
+    max-width: 100%;
+    height: auto;
+}
+h1,h2,h3,h4,h5,h6 {
+    margin: 0 0 15px;
+    font-weight: 700;
+}
+html,body { height: 100% }
+body {
+    font-family: 'Oxygen', sans-serif;
+}
+body, body.shop_page {background: #f2f5f8 none repeat scroll 0 0;
+height: auto;}
+
+.top_bar {
+    background: #3493d5 none repeat scroll 0 0;
+    padding: 20px 0;
+}
+.header_logo {
+    float: left;
+    max-width: 110px;
+}
+.top_menu { float: right }
+.top_menu .user_profile {
+    float: right;
+    margin-left: 50px;
+}
+.top_menu .dashboard_menu { float: left }
+.top_menu .dashboard_menu ul#menu { }
+.top_menu .dashboard_menu ul#menu li { }
+.top_menu .dashboard_menu ul#menu li a {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 30px;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    padding: 6px 0;
+    text-transform: uppercase;
+}
+.top_menu .dashboard_menu ul#menu li.active a,
+.top_menu .dashboard_menu ul#menu li a:hover,
+.top_menu .dashboard_menu ul#menu li a:focus {
+    background: none;
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.loged_user_dropdown .has_dropdown button {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    margin: 0;
+    padding: 0;
+}
+.loged_user_dropdown .has_dropdown button span.profile_image img {
+    border: 1px solid #9ba4b8;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+}
+.loged_user_dropdown .has_dropdown button span.angle_down img {
+    margin-left: 10px;
+    width: 9px;
+}
+.dropdown-menu:before {
+    background: #fff none repeat scroll 0 0;
+    content: "";
+    height: 15px;
+    position: absolute;
+    right: 7px;
+    top: -5px;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 15px;
+}
+.loged_user_dropdown .has_dropdown .dropdown-menu {
+    left: inherit;
+    right: 0;
+}
+.top_menu .user_profile ul.dropdown-menu li a {
+    font-size: 13px;
+    font-weight: 700;
+}
+.subbar_area {
+    background: #fff none repeat scroll 0 0;
+    border-bottom: 1px solid #c8cfdf;
+    height: 75px;
+    padding: 20px 0;
+    z-index: 9999;
+    width: 100%
+}
+.order_list { float: left }
+.order_list h3 {
+    color: #2d3340;
+    font-size: 15px;
+    margin: 0;
+}
+.filter_list { float: right }
+.order_list h3 {
+    color: #2d3340;
+    font-size: 15px;
+    margin: 0;
+    padding: 8px 0;
+}
+.search_box {
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    height: 35px;
+    width: 225px;
+}
+.search_box button {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    padding: 5px 10px;
+}
+.search_box input {
+    border: medium none;
+    font-size: 13px;
+    font-weight: 700;
+    height: 31px;
+    padding: 0;
+    width: 80%;
+}
+.search_box input:focus { color: #253B4E }
+/* Mobile Menu */
+.top_bar .navbar-header { float: left }
+.top_bar .navbar-header .navbar-toggle {
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    float: left;
+    margin: 0px;
+    padding: 10px;
+    position: relative;
+}
+.top_bar .navbar-header .navbar-toggle .icon-bar {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 1px;
+    display: block;
+    height: 2px;
+    width: 22px;
+}
+.data_table_area {
+    background: #f2f5f8 none repeat scroll 0 0;
+    padding: 40px 0 0;
+    height: 100%;
+}
+.table_title {
+    background: #e7eaf2 none repeat scroll 0 0;
+    height: 33px;
+}
+.table-responsive {
+  margin-bottom: 20px;
+}
+.invoice_history_table .table-responsive {
+  margin: 0;
+}
+.table-responsive table.table {
+    border: 1px solid #c8cfdf;
+    border-radius: 5px;
+    margin-bottom: 0px;
+}
+.data_table_area .table thead tr th {
+    border: medium none;
+    margin: 0;
+    padding: 0px 20px;
+    vertical-align: middle;
+}
+.data_table_area .table thead tr th.checkbox { padding-top: 4px }
+.data_table_area table.table tr { border: 1px solid #c8cfdf }
+.data_table_area table.table tr.table_title {background: #e7eaf2 none repeat scroll 0 0;
+height: 33px;}
+.data_table_area table.table tr.table_row { height: 38px; background: #fff }
+.data_table_area table.table td {
+    border: medium none;
+    color: #2d3340;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    padding: 8px 20px;
+    vertical-align: middle;
+    white-space: nowrap;
+background: #fff;
+}
+a.more_info_button {
+    background: #3493d5 none repeat scroll 0 0;
+    border: 1px solid #3493d5;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    height: 23px;
+    padding: 4px 0;
+    text-align: center;
+    text-transform: uppercase;
+    width: 70px;
+    text-decoration: none!important;
+}
+a.more_info_button:hover {
+    background: #fff;
+    color: #3493d5;
+    -webkit-transition: .4s;
+    transition: .4s;
+    text-decoration: none!important;
+}
+.data_table_area table.table td.logo { width: 4% }
+.data_table_area table.table td.shop_name { width: 25% }
+.data_table_area table.table td.type_of_shop { width: 20% }
+.data_table_area table.table td.products { width: 15% }
+.data_table_area table.table td.sale_report { width: 18% }
+.data_table_area table.table td.more_info { }
+.data_table_area table.table td.checkbox { width: 4% }
+.table_title th {
+    color: #9ba4b8;
+    font-size: 13px;
+    font-weight: 700;
+}
+/* Checkbox Customize */
+.grey-checkbox label,
+.media-middle { vertical-align: middle }
+.grey-checkbox label input { display: none }
+input[type="checkbox"],
+input[type="radio"] {
+    line-height: normal;
+    margin: 4px 0 0;
+}
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+.grey-checkbox label span {
+    border: 1px solid #9BA4B8;
+    border-radius: 2px;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    margin-top: 5px;
+    padding: 6px;
+    position: relative;
+}
+.grey-checkbox [type="checkbox"]:checked + span:before {
+    color: #2D3340;
+    content: "\2714";
+    font-size: 10px;
+    left: 2px;
+    position: absolute;
+    top: -1px;
+}
+.grey-checkbox [type="checkbox"]:checked + span { border: 1px solid #2D3340 }
+/* Image shortable svg */
+.sortable.single_sort_item {
+    cursor: pointer;
+    display: inline;
+    left: 20px;
+    position: relative;
+    top: 16px;
+}
+.sortable {
+    cursor: pointer;
+    padding: 0 !important;
+    position: relative;
+    top: 4px;
+    left: 15px;
+}
+.sortable .img-up {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.sortable .img-up,
+.sortable .img-down {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    left: 0;
+}
+.sortable .img-up path,
+.sortable .img-down path { fill: #aaaaaa }
+.sortable .img-up { top: 0 }
+.sortable .img-down {
+    top: 10px;
+    left: 1px;
+}
+.sortable span {
+    position: absolute;
+    left: 20px;
+    top: 4px;
+    white-space: nowrap;
+}
+.sortable.up .img-up path { fill: #3493d5 }
+.sortable.down .img-down path { fill: #3493d5 }
+.sortable.up span { color: #3493d5 }
+.sortable.down span { color: #3493d5 }
+.pagination_area { overflow: hidden }
+.pagination_left {
+    float: left;
+    overflow: hidden;
+}
+ul.pagination {
+    float: right;
+    margin: 0px;
+}
+ul.pagination li { }
+ul.pagination li a {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: #aaaaaa;
+    font-size: 13px;
+    font-weight: 700;
+    height: 25px;
+    margin: 0 0 0 5px;
+    padding: 2px;
+    text-align: center;
+    width: 25px;
+}
+ul.pagination li a:hover { border: 1px solid #3493D5 }
+ul.pagination li.previous a { border: 1px solid #3493D5 }
+ul.pagination li a span {
+    color: #3493D5;
+    font-size: 10px;
+}
+ul.pagination li.next a { border: 1px solid #3493D5 }
+ul.pagination li a.active { }
+.pagination_left select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("../images/select-entries-bg.png");
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: 17px auto;
+    border: 1px solid #dadada;
+    color: #263b50;
+    float: left;
+    font-size: 10px;
+    font-weight: 700;
+    height: 25px;
+    padding: 0 5px;
+    text-align: left;
+    width: 94px;
+}
+.pagination_left p {
+    color: #aaaaaa;
+    float: left;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 10px;
+    padding: 3px 0;
+}
+/* Shop View Page */
+
+.data_table_area.shopsview_table { height: auto }
+.data_table_area.shopsview_table.shops_resume_page {
+  padding-bottom: 0px;
+}
+.order_list_title a.backto_list {
+    color: #abadb0;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 20px 0 0;
+}
+.order_list_title a.tesco_express {
+    color: #3493d5;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 20px 0 0;
+}
+a.backto_list img {
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: -1px;
+}
+.right_side_list { overflow: hidden }
+.right_side_list > ul {
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    height: 35px;
+    overflow: hidden;
+}
+.right_side_list ul li {
+    float: left;
+    border-right: 1px solid #dadada;
+}
+.right_side_list ul li:last-child { border-right: none }
+.right_side_list ul li a {
+    color: #263b50;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    padding: 8px 20px;
+}
+.right_side_list ul li.active a {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -webkit-transition: .4s;
+            transition: .4s;
+    background: #EFEFEF;
+}
+.right_side_list ul li a:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -webkit-transition: .4s;
+            transition: .4s;
+}
+.subbar_area.shopsview_page .subbar_list .order_list { padding: 8px 0 }
+.data_table_area.shopsview_table .left_column {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #c8cfdf;
+    border-radius: 5px;
+    margin-right: 10px;
+    overflow: hidden;
+    padding: 30px;
+}
+.data_table_area.shopsview_table .left_column_single {
+    border-bottom: 1px solid #c8cfdf;
+    margin-bottom: 23px;
+    overflow: hidden;
+    padding-bottom: 22px;
+}
+.left_column_single.total_sale_report.google_chart_area { padding-bottom: 15px }
+.single_left {
+    float: left;
+    width: 25%;
+}
+.tesco_logo { padding: 18px 0 }
+.single_middle {
+    float: left;
+    width: 50%;
+}
+.single_right {
+    float: right;
+    text-align: right;
+    width: 25%;
+}
+.single_middle h2 {
+    color: #263b50;
+    font-size: 18px;
+    margin: 0;
+}
+.single_middle p {
+    color: #3493d5;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+.single_right p {
+    color: #3493d5;
+    font-weight: 700;
+    margin: 0;
+}
+.single_right h4 {
+    color: #2d3340;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+a.view_page,
+.single_top_full .single_top_right a {
+    border: 1px solid #3493d5;
+    border-radius: 5px;
+    color: #3493d5;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    height: 23px;
+    padding: 4px 8px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 73px;
+}
+a.view_page:hover,
+.single_top_full .single_top_right a:hover {
+    background: #3493D5;
+    color: #fff;
+    -webkit-transition: .4s;
+            transition: .4s;
+}
+.rating-xs {
+    display: inline-block;
+    font-size: 13px;
+}
+.rating-container .rating {
+    cursor: default;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.rating-container .empty-stars { color: #bbbbbb }
+.rating-animate .filled-stars { -webkit-transition: width 0.25s ease 0s; transition: width 0.25s ease 0s }
+.rating-container .filled-stars {
+    color: #ffcc00;
+    left: 0;
+    margin: auto;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+}
+.hide { display: none !important }
+.total_sale_top {
+    margin-bottom: 30px;
+    overflow: hidden;
+    position: relative;
+}
+.total_sale_top a.view_page,
+.single_top_full .single_top_right a {
+    bottom: 5px;
+    padding: 4px 0;
+    position: absolute;
+    right: 0;
+}
+.single_left_top { float: left }
+.total_sale_top .single_left_top p {
+    color: #3493d5;
+    font-size: 11px;
+    font-weight: 700;
+    margin: 0;
+}
+.total_sale_top h1,
+.single_top_full .single_left_top h1 {
+    color: #2d3340;
+    font-size: 30px;
+    margin: 0;
+}
+.google_chart {
+    float: left;
+    height: 60px;
+    position: relative;
+    width: 50%;
+}
+.invoices .chart-size {
+    bottom: 0;
+    height: 55px;
+    position: absolute;
+    width: 80%;
+}
+.total_sale_bottom {
+    height: 60px;
+    overflow: hidden;
+}
+.chart-size { height: 60px }
+.total_sale_middle {
+    float: left;
+    text-align: right;
+    width: 20%;
+    margin-top: 10px;
+}
+.total_sale_right {
+    float: right;
+    text-align: right;
+    width: 30%;
+    margin-top: 10px;
+}
+.total_sale_middle h2 {
+    color: #263b50;
+    font-size: 11px;
+    margin: 0;
+}
+.total_sale_middle p {
+    color: #aaaaaa;
+    font-size: 13px;
+    font-weight: 700;
+}
+.total_sale_right h4 {
+    color: #2d3340;
+    font-size: 15px;
+    margin: 0;
+}
+.total_sale_right p,
+.single_left_top p {
+    color: #3493d5;
+    font-size: 11px;
+    font-weight: 700;
+    margin: 0px;
+}
+.single_top_full {
+    margin-bottom: 30px;
+    overflow: hidden;
+    position: relative;
+}
+.single_top_full .single_top_right {
+    float: right;
+    text-align: right;
+}
+.invoice_history_table p {
+    color: #aaaaaa;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+.data_table_area.shopsview_table .left_column_single:last-child {
+    border-bottom: medium none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.invoice_history_table .table-responsive table.table {
+    border: medium none !important;
+    margin: 0;
+}
+.invoice_history_table .table-responsive table.table tr { border: none }
+.invoice_history_table .table-responsive table.table td {
+    padding: 5px 0;
+    vertical-align: middle;
+}
+.invoice_history_table .table-responsive table.table td.date {
+    color: #3493d5;
+    font-size: 13px;
+    font-weight: 700;
+}
+.invoice_history_table .table-responsive table.table td.price {
+    color: #263b50;
+    font-size: 13px;
+    font-weight: 700;
+}
+.invoice_history_table .table-responsive table.table td.due {
+    color: #aaaaaa;
+    font-size: 13px;
+    font-weight: 700;
+}
+.invoice_history_table .table-responsive table.table td.download {
+    padding: 0 !important;
+    vertical-align: top;
+}
+.right_column {
+    margin-left: 10px;
+    overflow: hidden;
+}
+.contact_info {
+    border: 1px solid #c8cfdf;
+    border-radius: 5px;
+    margin-bottom: 35px;
+    overflow: hidden;
+}
+.contact_top {
+    background: #fff none repeat scroll 0 0;
+    border-bottom: 1px solid #c8cfdf;
+    padding: 30px;
+    overflow: hidden;
+}
+.contact_left {
+    float: left;
+    width: 70%;
+}
+.contact_right {
+    float: left;
+    width: 30%;
+}
+.contact_left h4,
+.contact_right h4 {
+    color: #2d3340;
+    font-size: 13px;
+    font-weight: 700;
+}
+.contact_left ul li {
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+.contact_left ul li img {
+    float: left;
+    margin-top: 7px;
+}
+.contact_left ul li span {
+    color: #aaaaaa;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-left: 10px;
+}
+.single_date_time { margin-bottom: 20px }
+.single_date_time h4 {
+    color: #3493d5;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+}
+.single_date_time p {
+    color: #aaaaaa;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+}
+.contact_bottom {
+    background: #e7eaf2 none repeat scroll 0 0;
+    height: 28px;
+    padding: 4px 30px;
+}
+.contact_bottom p {
+    color: #9ba4b8;
+    font-size: 13px;
+    font-weight: 700;
+}
+.list_of_order_head {
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative;
+}
+.list_of_order .list_of_order_head h3 {
+    color: #2d3340;
+    font-size: 15px;
+    margin: 0;
+    text-align: center;
+}
+a.view_all-order {
+    color: #2d3340;
+    font-size: 11px;
+    font-weight: 700;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    position: absolute;
+    right: 0px;
+    top: 0;
+}
+a.view_all-order span img { margin-left: 5px }
+.list_of_order_table .table-responsive table.table {
+    margin: 0px;
+    border: 1px solid #C8CFDF;
+    border-radius: 5px;
+}
+.list_of_order_table .table-responsive table.table tr.row_head {
+    background: #e8ebf3 none repeat scroll 0 0;
+    height: 33px;
+}
+.list_of_order_table .table-responsive table.table tr.row_head th {
+    font-weight: 700;
+    color: #9ba4b8;
+    font-size: 13px;
+    white-space: nowrap;
+}
+.list_of_order_table .table-responsive table.table tr.table_row {
+    background: #fff none repeat scroll 0 0;
+    height: 38px;
+}
+.list_of_order_table .table-responsive table.table tr.table_row td {
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.list_of_order_table .table-responsive table.table tr.table_row td.date_list { color: #3493d5 }
+.list_of_order_table .table-responsive table.table tr.table_row td.price_list { color: #2d3340 }
+.list_of_order_table .table-responsive table.table tr.table_row td.status { color: #aaaaaa }
+.list_of_order_table .table-responsive table.table tr.table_row td.driver_by { color: #2d3340 }
+.list_of_order_table .table-responsive table.table tr.table_row td.view_link { text-align: center }
+.total_sale_right p { text-transform: uppercase }
+
+
+/* Shops Sales page */
+.sales_page .filter_list .search_bar {
+    float: left;
+    margin-right: 30px;
+}
+.sales_page .filter_list .right_side_list { float: left }
+.data_table_area .shops_sales_table table.table tr.table_title th { white-space: nowrap }
+.data_table_area .shops_sales_table table.table td {
+    font-size: 11px;
+    font-weight: 700;
+    background: #fff;
+}
+.data_table_area .shops_sales_table table.table td.sales_name {
+    width: 25%;
+    color: #2d3340;
+}
+.data_table_area .shops_sales_table table.table td.sales_date {
+    width: 13%;
+    color: #3493d5;
+}
+.data_table_area .shops_sales_table table.table td.sales_price {
+    width: 13%;
+    color: #2d3340;
+}
+.data_table_area .shops_sales_table table.table td.sales_postcode {
+    width: 13%;
+    color: #3493d5;
+}
+.data_table_area .shops_sales_table table.table td.sales_stutas {
+    width: 17%;
+    color: #aaaaaa;
+}
+.data_table_area .shops_sales_table table.table td.sales_driverby { color: #2d3340 }
+.data_table_area .shops_sales_table table.table td.sales_views {
+    width: 10%;
+    text-align: center;
+}
+.data_table_area .shops_sales_table table.table td.sales_views a.sales_view_button, .list_of_order_table .table-responsive table.table tr.table_row td.view_link a {
+    background: #3493d5 none repeat scroll 0 0;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+    font-weight: 700;
+    height: 22px;
+    padding-top: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 50px;
+    font-size: 10px;
+    border: 1px solid #3493d5;
+}
+.data_table_area .shops_sales_table table.table td.sales_views a.sales_view_button:hover, .list_of_order_table .table-responsive table.table tr.table_row td.view_link a:hover {background: #fff; color: #3493d5; transition: .4s}
+
+
+
+/* Shopsview Sales View Page */
+
+.print_button a {
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    color: #263b50;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    height: 35px;
+    padding: 7px 0;
+    text-align: center;
+    width: 135px;
+}
+.print_button a span {
+    display: inline-block;
+    margin-right: 8px;
+}
+.sales_view_wrapper {
+background: #fff none repeat scroll 0 0;
+border: 1px solid #c8cfdf;
+border-radius: 5px;
+margin-bottom: 30px;
+padding: 30px 30px 70px;
+}
+.sales_view_top_info {
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+.sales_view_single_info {
+  border-right: 1px solid #e3e7ef;
+  float: left;
+  margin-right: 30px;
+  padding-right: 20px;
+  width: 25%;
+    overflow: hidden
+}
+.sales_view_single_info:last-child {border-right: medium none;
+margin-right: 0;
+padding-right: 0;}
+
+.single_info_top {
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+.single_info_top h5 {
+    color: #aaaaaa;
+    float: left;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    padding: 4px 0;
+}
+.single_info_top a {
+    border: 1px solid #3493d5;
+    border-radius: 5px;
+    color: #3493d5;
+    display: inline-block;
+    float: right;
+    font-size: 10px;
+    font-weight: 700;
+    height: 23px;
+    padding-top: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 75px;
+}
+.single_info_top a:hover {background: #3493d5; color: #fff; transition: .4s}
+.single_info_bottom h4 {
+  color: #263b50;
+  font-size: 15px;
+}
+p.clients_phone_number {
+  color: #3493d5;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+p.clients_address {
+  color: #aaaaaa;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sales_view_data_table .table-responsive table.table {border-bottom: 1px solid #99c9ea; border-left: none; border-right: none;border-top: none}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_title {border-bottom: 1px solid #99c9ea;
+height: 30px; border-left: none; border-right: none; border-top: none}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row {border: none}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_title th {color: #263b50;
+font-size: 13px;
+white-space: nowrap;}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_title th.item_total {padding-right: 0;}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row td {font-size: 13px;
+font-weight: 700;white-space: nowrap}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row td.product_thumb {padding: 8px 0;
+text-align: left;
+width: 5%;}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row td.product_thumb img {
+  border: 1px solid #c7cbca;
+  width: 40px;
+}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row td.product_name {color: #263b50;
+width: 50%;}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row td.product_category {color: #3493d5}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row td.product_price {color: #3493d5}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row td.product_quantity {color: #3493d5;
+width: 8%;}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row td.total_product {color: #263b50;
+padding: 8px 0;
+text-align: right;
+width: 8%;}
+
+
+.sales_view_date_charge {
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.table-responsive {
+}
+.sales_view_date {
+    float: left;
+}
+.sales_view_charge {
+    float: right;
+}
+.sales_view_date h5 {
+    color: #aaaaaa;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+}
+.sales_view_date p, .sales_view_total_order p {
+    color: #3493d5;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+}
+.sales_view_charge h5 {
+    color: #aaaaaa;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+}
+.sales_view_charge span {
+    color: #263b50;
+}
+
+.sales_view_total_order {
+    overflow: hidden;
+text-align: right;
+}
+.sales_view_total_order h2 {
+    color: #263b50;
+    font-size: 30px;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

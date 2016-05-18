@@ -1,0 +1,184 @@
+
+/* Medium Layout: 1280px. */
+@media only screen and (min-width: 992px) and (max-width: 1200px) { 
+       .sales_view_single_info {
+  width: 28%;
+} 
+}
+/* Tablet Layout: 768px. */
+@media only screen and (min-width: 768px) and (max-width: 991px) { 
+    .data_table_area.shopsview_table .left_column { padding: 15px }
+    .right_column { margin-left: 0 }
+    .contact_top { padding: 15px }
+    .contact_left { width: 60% }
+    .contact_right { width: 40% }
+    .sales_page .filter_list .search_bar { margin-right: 10px }
+    .search_box {
+      width: 210px;
+    }
+
+    .sales_view_single_info {
+  width: 30%;
+}
+    
+}
+/* Mobile Layout: 320px. */
+@media only screen and (max-width: 767px) { 
+    .header_logo {
+        float: none;
+        margin: 0 auto;
+        max-width: 110px;
+    }
+    .logo { padding: 5px 0 }
+    .top_menu {
+        float: none;
+        margin-top: 0px;
+        overflow: hidden;
+        width: 100%;
+    }
+    .top_menu .dashboard_menu {
+        box-shadow: none;
+        float: none;
+    }
+    .top_menu .dashboard_menu ul#menu li a {
+        border-bottom: 1px solid #fff;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        margin: 3px 0;
+        opacity: 0.4;
+        filter: alpha(opacity=40);
+        padding: 8px 0;
+        text-transform: uppercase;
+    }
+    .top_menu .user_profile {
+        float: none;
+        margin: 0;
+        position: absolute;
+        right: 15px;
+        top: 0;
+    }
+    .subbar_area {height: auto}
+    .is-sticky .subbar_area {
+      height: auto;
+      /* padding: 5px 0;*/
+    }
+    .order_list {
+      float: none;
+      text-align: center;
+    }
+    .data_table_area {
+      padding: 40px 0 30px;
+    }
+    .pagination_left {
+        float: none;
+        overflow: hidden;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    ul.pagination {
+        display: inherit;
+        float: none;
+        margin: 0;
+        text-align: center;
+    }
+    ul.pagination li { display: inline-block }
+    .data_table_area table.table td { padding: 8px 30px }
+    .single_left {
+        text-align: center;
+        width: 100%;
+    }
+    .single_middle { width: 50% }
+    .single_right {
+        float: left;
+        width: 50%;
+    }
+    .google_chart {
+        margin-bottom: 30px;
+        width: 100%;
+    }
+    .total_sale_middle {
+        float: left;
+        text-align: left;
+        width: 50%;
+    }
+    .total_sale_right {
+        float: right;
+        text-align: right;
+        width: 50%;
+    }
+    .invoice_history_table .table-responsive { border: medium none }
+    .data_table_area.shopsview_table .left_column {
+        margin-bottom: 30px;
+        margin-right: 0;
+        padding: 15px;
+    }
+    .right_column { margin-left: 0 }
+    .contact_top { padding: 15px }
+    .contact_left {
+        margin-bottom: 30px;
+        width: 100%;
+    }
+    .contact_right {
+        float: left;
+        width: 100%;
+    }
+    .order_list_title { margin-bottom: 10px }
+    .total_sale_bottom {
+        height: auto;
+        overflow: hidden;
+    }
+    .filter_list {
+        float: left;
+        overflow: hidden;
+        text-align: center;
+        width: 100%;
+    }
+    .sales_page .filter_list .search_bar {
+        float: none;
+        margin-right: 0;
+        text-align: center;
+        width: 100%;
+    }
+    .search_box { margin: 0 auto 15px }
+    .sales_page .filter_list .right_side_list {
+        display: inline-block;
+        float: none;
+    }
+    .shopsview_page .filter_list .right_side_list ul { display: inline-block }
+    .table-responsive.shops_sales_table {
+        border: medium none;
+        margin-bottom: 30px;
+    }
+    .data_table_area .shops_sales_table table.table { margin: 0 }
+    .data_table_area .shops_sales_table table.table td { padding: 8px 20px }
+    .sales_view_wrapper {
+  padding: 15px 15px 35px;
+}
+    .sales_view_single_info {
+      width: 100%;
+        margin-bottom: 30px;
+        padding-right: 0px;
+        margin-right: 0px;
+        border-right: none;
+    }
+    .sales_view_top_info {
+  margin-bottom: 0;
+}
+    .sales_view_data_table .table-responsive {border: none}
+.sales_view_data_table .table-responsive table.table {border-bottom: 1px solid #99c9ea; border-left: none; border-right: none;border-top: none}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_title {border-bottom: 1px solid #99c9ea;
+height: 30px; border-left: none; border-right: none; border-top: none}
+.sales_view_data_table .table-responsive table.table tr.sales_view_data_row {border: none}
+    
+    
+    
+    
+    
+    
+}
+/* Wide Mobile Layout: 480px. */
+@media only screen and (min-width: 480px) and (max-width: 767px) { 
+    
+}
+

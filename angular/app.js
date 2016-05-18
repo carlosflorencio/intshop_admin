@@ -20,13 +20,13 @@ angular.module('intshop').constant('CONSTANTS', (function () {
  * Configure Restangular
  */
 angular.module('intshop').config(function (RestangularProvider) {
-    RestangularProvider.setBaseUrl('url');
+    RestangularProvider.setBaseUrl('http://test.intshop.com');
 });
 
 /**
  * Init some things
  */
-angular.module('intshop').run(function ($rootScope, cartService, store) {
+angular.module('intshop').run(function ($rootScope, store) {
 
 
 });
