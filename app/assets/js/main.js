@@ -1,58 +1,50 @@
 (function ($) {
-	"use strict";
+    "use strict";
 
-    jQuery(document).ready(function($){
+    jQuery(document).ready(function ($) {
+
+
+        $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
 
 
         $(".embed-responsive iframe").addClass("embed-responsive-item");
         $(".carousel-inner .item:first-child").addClass("active");
-        
+
         $('[data-toggle="tooltip"]').tooltip();
-        
+
         /* Fixed at top menu */
         $(".subbar_area").sticky({
-            topSpacing:0
+            topSpacing: 0
         });
-        
-        
 
 
         /* Select All Checkbox */
         $("#selectall").change(function () {
             $(".grey-checkbox input:checkbox").prop('checked', $(this).prop("checked"));
         });
-        
-        
+
+
         /* Changes color in select fields */
-        $('#shop-category').css('color','#aaaaaa');
-           $('#shop-category').change(function() {
-              var current = $('#shop-category').val();
-              if (current != 'null') {
-                  $('#shop-category').css('color','#263b50');
-              } else {
-                  $('#shop-category').css('color','#aaaaaa');
-              }
-           });
+        $('#shop-category').css('color', '#aaaaaa');
+        $('#shop-category').change(function () {
+            var current = $('#shop-category').val();
+            if (current != 'null') {
+                $('#shop-category').css('color', '#263b50');
+            } else {
+                $('#shop-category').css('color', '#aaaaaa');
+            }
+        });
 
-        $('#shop-type').css('color','#aaaaaa');
-           $('#shop-type').change(function() {
-              var current = $('#shop-type').val();
-              if (current != 'null') {
-                  $('#shop-type').css('color','#263b50');
-              } else {
-                  $('#shop-type').css('color','#aaaaaa');
-              }
-           });
+        $('#shop-type').css('color', '#aaaaaa');
+        $('#shop-type').change(function () {
+            var current = $('#shop-type').val();
+            if (current != 'null') {
+                $('#shop-type').css('color', '#263b50');
+            } else {
+                $('#shop-type').css('color', '#aaaaaa');
+            }
+        });
 
-        
-        
-        
-
-    });
-
-
-    jQuery(window).load(function(){
-        
 
         /* List table sort columns */
         $('.sortable').on('click', function (e) {
@@ -60,24 +52,23 @@
             $(this).toggle2classes("down", "up");
         });
 
-        $.fn.toggle2classes = function(class1, class2){
-            if( !class1 || !class2 )
+        $.fn.toggle2classes = function (class1, class2) {
+            if (!class1 || !class2)
                 return this;
 
-            return this.each(function(){
+            return this.each(function () {
                 var $elm = $(this);
 
-                if( $elm.hasClass(class1) || $elm.hasClass(class2) )
-                    $elm.toggleClass(class1 +' '+ class2);
+                if ($elm.hasClass(class1) || $elm.hasClass(class2))
+                    $elm.toggleClass(class1 + ' ' + class2);
 
                 else
                     $elm.addClass(class1);
             });
-        }; 
-        
-        
-        
-        /* Svg Color Changes */    
+        };
+
+
+        /* Svg Color Changes */
         jQuery('img.svg').each(function () {
             var $img = jQuery(this);
             var imgID = $img.attr('id');

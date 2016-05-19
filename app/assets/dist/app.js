@@ -11,8 +11,11 @@ angular.module('intshop', ['restangular', 'datatables']);
  * App constants
  */
 angular.module('intshop').constant('CONSTANTS', (function () {
+    var url = 'http://test.intshop.com';
+
     return {
-        CURRENCY: '£'
+        CURRENCY: '£',
+        SHOP_IMAGES: url + '/images/retailer-profile/' // [shop Id].jpg
     }
 })());
 
@@ -87,8 +90,8 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
 | Shops Controller
 |--------------------------------------------------------------------------
 */
-angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", function ($scope, $timeout, Restangular, DTOptionsBuilder,
-                                                                  DTColumnBuilder, DTColumnDefBuilder) {
+angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "CONSTANTS", function ($scope, $timeout, Restangular, DTOptionsBuilder,
+                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
 
     var vm = this;
 
@@ -113,7 +116,7 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
         DTColumnDefBuilder.newColumnDef(2),
         DTColumnDefBuilder.newColumnDef(3),
         DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5).notSortable(),
+        DTColumnDefBuilder.newColumnDef(5),
         DTColumnDefBuilder.newColumnDef(6).notSortable()
     ];
 
@@ -169,6 +172,11 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
         _(displayedRows[0]).forEach(function(index) {
             vm.selected[vm.shops[index]._id.$oid] = false;
         });
+    }
+
+    // Image
+    $scope.image = function(id) {
+        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
     }
 
 }]);

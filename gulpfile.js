@@ -73,6 +73,7 @@ gulp.task('styles', function () {
 gulp.task('scripts', function () {
     return gulp.src([
             paths.assetsJsFolder + "/vendor/jquery.sticky.js",
+            paths.assetsJsFolder + "/vendor/star-rating.min.js",
             paths.assetsJsFolder + "/main.js"
 
         ])

@@ -319,11 +319,11 @@ a.more_info_button:hover {
 }
 
 .data_table_area table.table td.shop_name {
-    width: 25%
+    width: 20%
 }
 
 .data_table_area table.table td.type_of_shop {
-    width: 20%
+    width: 18%
 }
 
 .data_table_area table.table td.products {
@@ -331,11 +331,16 @@ a.more_info_button:hover {
 }
 
 .data_table_area table.table td.sale_report {
-    width: 18%
+    width: 15%
 }
 
 .data_table_area table.table td.more_info {
 }
+
+.data_table_area table.table td.rate {
+    width: 16%;
+}
+
 
 .data_table_area table.table td.checkbox {
     width: 4%

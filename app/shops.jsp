@@ -20,9 +20,10 @@
                             <div class="search_bar">
                                 <form action="">
                                     <div class="search_box">
-                                        <button type="submit"><img width="15" src="assets/images/search.png" alt=""></button>
+                                        <button type="submit"><img width="15" src="assets/images/search.png" alt="">
+                                        </button>
                                         <input type="text" placeholder="Search" ng-model="searchText"
-                                               ng-change="searchTable()" >
+                                               ng-change="searchTable()">
                                     </div>
                                 </form>
                             </div>
@@ -41,29 +42,28 @@
                 <div class="col-sm-12">
 
                     <div class="table-responsive">
-                        <table class="table" datatable="ng" dt-instance="ngShops.dtInstance" dt-options="ngShops.dtOptions" dt-column-defs="ngShops.dtColumnDefs">
+                        <table class="table" datatable="ng" dt-instance="ngShops.dtInstance"
+                               dt-options="ngShops.dtOptions" dt-column-defs="ngShops.dtColumnDefs">
                             <thead>
                             <tr class="table_title">
                                 <th>Logo</th>
                                 <th>
-                                    <span>Shop Name</span>
+                                    Shop Name
                                 </th>
                                 <th>
-                                    <span>Type of Shop</span>
+                                    Type of Shop
                                 </th>
                                 <th>
-                                    <span>Products</span>
+                                    Products
                                 </th>
                                 <th>
-                                    <span>Total Sale Report</span>
+                                    Total Sale Report
                                 </th>
-                                <th></th>
-                                <th class="checkbox">
-                                    <div class="grey-checkbox">
-                                        <label>
-                                            <input type="checkbox" id="selectall" ng-model="ngShops.selectAll" ng-click="ngShops.toggleAll(ngShops.selectAll, ngShops.selected)"><span></span>
-                                        </label>
-                                    </div>
+                                <th>
+                                    Shop Rate
+                                </th>
+                                <th>
+
                                 </th>
                             </tr>
                             </thead>
@@ -72,19 +72,17 @@
                             <!-- Single Table Row -->
                             <tr class="table_row" ng-repeat="shop in ::ngShops.shops">
                                 <td class="logo">
-                                    <img width="16" src="assets/images/image-icon.png" alt="">
+                                    <img width="16" ng-src="{{ image(shop._id.$oid) }}" alt="">
                                 </td>
                                 <td class="shop_name">{{ shop.storeName }}</td>
-                                <td class="type_of_shop">Grocery</td>
-                                <td class="products">654</td>
-                                <td class="sale_report">£ 2 032.65</td>
-                                <td class="more_info text-center"><a href="#" class="more_info_button">More Info</a></td>
-                                <td class="checkbox">
-                                    <div class="grey-checkbox">
-                                        <label>
-                                            <input ng-model="ngShops.selected[shop._id.$oid]" ng-click="ngShops.toggleOne(ngShops.selected)" type="checkbox" class="case" name="case"><span></span>
-                                        </label>
-                                    </div>
+                                <td class="type_of_shop">{{ shop.storeCat }}</td>
+                                <td class="products">{{ shop.totalProducts }}</td>
+                                <td class="sale_report">£ {{ shop.totalSales }}</td>
+                                <td class="rate">
+                                    <input type="number" class="rating-loading rating-stars" ng-model="shop.rating">
+                                </td>
+                                <td class="more_info text-center">
+                                    <a href="#" class="more_info_button">More Info</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -93,10 +91,10 @@
                 </div>
             </div>
 
-                </div>
-            </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 <%@include file="partials/footer.jsp" %>

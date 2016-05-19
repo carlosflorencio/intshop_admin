@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 */
 angular.module('intshop').controller('shopsController', function ($scope, $timeout, Restangular, DTOptionsBuilder,
-                                                                  DTColumnBuilder, DTColumnDefBuilder) {
+                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
 
     var vm = this;
 
@@ -31,7 +31,7 @@ angular.module('intshop').controller('shopsController', function ($scope, $timeo
         DTColumnDefBuilder.newColumnDef(2),
         DTColumnDefBuilder.newColumnDef(3),
         DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5).notSortable(),
+        DTColumnDefBuilder.newColumnDef(5),
         DTColumnDefBuilder.newColumnDef(6).notSortable()
     ];
 
@@ -87,6 +87,11 @@ angular.module('intshop').controller('shopsController', function ($scope, $timeo
         _(displayedRows[0]).forEach(function(index) {
             vm.selected[vm.shops[index]._id.$oid] = false;
         });
+    }
+
+    // Image
+    $scope.image = function(id) {
+        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
     }
 
 });
