@@ -82,7 +82,8 @@
                                     <input type="number" class="rating-loading rating-stars" ng-model="shop.rating">
                                 </td>
                                 <td class="more_info text-center">
-                                    <a href="#" class="more_info_button">More Info</a>
+                                    <a ng-show="shop.active" href="#" class="more_info_button">More Info</a>
+                                    <a ng-show="!shop.active" href="#" class="more_info_button red_state">!</a>
                                 </td>
                             </tr>
                             </tbody>

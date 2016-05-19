@@ -26,6 +26,48 @@
     padding: 0 !important;
 }
 
+/* Pagination
+   ========================================================================== */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate
+.paginate_button.current:hover {
+    color: #fff !important;
+    cursor: default;
+    background-color: #337ab7 !important;
+    border-color: #337ab7 !important;
+    font-size: 13px;
+    font-weight: 700;
+    height: 23px;
+    padding: 2px;
+    text-align: center;
+    width: 23px;
+    border-radius: 3px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #aaaaaa !important;
+    background-color: transparent;
+    font-size: 13px;
+    font-weight: 700;
+    height: 23px;
+    padding: 2px;
+    text-align: center;
+    width: 23px;
+    border-radius: 3px;
+    border: 1px solid transparent !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+    box-shadow: none !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    padding: 2px !important;
+    color: #337ab7 !important;
+    background: transparent !important;
+    border: 1px solid #337ab7 !important;
+}
+
 /* ==========================================================================
    Star rating
    ========================================================================== */
@@ -192,4 +234,15 @@
     .rating-container .clear-rating {
         display: none;
     }
+}
+
+/* Others
+   ========================================================================== */
+.red_state {
+    background-color: #f95d5d !important;
+    border: 1px solid #f95d5d !important;
+}
+
+.red_state:hover {
+    color: white !important;
 }
