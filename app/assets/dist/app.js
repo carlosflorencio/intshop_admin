@@ -67,6 +67,60 @@ angular.module('intshop').service('store', ['$window', function ($window) {
 
 /*
  |--------------------------------------------------------------------------
+ | Utils Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').service('utils', ["$window", function ($window) {
+    return {
+        getUrlParameter: function () {
+            var query_string = {};
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                // If first entry with this name
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = decodeURIComponent(pair[1]);
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                    query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                    query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
+            }
+            return query_string;
+        }(),
+        getFullDate: function (param) {
+            var fortnightAway = new Date(param),
+                date = fortnightAway.getDate(),
+                month = "January,February,March,April,May,June,July,August,September,October,November,December"
+                    .split(",")[fortnightAway.getMonth()];
+
+            function nth(d) {
+                if (d > 3 && d < 21) return 'th';
+                switch (d % 10) {
+                    case 1:
+                        return "st";
+                    case 2:
+                        return "nd";
+                    case 3:
+                        return "rd";
+                    default:
+                        return "th";
+                }
+            }
+
+            return date + nth(date) + " of "
+                + month + ", " + fortnightAway.getFullYear();
+        }
+    }
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
  | Header Controller
  |--------------------------------------------------------------------------
  */
@@ -173,6 +227,30 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
             vm.selected[vm.shops[index]._id.$oid] = false;
         });
     }
+
+    // Image
+    $scope.image = function(id) {
+        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+    }
+
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Shop Details Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('shopDetailsController', ["$scope", "$location", "utils", "Restangular", "CONSTANTS", function ($scope, $location, utils, Restangular, CONSTANTS) {
+
+    $scope.shopId = utils.getUrlParameter.id;
+
+    Restangular.one('Retailers').one("getRetailer").get({id: $scope.shopId}).then(function(result) {
+        $scope.info = result;
+        $scope.regDate = utils.getFullDate($scope.info.regDate.$date);
+    }, function() {
+        alert("Error getting the shop details..");
+    });
 
     // Image
     $scope.image = function(id) {

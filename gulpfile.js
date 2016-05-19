@@ -22,7 +22,7 @@ var paths = {
 };
 
 var server = 'intshop-admin.dev:8080',
-    page = '/shops.jsp';
+    page = '/shop-details.jsp';
 
 /*
  |--------------------------------------------------------------------------
