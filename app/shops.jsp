@@ -18,14 +18,12 @@
                         <!-- Order List Filter Area -->
                         <div class="filter_list">
                             <div class="search_bar">
-                                <form action="">
                                     <div class="search_box">
                                         <button type="submit"><img width="15" src="assets/images/search.png" alt="">
                                         </button>
                                         <input type="text" placeholder="Search" ng-model="searchText"
                                                ng-change="searchTable()">
                                     </div>
-                                </form>
                             </div>
                         </div>
 

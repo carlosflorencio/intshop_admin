@@ -31,7 +31,7 @@
 
 <div ng-controller="shopDetailsController as shopDetails">
 
-    <div class="subbar_area shopsview_page">
+    <div ng-class="{sales_page: tabs[1].active}" class="subbar_area shopsview_page">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -49,6 +49,18 @@
 
                         <!-- Order List Filter Area -->
                         <div class="filter_list">
+
+                            <div class="search_bar" ng-show="tabs[1].active">
+                                <form action="">
+                                    <div class="search_box">
+                                        <button type="submit">
+                                            <img width="15" alt="" src="assets/images/search.png"></button>
+                                        <input type="text" placeholder="Search" ng-model="searchText"
+                                               ng-change="searchTable()">
+                                    </div>
+                                </form>
+                            </div>
+
                             <div class="right_side_list">
                                 <ul>
                                     <li ng-class="{active: tabs[0].active}">

@@ -108,6 +108,13 @@ angular.module('intshop').controller('shopDetailsController', function ($scope, 
 
     vm.dtInstance = {};
 
+    $scope.searchText = "";
+    $scope.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search($scope.searchText);
+        vm.dtInstance.DataTable.search($scope.searchText).draw();
+    };
+
     function loadTab1() {
         var tab = $scope.tabs[1];
         tab.isLoaded = true;
