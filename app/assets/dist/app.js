@@ -134,6 +134,16 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
         return file.substr(0, file.lastIndexOf('.'));
     }();
 
+    $scope.isActivePage = function(page) {
+
+        // is array?
+        if(page.constructor === Array) {
+            return page.indexOf($scope.activePage) != -1;
+        }
+
+        return page === $scope.activePage;
+    }
+
 
 
 }]);

@@ -60,16 +60,16 @@
                 <div class="top_menu">
                     <div class="dashboard_menu navbar-collapse collapse">
                         <ul id="menu" class="loged_user_menu nav navbar-nav">
-                            <li ng-class="{active: activePage == 'shops'}">
+                            <li ng-class="{active: isActivePage(['shops', 'shop-details'])}">
                                 <a href="shops.jsp">Shops</a>
                             </li>
-                            <li ng-class="{active: activePage == 'drivers'}">
+                            <li ng-class="{active: isActivePage('drivers')}">
                                 <a href="drivers.jsp">Drivers</a>
                             </li>
-                            <li ng-class="{active: activePage == 'orders'}">
+                            <li ng-class="{active: isActivePage('orders')}">
                                 <a href="orders.jsp">Orders List</a>
                             </li>
-                            <li ng-class="{active: activePage == 'clients'}">
+                            <li ng-class="{active: isActivePage('clients')}">
                                 <a href="clients.jsp">Clients</a>
                             </li>
                         </ul>
