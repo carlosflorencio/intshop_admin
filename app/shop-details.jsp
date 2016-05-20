@@ -1,33 +1,33 @@
 <%@include file="partials/header.jsp" %>
 
-<%--<script type="text/javascript">--%>
-<%--google.charts.load('current', {packages: ['corechart', 'bar']});--%>
-<%--google.charts.setOnLoadCallback(drawBasic);--%>
+<script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawBasic);
 
-<%--function drawBasic() {--%>
-<%--var data = google.visualization.arrayToDataTable([--%>
-<%--['Element', 'Sales', {role: 'style'}],--%>
-<%--['6h', 8, '#3493d5'],            // RGB value--%>
-<%--['12h', 10, '#3493d5'],            // English color name--%>
-<%--['24h', 19, '#3493d5'],--%>
-<%--['total', 21, 'color: #3493d5'] // CSS-style declaration--%>
-<%--]);--%>
+    function drawBasic() {
+        var data = google.visualization.arrayToDataTable([
+            ['Element', 'Sales', {role: 'style'}],
+            ['6h', 8, '#3493d5'],            // RGB value
+            ['12h', 10, '#3493d5'],            // English color name
+            ['24h', 19, '#3493d5'],
+            ['total', 21, 'color: #3493d5'] // CSS-style declaration
+        ]);
 
-<%--var options = {--%>
-<%--legend: {position: 'none'},--%>
-<%--vAxis: {--%>
-<%--gridlines: {--%>
-<%--color: 'transparent'--%>
-<%--}--%>
-<%--}--%>
-<%--};--%>
+        var options = {
+            legend: {position: 'none'},
+            vAxis: {
+                gridlines: {
+                    color: 'transparent'
+                }
+            }
+        };
 
-<%--var chart = new google.visualization.ColumnChart(--%>
-<%--document.getElementById('chart_div'));--%>
+        var chart = new google.visualization.ColumnChart(
+                document.getElementById('chart_div'));
 
-<%--chart.draw(data, options);--%>
-<%--}--%>
-<%--</script>--%>
+        chart.draw(data, options);
+    }
+</script>
 
 <div ng-controller="shopDetailsController as shopDetails">
 
@@ -375,9 +375,15 @@
 
                                             <div class="invoice_history_menu">
                                                 <ul>
-                                                    <li class="active"><a id="all" href="#">All</a></li>
-                                                    <li><a id="paid" href="#">Paid</a></li>
-                                                    <li><a id="due" href="#">Due</a></li>
+                                                    <li ng-class="{active: invoicesTabs[0].active}">
+                                                        <a ng-click="setInvoicesTab(0)" id="all" href="#">All</a>
+                                                    </li>
+                                                    <li ng-class="{active: invoicesTabs[1].active}">
+                                                        <a ng-click="setInvoicesTab(1)" id="paid" href="#">Paid</a>
+                                                    </li>
+                                                    <li ng-class="{active: invoicesTabs[2].active}">
+                                                        <a ng-click="setInvoicesTab(2)" id="due" href="#">Due</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -385,77 +391,36 @@
                                         <div class="invoice_history_data_table">
 
                                             <div class="table-responsive">
-                                                <table class="table">
-                                                    <tbody>
+                                                <div class="table-responsive shops_sales_table">
+                                                    <table class="table" datatable="ng"
+                                                           dt-instance="shopDetails.dtInstanceInvoices"
+                                                           dt-options="shopDetails.dtOptionsInvoices">
+                                                        <thead ng-hide="true">
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        </thead>
+                                                        <tbody>
 
-                                                    <tr class="invoice_history_row">
-                                                        <td class="invoice_date">April 16, 2016</td>
-                                                        <td class="invoice_price">$ 50.00</td>
-                                                        <td class="invoice_due">Due</td>
-                                                        <td class="invoice_download">
-                                                            <a href="#"><img width="15"
-                                                                             src="assets/images/download-icon.png"
-                                                                             alt=""></a>
-                                                        </td>
-                                                    </tr>
+                                                        <!-- Single Table Row -->
+                                                        <tr class="invoice_history_row"
+                                                            ng-repeat="invoice in shopDetails.invoices">
+                                                            <td class="invoice_date">{{ invoice.storeName }}</td>
+                                                            <td class="invoice_price">$ 50.00</td>
+                                                            <td class="invoice_due">Due</td>
+                                                            <td class="invoice_download">
+                                                                <a href="#">
+                                                                    <img width="15"
+                                                                         src="assets/images/download-icon.png" alt="">
+                                                                </a>
+                                                            </td>
+                                                        </tr>
 
-                                                    <tr class="invoice_history_row">
-                                                        <td class="invoice_date">April 16, 2016</td>
-                                                        <td class="invoice_price">$ 50.00</td>
-                                                        <td class="invoice_due">Due</td>
-                                                        <td class="invoice_download">
-                                                            <a href="#"><img width="15"
-                                                                             src="assets/images/download-icon.png"
-                                                                             alt=""></a>
-                                                        </td>
-                                                    </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
 
-                                                    <tr class="invoice_history_row">
-                                                        <td class="invoice_date">April 16, 2016</td>
-                                                        <td class="invoice_price">$ 50.00</td>
-                                                        <td class="invoice_due">Due</td>
-                                                        <td class="invoice_download">
-                                                            <a href="#"><img width="15"
-                                                                             src="assets/images/download-icon.png"
-                                                                             alt=""></a>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="invoice_history_row">
-                                                        <td class="invoice_date">April 16, 2016</td>
-                                                        <td class="invoice_price">$ 50.00</td>
-                                                        <td class="invoice_due">Due</td>
-                                                        <td class="invoice_download">
-                                                            <a href="#"><img width="15"
-                                                                             src="assets/images/download-icon.png"
-                                                                             alt=""></a>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="invoice_history_row">
-                                                        <td class="invoice_date">April 16, 2016</td>
-                                                        <td class="invoice_price">$ 50.00</td>
-                                                        <td class="invoice_due">Due</td>
-                                                        <td class="invoice_download">
-                                                            <a href="#"><img width="15"
-                                                                             src="assets/images/download-icon.png"
-                                                                             alt=""></a>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="invoice_history_row">
-                                                        <td class="invoice_date">April 16, 2016</td>
-                                                        <td class="invoice_price">$ 50.00</td>
-                                                        <td class="invoice_due">Due</td>
-                                                        <td class="invoice_download">
-                                                            <a href="#"><img width="15"
-                                                                             src="assets/images/download-icon.png"
-                                                                             alt=""></a>
-                                                        </td>
-                                                    </tr>
-
-                                                    </tbody>
-                                                </table>
                                             </div>
 
                                         </div>

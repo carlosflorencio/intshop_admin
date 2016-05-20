@@ -25,9 +25,9 @@ angular.module('intshop').controller('shopDetailsController', function ($scope, 
     /* Tabs
      ========================================================================== */
     $scope.tabs = [
-        {name: "resume", content: null, isLoaded: false, active: true},
-        {name: "sales", content: null, isLoaded: false, active: false},
-        {name: "invoices", content: null, isLoaded: false, active: false}
+        {name: "resume", isLoaded: false, active: true},
+        {name: "sales", isLoaded: false, active: false},
+        {name: "invoices", isLoaded: false, active: false}
     ];
 
     $scope.setTab = function (index) {
@@ -41,13 +41,13 @@ angular.module('intshop').controller('shopDetailsController', function ($scope, 
         if (!tab.isLoaded) {
             switch (index) {
                 case 0:
-                    loadTab0();
+                    loadTabResume();
                     return;
                 case 1:
-                    loadTab1();
+                    loadTabSales();
                     return;
                 case 2:
-                    loadTab2();
+                    loadTabInvoices();
                     return;
             }
         }
@@ -71,7 +71,7 @@ angular.module('intshop').controller('shopDetailsController', function ($scope, 
 
     /* Resume tab
      ========================================================================== */
-    function loadTab0() {
+    function loadTabResume() {
         var tab = $scope.tabs[0];
         tab.isLoaded = true;
 
@@ -115,7 +115,7 @@ angular.module('intshop').controller('shopDetailsController', function ($scope, 
         vm.dtInstance.DataTable.search($scope.searchText).draw();
     };
 
-    function loadTab1() {
+    function loadTabSales() {
         var tab = $scope.tabs[1];
         tab.isLoaded = true;
 
@@ -128,9 +128,80 @@ angular.module('intshop').controller('shopDetailsController', function ($scope, 
 
     /* Invoices tab
        ========================================================================== */
-    function loadTab2() {
+    // Datatable options
+    vm.dtOptionsInvoices = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"p>');
+
+    vm.dtInstanceInvoices = {};
+
+    $scope.invoicesTabs = [
+        {name: "all", isLoaded: false, active: true},
+        {name: "paid", isLoaded: false, active: false},
+        {name: "due", isLoaded: false, active: false}
+    ];
+
+    function loadTabInvoices() {
         var tab = $scope.tabs[2];
         tab.isLoaded = true;
+
+        $scope.setInvoicesTab(0);
+    }
+
+    // Store invoice data
+    var invoicesData = [];
+
+    $scope.setInvoicesTab = function (index) {
+        _($scope.invoicesTabs).forEach(function (tab) {
+            tab.active = false;
+        });
+
+        var tab = $scope.invoicesTabs[index];
+        tab.active = true;
+
+        if (!tab.isLoaded) {
+            switch (index) {
+                case 0:
+                    loadInvoicesTabAll();
+                    return;
+                case 1:
+                    loadInvoicesTabPaid();
+                    return;
+                case 2:
+                    loadInvoicesTabDue();
+                    return;
+            }
+        } else {
+            vm.invoices = invoicesData[index];
+        }
+    };
+
+
+    function loadInvoicesTabAll() {
+        var tab = $scope.invoicesTabs[0];
+        tab.isLoaded = true;
+
+        // Fetch all invoices
+        Restangular.one('Retailers').getList('getRetailerList').then(function (result) {
+            invoicesData[0] = result;
+            vm.invoices = result;
+        });
+    }
+
+    function loadInvoicesTabPaid() {
+        var tab = $scope.invoicesTabs[1];
+        tab.isLoaded = true;
+
+        // replace vm.invoices
+    }
+
+    function loadInvoicesTabDue() {
+        var tab = $scope.invoicesTabs[2];
+        tab.isLoaded = true;
+
+        // replace vm.invoices
     }
 
     /* Shared
