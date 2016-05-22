@@ -40,10 +40,11 @@
                         <!-- Sub Order text -->
                         <div class="order_list">
                             <div class="order_list_title">
-                                <a class="backto_list" href="shops.jsp"><img width="6"
-                                                                             src="assets/images/left-arrow.png" alt="">
-                                    Back to list</a>
-                                <a href="#" class="tesco_express">{{ info.storeName }}</a>
+                                <a class="backto_list" href="shops.jsp" title="Back to Shops">
+                                    <img width="6" src="assets/images/left-arrow.png" alt="Left Arrow">
+                                    Back to list
+                                </a>
+                                <a href="#" class="tesco_express" title="{{ info.storeName }}">{{ info.storeName }}</a>
                             </div>
                         </div>
 
@@ -54,7 +55,7 @@
                                 <form action="">
                                     <div class="search_box">
                                         <button type="submit">
-                                            <img width="15" alt="" src="assets/images/search.png"></button>
+                                            <img width="15" alt="Search Ico" src="assets/images/search.png"></button>
                                         <input type="text" placeholder="Search" ng-model="searchText"
                                                ng-change="searchTable()">
                                     </div>
@@ -64,13 +65,13 @@
                             <div class="right_side_list">
                                 <ul>
                                     <li ng-class="{active: tabs[0].active}">
-                                        <a class="pointer" ng-click="setTab(0)">Resume</a>
+                                        <a class="pointer" ng-click="setTab(0)" title="Resume">Resume</a>
                                     </li>
                                     <li ng-class="{active: tabs[1].active}">
-                                        <a class="pointer" ng-click="setTab(1)">Sales</a>
+                                        <a class="pointer" ng-click="setTab(1)" title="Sales">Sales</a>
                                     </li>
                                     <li ng-class="{active: tabs[2].active}">
-                                        <a class="pointer" ng-click="setTab(2)">Invoices</a>
+                                        <a class="pointer" ng-click="setTab(2)" title="Invoices">Invoices</a>
                                     </li>
                                 </ul>
                             </div>
@@ -95,21 +96,21 @@
                             <div class="left_column_single">
                                 <div class="single_left">
                                     <div class="tesco_logo">
-                                        <img width="80" ng-src="{{ image(shopId) }}" alt="">
+                                        <img width="80" ng-src="{{ image(shopId) }}" alt="{{ info.storeName }}"
+                                             onError="this.src='./assets/images/image-icon.png'">
                                     </div>
                                 </div>
                                 <div class="single_middle">
                                     <h2>{{ info.storeName }}</h2>
-                                    <p>{{ info.storeCat }}</p>
-                                    <div class="rating-container rating-xs rating-animate">
-                                        <input type="number" ng-model="info.rating" class="hide" id="rating-stars">
-                                    </div>
+                                    <p>{{ info.category }}</p>
+                                    <input type="number" class="rating-loading" id="rating-stars"
+                                           ng-model="info.shopRate">
                                 </div>
 
                                 <div class="single_right">
                                     <p>Products</p>
                                     <h4>{{ info.totalProducts }}</h4>
-                                    <a href="#" class="view_page">View Page</a>
+                                    <a href="#" class="view_page" title="View Page">View Page</a>
                                 </div>
 
                             </div>
@@ -120,7 +121,7 @@
                                         <p>Total Sale Report</p>
                                         <h1>£ {{ info.totalSales }}</h1>
                                     </div>
-                                    <a href="#" class="view_page">Sales</a>
+                                    <a href="#" ng-click="setTab(1)" class="view_page" title="Sales">Sales</a>
                                 </div>
 
                                 <div class="total_sale_bottom">
@@ -130,7 +131,7 @@
 
                                     <div class="total_sale_middle">
                                         <h2>Total Sales</h2>
-                                        <p>1 264</p>
+                                        <p>{{ info.totalSales }}</p>
                                     </div>
 
                                     <div class="total_sale_right">
@@ -150,7 +151,7 @@
                                         <h1>£ 250.00</h1>
                                     </div>
                                     <div class="single_top_right">
-                                        <a href="#">Invoices</a>
+                                        <a href="#" ng-click="setTab(2)" title="Invoices">Invoices</a>
                                     </div>
                                 </div>
 
@@ -162,25 +163,28 @@
                                                 <td class="date">April 16, 2016</td>
                                                 <td class="price">$ 50.00</td>
                                                 <td class="due">Due</td>
-                                                <td class="download"><a href="#"><img width="13"
-                                                                                      src="assets/images/download-icon.png"
-                                                                                      alt=""></a></td>
+                                                <td class="download">
+                                                    <a href="#" title="Download">
+                                                        <img width="13" src="assets/images/download-icon.png"
+                                                             alt="Download Ico">
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="date">April 16, 2016</td>
                                                 <td class="price">$ 50.00</td>
                                                 <td class="due">Due</td>
-                                                <td class="download"><a href="#"><img width="13"
-                                                                                      src="assets/images/download-icon.png"
-                                                                                      alt=""></a></td>
+                                                <td class="download" title="Download">
+                                                    <a href="#">
+                                                        <img width="13" src="assets/images/download-icon.png"
+                                                             alt="Download Ico">
+                                                    </a>
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
-
                             </div>
-
-
                         </div>
                     </div>
 
@@ -192,24 +196,63 @@
                                     <div class="contact_left">
                                         <h4>Contact Info</h4>
                                         <ul>
-                                            <li><img width="9" src="assets/images/phone-icon.png" alt=""> <span>{{ info.cell }}</span>
+                                            <li>
+                                                <img width="9" src="assets/images/phone-icon.png" alt="Phone Ico">
+                                                <span>{{ info.cell }}</span>
                                             </li>
-                                            <li><img width="9" src="assets/images/phone-icon.png" alt=""> <span>{{ info.email }}</span>
+                                            <li>
+                                                <img width="9" src="assets/images/phone-icon.png" alt="Phone Ico">
+                                                <span>{{ info.email }}</span>
                                             </li>
-                                            <li><img width="9" src="assets/images/map-marker.png" alt=""> <span>{{ info.address }},<br/>
+                                            <li>
+                                                <img width="9" src="assets/images/map-marker.png" alt="Map Marker Ico"> <span>{{ info.address }},<br/>
                                             {{ info.city }},<br/>
                                             {{ info.postcode }}</span></li>
                                         </ul>
                                     </div>
                                     <div class="contact_right">
                                         <h4>Opening Time</h4>
-                                        <div class="single_date_time">
-                                            <h4>Monday to Friday</h4>
-                                            <p>from 09:00 to 18:00</p>
+                                        <div ng-show="!info.open247">
+                                            <div class="single_date_time" ng-show="info.availableTime.monday">
+                                                <h4>Monday</h4>
+                                                <p>{{ hours(info.availableTime.monday[0]) }}:00 to {{
+                                                    hours(info.availableTime.monday[1]) }}::00</p>
+                                            </div>
+                                            <div class="single_date_time" ng-show="info.availableTime.tuesday">
+                                                <h4>Tuesday</h4>
+                                                <p>{{ hours(info.availableTime.tuesday[0]) }}:00 to {{
+                                                    hours(info.availableTime.tuesday[1]) }}::00</p>
+                                            </div>
+                                            <div class="single_date_time" ng-show="info.availableTime.wednesday">
+                                                <h4>Wednesday</h4>
+                                                <p>{{ hours(info.availableTime.wednesday[0]) }}:00 to {{
+                                                    hours(info.availableTime.wednesday[1]) }}::00</p>
+                                            </div>
+                                            <div class="single_date_time" ng-show="info.availableTime.thursday">
+                                                <h4>Thursday</h4>
+                                                <p>{{ hours(info.availableTime.thursday[0]) }}:00 to {{
+                                                    hours(info.availableTime.thursday[1]) }}::00</p>
+                                            </div>
+                                            <div class="single_date_time" ng-show="info.availableTime.friday">
+                                                <h4>Friday</h4>
+                                                <p>{{ hours(info.availableTime.friday[0]) }}:00 to {{
+                                                    hours(info.availableTime.friday[1]) }}::00</p>
+                                            </div>
+                                            <div class="single_date_time" ng-show="info.availableTime.saturday">
+                                                <h4>Saturday</h4>
+                                                <p>{{ hours(info.availableTime.saturday[0]) }}:00 to {{
+                                                    hours(info.availableTime.saturday[1]) }}::00</p>
+                                            </div>
+                                            <div class="single_date_time" ng-show="info.availableTime.sunday">
+                                                <h4>Sunday</h4>
+                                                <p>{{ hours(info.availableTime.sunday[0]) }}:00 to {{
+                                                    hours(info.availableTime.sunday[1]) }}::00</p>
+                                            </div>
                                         </div>
-                                        <div class="single_date_time">
-                                            <h4>Saturday</h4>
-                                            <p>from 09:00 to 18:00</p>
+                                        <div ng-show="info.open247">
+                                            <div class="single_date_time" ng-show="info.availableTime.sunday">
+                                                <h4>Open 24/7</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -222,9 +265,9 @@
                             <div class="list_of_order">
                                 <div class="list_of_order_head">
                                     <h3>Last Orders</h3>
-                                    <a href="#" class="view_all-order">View all orders <span><img width="4"
-                                                                                                  src="assets/images/angle-right.png"
-                                                                                                  alt=""></span></a>
+                                    <a href="#" class="view_all-order" title="View all Orders">View all orders <span>
+                                        <img width="4" src="assets/images/angle-right.png" alt="Arrow right"></span>
+                                    </a>
                                 </div>
 
                                 <div class="list_of_order_table">
@@ -247,7 +290,7 @@
                                                 <td class="status">Sended</td>
                                                 <td class="driver_by">Shop</td>
                                                 <td class="view_link">
-                                                    <a href="#">View</a>
+                                                    <a href="#" title="View">View</a>
                                                 </td>
                                             </tr>
 
@@ -304,7 +347,9 @@
                                     <td class="sales_postcode">N3 2DB</td>
                                     <td class="sales_stutas">Sended</td>
                                     <td class="sales_driverby">Shop</td>
-                                    <td class="sales_views"><a href="#" class="sales_view_button">View</a></td>
+                                    <td class="sales_views">
+                                        <a href="#" class="sales_view_button" title="View">View</a>
+                                    </td>
                                 </tr>
 
                                 </tbody>
@@ -335,7 +380,7 @@
                                 <div class="invoice_paid_left">
                                     <p class="red">Pending</p>
                                     <h1>£ 50.00</h1>
-                                    <a href="#" class="send_alert">Send Alert</a>
+                                    <a href="#" class="send_alert" title="Send Alert">Send Alert</a>
                                 </div>
 
                             </div>
@@ -376,13 +421,13 @@
                                             <div class="invoice_history_menu">
                                                 <ul>
                                                     <li ng-class="{active: invoicesTabs[0].active}">
-                                                        <a ng-click="setInvoicesTab(0)" id="all" href="#">All</a>
+                                                        <a ng-click="setInvoicesTab(0)" id="all" href="#" title="All">All</a>
                                                     </li>
                                                     <li ng-class="{active: invoicesTabs[1].active}">
-                                                        <a ng-click="setInvoicesTab(1)" id="paid" href="#">Paid</a>
+                                                        <a ng-click="setInvoicesTab(1)" id="paid" href="#" title="Paid">Paid</a>
                                                     </li>
                                                     <li ng-class="{active: invoicesTabs[2].active}">
-                                                        <a ng-click="setInvoicesTab(2)" id="due" href="#">Due</a>
+                                                        <a ng-click="setInvoicesTab(2)" id="due" href="#" title="Due">Due</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -410,9 +455,10 @@
                                                             <td class="invoice_price">$ 50.00</td>
                                                             <td class="invoice_due">Due</td>
                                                             <td class="invoice_download">
-                                                                <a href="#">
+                                                                <a href="#" title="Download">
                                                                     <img width="15"
-                                                                         src="assets/images/download-icon.png" alt="">
+                                                                         src="assets/images/download-icon.png"
+                                                                         alt="Download Ico">
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -420,24 +466,17 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-
                                             </div>
-
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
-
     </div>
     <!-- /Invoices tab -->
 </div>

@@ -18,9 +18,11 @@ angular.module('intshop').controller('shopsController', function ($scope, $timeo
         .withOption('sDom', 'rt<"dt-i-m"lip>')
         .withOption('drawCallback', function (settings) {
             if(settings.aoData.length > 0) {
-                $timeout(function() {
-                    compute();
-                }, 0);
+                // Move this code to a directive
+                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+                //$timeout(function() {
+                //    compute();
+                //}, 0);
             }
         });
 
@@ -53,41 +55,41 @@ angular.module('intshop').controller('shopsController', function ($scope, $timeo
 
     /* Select rows
        ========================================================================== */
-    vm.selected = {};
-    vm.selectAll = false;
-    vm.toggleAll = toggleAll;
-    vm.toggleOne = toggleOne;
+    //vm.selected = {};
+    //vm.selectAll = false;
+    //vm.toggleAll = toggleAll;
+    //vm.toggleOne = toggleOne;
+    //
+    //function toggleAll (selectAll, selectedItems) {
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            selectedItems[id] = selectAll;
+    //        }
+    //    }
+    //}
+    //function toggleOne (selectedItems) {
+    //    console.log(selectedItems);
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            if(!selectedItems[id]) {
+    //                vm.selectAll = false;
+    //                return;
+    //            }
+    //        }
+    //    }
+    //    vm.selectAll = true;
+    //}
 
-    function toggleAll (selectAll, selectedItems) {
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                selectedItems[id] = selectAll;
-            }
-        }
-    }
-    function toggleOne (selectedItems) {
-        console.log(selectedItems);
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                if(!selectedItems[id]) {
-                    vm.selectAll = false;
-                    return;
-                }
-            }
-        }
-        vm.selectAll = true;
-    }
-
-    function compute() {
-        // Get the current rows
-        var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
-
-        vm.selectAll = false;
-        vm.selected = {};
-        _(displayedRows[0]).forEach(function(index) {
-            vm.selected[vm.shops[index]._id.$oid] = false;
-        });
-    }
+    //function compute() {
+    //    // Get the current rows
+    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
+    //
+    //    vm.selectAll = false;
+    //    vm.selected = {};
+    //    _(displayedRows[0]).forEach(function(index) {
+    //        vm.selected[vm.shops[index]._id.$oid] = false;
+    //    });
+    //}
 
     // Image
     $scope.image = function(id) {

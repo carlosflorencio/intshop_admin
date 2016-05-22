@@ -17,9 +17,15 @@ angular.module('intshop').controller('shopDetailsController', function ($scope, 
     Restangular.one('Retailers').one("getRetailer").get({id: $scope.shopId}).then(function (result) {
         $scope.info = result;
         $scope.regDate = utils.getFullDate($scope.info.regDate.$date);
+
+        $timeout(function() {
+            $("#rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+        }, 200);
     }, function () {
         alert("Error getting the shop details..");
     });
+
+
 
 
     /* Tabs
@@ -210,5 +216,9 @@ angular.module('intshop').controller('shopDetailsController', function ($scope, 
     $scope.image = function (id) {
         return CONSTANTS.SHOP_IMAGES + id + ".jpg";
     };
+
+    $scope.hours = function(value) {
+        return utils.pad(value, 2);
+    }
 
 });

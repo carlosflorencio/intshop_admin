@@ -19,7 +19,8 @@
                         <div class="filter_list">
                             <div class="search_bar">
                                     <div class="search_box">
-                                        <button type="submit"><img width="15" src="assets/images/search.png" alt="">
+                                        <button type="submit">
+                                            <img width="15" src="assets/images/search.png" alt="Search Ico">
                                         </button>
                                         <input type="text" placeholder="Search" ng-model="searchText"
                                                ng-change="searchTable()">
@@ -70,18 +71,18 @@
                             <!-- Single Table Row -->
                             <tr class="table_row" ng-repeat="shop in ::ngShops.shops">
                                 <td class="logo">
-                                    <img width="16" ng-src="{{ image(shop._id.$oid) }}" alt="">
+                                    <img width="16" ng-src="{{ image(shop._id.$oid) }}" alt="{{ shop.storeName }}" onError="this.src='./assets/images/image-icon.png'">
                                 </td>
                                 <td class="shop_name">{{ shop.storeName }}</td>
-                                <td class="type_of_shop">{{ shop.storeCat }}</td>
+                                <td class="type_of_shop">{{ shop.type }}</td>
                                 <td class="products">{{ shop.totalProducts }}</td>
                                 <td class="sale_report">£ {{ shop.totalSales }}</td>
                                 <td class="rate">
-                                    <input type="number" class="rating-loading rating-stars" ng-model="shop.rating">
+                                    <input type="number" class="rating-loading rating-stars" ng-model="shop.shopRate">
                                 </td>
                                 <td class="more_info text-center">
-                                    <a ng-show="shop.active" href="shop-details.jsp?id={{ shop._id.$oid }}" class="more_info_button">More Info</a>
-                                    <a ng-show="!shop.active" href="shop-details.jsp?id={{ shop._id.$oid }}" class="more_info_button red_state">!</a>
+                                    <a ng-show="shop.active" href="shop-details.jsp?id={{ shop._id.$oid }}" class="more_info_button" title="More Info">More Info</a>
+                                    <a ng-show="!shop.active" href="shop-details.jsp?id={{ shop._id.$oid }}" class="more_info_button red_state" title="Action">!</a>
                                 </td>
                             </tr>
                             </tbody>

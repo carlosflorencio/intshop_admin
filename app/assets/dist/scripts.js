@@ -820,4 +820,4 @@ mr[Tn]=mr[Zn]=mr[Vn]=mr[Kn]=mr[Gn]=mr[Jn]=mr[Yn]=mr[Hn]=mr[Qn]=!0,mr[On]=mr[kn]=
     });
 
 
-}(jQuery));	
+}(jQuery));

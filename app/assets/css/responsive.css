@@ -1,29 +1,69 @@
 
+
 /* Medium Layout: 1280px. */
-@media only screen and (min-width: 992px) and (max-width: 1200px) { 
-       .sales_view_single_info {
-  width: 28%;
-} 
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .sales_view_single_info {
+        margin-right: 10px;
+        padding-right: 10px;
+        width: 24%;
+    }
+    .drivers_resume_chart_section .total_deliverys { width: 35% }
+    .statistics_chart_left:before {
+        right: -40px;
+        width: 35px;
+    }
+    .statistics_chart_right:before {
+        left: -40px;
+        width: 35px;
+    }
 }
 /* Tablet Layout: 768px. */
-@media only screen and (min-width: 768px) and (max-width: 991px) { 
+@media only screen and (min-width: 768px) and (max-width: 991px) {
     .data_table_area.shopsview_table .left_column { padding: 15px }
     .right_column { margin-left: 0 }
     .contact_top { padding: 15px }
     .contact_left { width: 60% }
     .contact_right { width: 40% }
     .sales_page .filter_list .search_bar { margin-right: 10px }
-    .search_box {
-      width: 210px;
+    .search_box { width: 210px }
+    .sales_view_single_info { width: 30% }
+    .invoice_paid_left h1 { font-size: 30px }
+    .contact_info.invoice_history_section { min-height: 360px }
+    .invoice_paid_bottm_top .single_left_top ul li { margin-left: 12px }
+    .drivers_resume_chart_section .invoice_left_bottom .invoice_paid_bottm_top { margin-bottom: 25px }
+    .single_middle { width: 40% }
+    .drivers_resume_left .single_middle h2 { font-size: 16px }
+    .dashboard_progress_report .invoice_paid_left h1,
+    .statistics_total_sales_report h1 { font-size: 24px }
+    .right_column.dashboard_right_column { padding: 15px }
+    .statics_total_orders h3,
+    .statistics_chart_left h3,
+    .statistics_chart_right h3 { font-size: 20px }
+    .statistics_chart_right p,
+    .statistics_chart_left p,
+    .statics_total_orders p { font-size: 10px }
+    .statistics_chart_left:before {
+        right: -35px;
+        width: 30px;
     }
-
+    .statistics_chart_right:before {
+        left: -35px;
+        width: 30px;
+    }
+    .statistics_chart_right,
+    .statistics_chart_left { padding: 28px 0 }
     .sales_view_single_info {
-  width: 30%;
-}
-    
+        margin-right: 10px;
+        padding-right: 10px;
+        width: 23%;
+    }
+    .subbar_area {
+        height: auto;
+        padding: 20px 0;
+    }
 }
 /* Mobile Layout: 320px. */
-@media only screen and (max-width: 767px) { 
+@media only screen and (max-width: 767px) {
     .header_logo {
         float: none;
         margin: 0 auto;
@@ -58,18 +98,16 @@
         right: 15px;
         top: 0;
     }
-    .subbar_area {height: auto}
+    .subbar_area { height: auto }
     .is-sticky .subbar_area {
-      height: auto;
-      /* padding: 5px 0;*/
+        height: auto;
+        /* padding: 5px 0;*/
     }
     .order_list {
-      float: none;
-      text-align: center;
+        float: none;
+        text-align: center;
     }
-    .data_table_area {
-      padding: 40px 0 30px;
-    }
+    .data_table_area { padding: 40px 0 30px }
     .pagination_left {
         float: none;
         overflow: hidden;
@@ -152,33 +190,74 @@
     }
     .data_table_area .shops_sales_table table.table { margin: 0 }
     .data_table_area .shops_sales_table table.table td { padding: 8px 20px }
-    .sales_view_wrapper {
-  padding: 15px 15px 35px;
-}
+    .sales_view_wrapper { padding: 15px 15px 35px }
     .sales_view_single_info {
-      width: 100%;
-        margin-bottom: 30px;
-        padding-right: 0px;
-        margin-right: 0px;
-        border-right: none;
+        border-bottom: 1px solid #e3e7ef;
+        border-right: medium none;
+        margin-bottom: 25px;
+        margin-right: 0;
+        padding-bottom: 15px;
+        padding-right: 0;
+        width: 100%;
     }
-    .sales_view_top_info {
-  margin-bottom: 0;
-}
-    .sales_view_data_table .table-responsive {border: none}
-.sales_view_data_table .table-responsive table.table {border-bottom: 1px solid #99c9ea; border-left: none; border-right: none;border-top: none}
-.sales_view_data_table .table-responsive table.table tr.sales_view_data_title {border-bottom: 1px solid #99c9ea;
-height: 30px; border-left: none; border-right: none; border-top: none}
-.sales_view_data_table .table-responsive table.table tr.sales_view_data_row {border: none}
-    
-    
-    
-    
-    
-    
+    .sales_view_single_info:last-child {margin-bottom: 0; padding-bottom: 0; border-bottom: none}
+    .sales_view_top_info { margin-bottom: 0 }
+    .sales_view_data_table .table-responsive { border: none }
+    .sales_view_data_table .table-responsive table.table {
+        border-bottom: 1px solid #99c9ea;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+    }
+    .sales_view_data_table .table-responsive table.table tr.sales_view_data_title {
+        border-bottom: 1px solid #99c9ea;
+        height: 30px;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+    }
+    .sales_view_data_table .table-responsive table.table tr.sales_view_data_row { border: none }
+    .invoice_paid_left h1 { font-size: 30px }
+    .contact_info.invoice_history_section {
+        height: auto;
+        min-height: inherit;
+        padding: 15px;
+    }
+    .data_table_area.shopsview_table.shops_resume_page { padding-bottom: 30px }
+    .invoice_left_bottom .total_sale_bottom .google_chart {
+        margin-bottom: 0;
+        margin-right: -20px;
+        width: 100%;
+    }
+    .single_middle { width: 40% }
+    .drivers_resume_left .single_middle h2 { font-size: 16px }
+    .drivers_resume_chart_section .total_deliverys {
+        border-bottom: 1px solid #c8cfdf;
+        border-right: medium none;
+        float: none;
+        width: 100%;
+    }
+    a.suspend_account { margin-top: 15px }
+    .dashboard_progress_report .invoice_paid_left h1, .dashboard_progress_report h1, .statistics_total_sales_report h1 { font-size: 20px }
+    .right_column.dashboard_right_column { padding: 15px }
+    .statistics_chart_left:before { background: none }
+    .statistics_chart_right:before { background: none }
+    .driver_rate_receiver { margin-right: 40px }
+    .sales_view_total_order { margin-top: 30px }
+
+    .data_table_area .drivers_resume_left .left_column_single {
+        margin-bottom: 20px;
+        margin-left: 15px;
+        margin-right: 15px;
+        padding-bottom: 10px;
+    }
+
+
+
+
+
 }
 /* Wide Mobile Layout: 480px. */
-@media only screen and (min-width: 480px) and (max-width: 767px) { 
-    
-}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
 
+}

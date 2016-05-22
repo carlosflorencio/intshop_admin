@@ -114,6 +114,11 @@ angular.module('intshop').service('utils', ["$window", function ($window) {
 
             return date + nth(date) + " of "
                 + month + ", " + fortnightAway.getFullYear();
+        },
+        pad: function (num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
         }
     }
 }]);
@@ -166,9 +171,15 @@ angular.module('intshop').controller('shopDetailsController', ["$scope", "$locat
     Restangular.one('Retailers').one("getRetailer").get({id: $scope.shopId}).then(function (result) {
         $scope.info = result;
         $scope.regDate = utils.getFullDate($scope.info.regDate.$date);
+
+        $timeout(function() {
+            $("#rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+        }, 200);
     }, function () {
         alert("Error getting the shop details..");
     });
+
+
 
 
     /* Tabs
@@ -360,6 +371,10 @@ angular.module('intshop').controller('shopDetailsController', ["$scope", "$locat
         return CONSTANTS.SHOP_IMAGES + id + ".jpg";
     };
 
+    $scope.hours = function(value) {
+        return utils.pad(value, 2);
+    }
+
 }]);
 'use strict';
 
@@ -418,9 +433,11 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
         .withOption('sDom', 'rt<"dt-i-m"lip>')
         .withOption('drawCallback', function (settings) {
             if(settings.aoData.length > 0) {
-                $timeout(function() {
-                    compute();
-                }, 0);
+                // Move this code to a directive
+                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+                //$timeout(function() {
+                //    compute();
+                //}, 0);
             }
         });
 
@@ -453,41 +470,41 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
 
     /* Select rows
        ========================================================================== */
-    vm.selected = {};
-    vm.selectAll = false;
-    vm.toggleAll = toggleAll;
-    vm.toggleOne = toggleOne;
+    //vm.selected = {};
+    //vm.selectAll = false;
+    //vm.toggleAll = toggleAll;
+    //vm.toggleOne = toggleOne;
+    //
+    //function toggleAll (selectAll, selectedItems) {
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            selectedItems[id] = selectAll;
+    //        }
+    //    }
+    //}
+    //function toggleOne (selectedItems) {
+    //    console.log(selectedItems);
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            if(!selectedItems[id]) {
+    //                vm.selectAll = false;
+    //                return;
+    //            }
+    //        }
+    //    }
+    //    vm.selectAll = true;
+    //}
 
-    function toggleAll (selectAll, selectedItems) {
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                selectedItems[id] = selectAll;
-            }
-        }
-    }
-    function toggleOne (selectedItems) {
-        console.log(selectedItems);
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                if(!selectedItems[id]) {
-                    vm.selectAll = false;
-                    return;
-                }
-            }
-        }
-        vm.selectAll = true;
-    }
-
-    function compute() {
-        // Get the current rows
-        var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
-
-        vm.selectAll = false;
-        vm.selected = {};
-        _(displayedRows[0]).forEach(function(index) {
-            vm.selected[vm.shops[index]._id.$oid] = false;
-        });
-    }
+    //function compute() {
+    //    // Get the current rows
+    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
+    //
+    //    vm.selectAll = false;
+    //    vm.selected = {};
+    //    _(displayedRows[0]).forEach(function(index) {
+    //        vm.selected[vm.shops[index]._id.$oid] = false;
+    //    });
+    //}
 
     // Image
     $scope.image = function(id) {

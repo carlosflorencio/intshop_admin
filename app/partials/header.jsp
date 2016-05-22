@@ -13,8 +13,8 @@
     <link href="assets/dist/all.css" rel="stylesheet">
 
     <!-- Scripts (CDN to be faster) -->
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="assets/dist/scripts.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="assets/dist/app.js"></script>
 
     <!--[if lt IE 9]>

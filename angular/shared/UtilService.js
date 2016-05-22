@@ -49,6 +49,11 @@ angular.module('intshop').service('utils', function ($window) {
 
             return date + nth(date) + " of "
                 + month + ", " + fortnightAway.getFullYear();
+        },
+        pad: function (num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
         }
     }
 });
