@@ -52,6 +52,9 @@ gulp.task('app', function () {
  */
 gulp.task('styles', function () {
     return gulp.src([
+            paths.assetsCssFolder + "/vendor/bootstrap.min.css",
+            paths.assetsCssFolder + "/vendor/jquery.dataTables.min.css",
+            paths.assetsCssFolder + "/vendor/angular-datatables.min.css",
             paths.assetsCssFolder + "/style.css",
             paths.assetsCssFolder + "/custom.css",
             paths.assetsCssFolder + "/responsive.css"
@@ -72,6 +75,13 @@ gulp.task('styles', function () {
  */
 gulp.task('scripts', function () {
     return gulp.src([
+            paths.assetsJsFolder + "/vendor/jquery.min.js",
+            paths.assetsJsFolder + "/vendor/jquery.dataTables.min.js",
+            paths.assetsJsFolder + "/vendor/bootstrap.min.js",
+            paths.assetsJsFolder + "/vendor/angular.min.js",
+            paths.assetsJsFolder + "/vendor/lodash.min.js",
+            paths.assetsJsFolder + "/vendor/restangular.min.js",
+            paths.assetsJsFolder + "/vendor/angular-datatables.min.js",
             paths.assetsJsFolder + "/vendor/jquery.sticky.js",
             paths.assetsJsFolder + "/vendor/star-rating.min.js",
             paths.assetsJsFolder + "/main.js"
