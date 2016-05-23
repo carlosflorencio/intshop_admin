@@ -271,3 +271,5 @@ table.dataTable thead .sorting {
 .pointer {
     cursor: pointer !important;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

@@ -4,7 +4,7 @@
     jQuery(document).ready(function ($) {
 
 
-        $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+        //$("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
 
 
         $(".embed-responsive iframe").addClass("embed-responsive-item");

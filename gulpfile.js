@@ -82,6 +82,7 @@ gulp.task('scripts', function () {
             paths.assetsJsFolder + "/vendor/lodash.min.js",
             paths.assetsJsFolder + "/vendor/restangular.min.js",
             paths.assetsJsFolder + "/vendor/angular-datatables.min.js",
+            paths.assetsJsFolder + "/vendor/ng-google-chart.min.js",
             paths.assetsJsFolder + "/vendor/jquery.sticky.js",
             paths.assetsJsFolder + "/vendor/star-rating.min.js",
             paths.assetsJsFolder + "/main.js"
