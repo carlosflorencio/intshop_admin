@@ -5,13 +5,13 @@
  | Angular IntShop Admin module
  |--------------------------------------------------------------------------
  */
-angular.module('intshop', ['restangular', 'datatables']);
+angular.module('intshop', ['restangular', 'datatables', 'googlechart', 'filters']);
 
 /**
  * App constants
  */
 angular.module('intshop').constant('CONSTANTS', (function () {
-    var url = 'http://test.intshop.com';
+    var url = 'http://intshop-admin.dev:8080'; //http://test.intshop.com
 
     return {
         CURRENCY: '£',
@@ -25,6 +25,7 @@ angular.module('intshop').constant('CONSTANTS', (function () {
 angular.module('intshop').config(function (RestangularProvider) {
     RestangularProvider.setBaseUrl('http://test.intshop.com');
 });
+
 
 /**
  * Init some things
