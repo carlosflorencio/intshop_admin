@@ -50,6 +50,14 @@ angular.module('intshop').service('utils', function ($window) {
             return date + nth(date) + " of "
                 + month + ", " + fortnightAway.getFullYear();
         },
+        getMonthDate: function (param) {
+            var fortnightAway = new Date(param),
+                month = "January,February,March,April,May,June,July,August,September,October,November,December"
+                    .split(",")[fortnightAway.getMonth()];
+
+
+            return month + ", " + fortnightAway.getFullYear();
+        },
         pad: function (num, size) {
             var s = num + "";
             while (s.length < size) s = "0" + s;
