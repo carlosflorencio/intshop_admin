@@ -1,0 +1,76 @@
+{
+  "_id": {
+    "$oid": "574061a03822f9e1c0725820"
+  },
+  "name": "jalmeida",
+  "username": "daw",
+  "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+  "email": "asd@asfg.pt",
+  "cell": "9123456789",
+  "tel": "",
+  "storeName": "ASD",
+  "businessNo": "",
+  "address": "Asda",
+  "postcode": "n3 2db",
+  "city": "London",
+  "regDate": {
+    "$date": "2016-04-13T22:31:38.005Z"
+  },
+  "active": true,
+  "passwordLast4": "1234",
+  "cellChangeCount": null,
+  "availableTime": {
+    "monday": [
+      8,
+      21
+    ],
+    "tuesday": [
+      8,
+      21
+    ],
+    "wednesday": [
+      8,
+      21
+    ],
+    "thursday": [
+      8,
+      21
+    ],
+    "friday": [
+      8,
+      21
+    ],
+    "saturday": [
+      8,
+      21
+    ],
+    "sunday": [
+      10,
+      14
+    ]
+  },
+  "type": "asian",
+  "category": "Off License",
+  "totalSales": 8521.25,
+  "shopRate": 4,
+  "totalProducts": 725,
+  "totalSalesWin": 265.2,
+  "invoicesPaid": 250,
+  "invoicesPending": 50,
+  "invoices": [
+    {
+      "$oid": "574061a03822f9e1c210725820",
+      "$date": "2016-04-13T22:31:38.005Z",
+      "value": 50,
+      "type": "Due",
+      "download": "http://example.com/download/invoice/2"
+    },
+    {
+      "$oid": "574061a0123822f9e1c0725820",
+      "$date": "2016-01-13T22:31:38.005Z",
+      "value": 25,
+      "type": "Due",
+      "download": "http://example.com/download/invoice/3"
+    }
+  ]
+}
