@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     ngAnnotate = require('gulp-ng-annotate'),
     browserSync = require('browser-sync').create();
 
-var reload  = browserSync.reload;
+var reload = browserSync.reload;
 
 var paths = {
     appFolder: "./angular",
@@ -22,7 +22,8 @@ var paths = {
 };
 
 var server = 'intshop-admin.dev:8080',
-    page = '/shop-details.jsp';
+    page = '/shop-details.jsp',
+    env = 'development'; // development or production (will change angular configs)
 
 /*
  |--------------------------------------------------------------------------
@@ -33,7 +34,9 @@ gulp.task('app', function () {
 
     gulp.src([
             paths.appFolder + "/app.js",
-            paths.appFolder + "/**/*.js"
+            paths.appFolder + "/env/" + env + ".js",
+            paths.appFolder + "/components/**/*.js",
+            paths.appFolder + "/shared/**/*.js"
         ])
         //.pipe(sourcemaps.init())
         .pipe(concat('app.js'))

@@ -5,7 +5,7 @@
  | Filters
  |--------------------------------------------------------------------------
  */
-angular.module('filters', [])
+angular.module('intshop.filters', [])
 
     .filter('money', function (CONSTANTS) {
         return function (number) {

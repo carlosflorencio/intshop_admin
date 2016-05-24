@@ -8,7 +8,7 @@
 angular.module('intshop').controller('shopDetailsController', function ($rootScope, $scope, $location, utils, Restangular,
                                                                         CONSTANTS, DTOptionsBuilder,
                                                                         DTColumnBuilder, DTColumnDefBuilder, $timeout,
-                                                                        ApiDevelop) {
+                                                                        API) {
 
     var vm = this;
 
@@ -17,8 +17,8 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
     vm.shopId = utils.getUrlParameter.id;
     vm.tabIndex = utils.getUrlParameter.tab;
 
-    ApiDevelop.getShopDetailsPromise(vm.shopId).then(function(result) {
-        vm.info = result;
+    API.getShopDetailsPromise(vm.shopId).then(function(response) {
+        vm.info = response.data;
 
         vm.setTab(0);
     });

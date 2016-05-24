@@ -5,26 +5,23 @@
  | Angular IntShop Admin module
  |--------------------------------------------------------------------------
  */
-angular.module('intshop', ['restangular', 'datatables', 'googlechart', 'filters']);
+angular.module('intshop', [
+    'restangular',
+    'datatables',
+    'googlechart',
+    'intshop.filters',
+    'intshop.env',
+    'intshop.api'
+]);
 
 /**
  * App constants
  */
 angular.module('intshop').constant('CONSTANTS', (function () {
-    var url = 'http://intshop-admin.dev:8080'; //http://test.intshop.com
-
     return {
-        CURRENCY: '£',
-        SHOP_IMAGES: url + '/images/retailer-profile/' // [shop Id].jpg
+        CURRENCY: '£'
     }
 })());
-
-/**
- * Configure Restangular
- */
-angular.module('intshop').config(["RestangularProvider", function (RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://test.intshop.com');
-}]);
 
 
 /**
@@ -38,155 +35,46 @@ angular.module('intshop').run(["$rootScope", "store", function ($rootScope, stor
 
 /*
  |--------------------------------------------------------------------------
- | Api Develop Service
+ | Development Env (change the env in the gulpfile)
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').factory('DevelopRestangular', ["Restangular", function(Restangular) {
-    return Restangular.withConfig(function(RestangularConfigurer) {
-        RestangularConfigurer.setBaseUrl('http://intshop-admin.dev:8080');
-    });
-}]);
+angular.module('intshop.env', []).constant('ENV', (function () {
+    var url = 'http://intshop-admin.dev:8080';
 
-angular.module('intshop').service('ApiDevelop', ["DevelopRestangular", function (DevelopRestangular) {
     return {
-        getShopDetailsPromise: function(id) {
-            return DevelopRestangular.one('api').one("shop-details.json").get();
+        // General
+        type: 'development',
+        url: url,
+
+        // Images
+        getShopImageUrlById: function(id) {
+            return url + "/assets/images/tesco.jpg";
         },
-        getShopLastOrdersPromise: function(id, limit) {
-            return DevelopRestangular.one('api').one("shop-last-orders.json").get();
-        }
+
+        // API ENDPOINTS
+        getShopDetailsUrl: url + '/api/shop-details.json',
+        getShopLastOrdersUrl: url + '/api/shop-last-orders.json',
     }
-}]);
-'use strict';
+})());
 
 /*
- |--------------------------------------------------------------------------
- | Filters
- |--------------------------------------------------------------------------
- */
-angular.module('filters', [])
-
-    .filter('money', ["CONSTANTS", function (CONSTANTS) {
-        return function (number) {
-            return CONSTANTS.CURRENCY + " " + parseFloat(number).toFixed(2);
-        };
-    }])
-
-    .filter('fullDate', ["utils", function (utils) {
-        return function (date) {
-            return utils.getFullDate(date);
-        };
-    }])
-
-    .filter('monthDate', ["utils", function (utils) {
-        return function (date) {
-            return utils.getMonthDate(date);
-        };
-    }])
-
-    .filter('simpleDate', ["utils", function (utils) {
-        return function (date) {
-            var d = new Date(date);
-            return utils.pad(d.getDate(), 2) + '/' + utils.pad(d.getMonth() + 1, 2) + '/' + d.getFullYear();
+|--------------------------------------------------------------------------
+| Log $http requests
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').config(["$provide", "$httpProvider", function($provide, $httpProvider) {
+    $provide.factory('myHttpInterceptor', ["$q", function($q) {
+        return {
+            'request': function(config) {
+                var params = config.params ? JSON.stringify(config.params) : 'no';
+                console.log("REQUEST: " + config.url + " PARAMS: " + params);
+                return config;
+            }
         };
     }]);
 
-'use strict';
 
-/*
-|--------------------------------------------------------------------------
-| Local Storage Service
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').service('store', ['$window', function ($window) {
-    return {
-        get: function (key) {
-            if ( $window.localStorage.getItem(key) )  {
-                var cart = angular.fromJson( $window.localStorage.getItem(key) ) ;
-                return JSON.parse(cart);
-            }
-            return false;
-
-        },
-
-
-        set: function (key, val) {
-
-            if (val === undefined) {
-                $window.localStorage.removeItem(key);
-            } else {
-                $window.localStorage.setItem( key, angular.toJson(val) );
-            }
-            return $window.localStorage.getItem(key);
-        }
-    }
-}]);
-'use strict';
-
-/*
- |--------------------------------------------------------------------------
- | Utils Service
- |--------------------------------------------------------------------------
- */
-angular.module('intshop').service('utils', ["$window", function ($window) {
-    return {
-        getUrlParameter: function () {
-            var query_string = {};
-            var query = window.location.search.substring(1);
-            var vars = query.split("&");
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split("=");
-                // If first entry with this name
-                if (typeof query_string[pair[0]] === "undefined") {
-                    query_string[pair[0]] = decodeURIComponent(pair[1]);
-                    // If second entry with this name
-                } else if (typeof query_string[pair[0]] === "string") {
-                    var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
-                    query_string[pair[0]] = arr;
-                    // If third or later entry with this name
-                } else {
-                    query_string[pair[0]].push(decodeURIComponent(pair[1]));
-                }
-            }
-            return query_string;
-        }(),
-        getFullDate: function (param) {
-            var fortnightAway = new Date(param),
-                date = fortnightAway.getDate(),
-                month = "January,February,March,April,May,June,July,August,September,October,November,December"
-                    .split(",")[fortnightAway.getMonth()];
-
-            function nth(d) {
-                if (d > 3 && d < 21) return 'th';
-                switch (d % 10) {
-                    case 1:
-                        return "st";
-                    case 2:
-                        return "nd";
-                    case 3:
-                        return "rd";
-                    default:
-                        return "th";
-                }
-            }
-
-            return date + nth(date) + " of "
-                + month + ", " + fortnightAway.getFullYear();
-        },
-        getMonthDate: function (param) {
-            var fortnightAway = new Date(param),
-                month = "January,February,March,April,May,June,July,August,September,October,November,December"
-                    .split(",")[fortnightAway.getMonth()];
-
-
-            return month + ", " + fortnightAway.getFullYear();
-        },
-        pad: function (num, size) {
-            var s = num + "";
-            while (s.length < size) s = "0" + s;
-            return s;
-        }
-    }
+    $httpProvider.interceptors.push('myHttpInterceptor');
 }]);
 'use strict';
 
@@ -221,113 +109,14 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
 'use strict';
 
 /*
-|--------------------------------------------------------------------------
-| Shops Controller
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "CONSTANTS", function ($scope, $timeout, Restangular, DTOptionsBuilder,
-                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
-
-    var vm = this;
-
-    // Datatable options
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('numbers')
-        .withOption('aaSorting', [])
-        //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>')
-        .withOption('drawCallback', function (settings) {
-            if(settings.aoData.length > 0) {
-                // Move this code to a directive
-                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
-                //$timeout(function() {
-                //    compute();
-                //}, 0);
-            }
-        });
-
-    // Columns sortable
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).notSortable(),
-        DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2),
-        DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5),
-        DTColumnDefBuilder.newColumnDef(6).notSortable()
-    ];
-
-    vm.dtInstance = {};
-
-    // Fetch the table data (shop lists)
-    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
-        vm.shops = result;
-    });
-
-    /* Search
-       ========================================================================== */
-    $scope.searchText = "";
-    $scope.searchTable = function ()
-    {
-        vm.dtInstance.DataTable.search($scope.searchText);
-        vm.dtInstance.DataTable.search($scope.searchText).draw();
-    };
-
-    /* Select rows
-       ========================================================================== */
-    //vm.selected = {};
-    //vm.selectAll = false;
-    //vm.toggleAll = toggleAll;
-    //vm.toggleOne = toggleOne;
-    //
-    //function toggleAll (selectAll, selectedItems) {
-    //    for (var id in selectedItems) {
-    //        if (selectedItems.hasOwnProperty(id)) {
-    //            selectedItems[id] = selectAll;
-    //        }
-    //    }
-    //}
-    //function toggleOne (selectedItems) {
-    //    console.log(selectedItems);
-    //    for (var id in selectedItems) {
-    //        if (selectedItems.hasOwnProperty(id)) {
-    //            if(!selectedItems[id]) {
-    //                vm.selectAll = false;
-    //                return;
-    //            }
-    //        }
-    //    }
-    //    vm.selectAll = true;
-    //}
-
-    //function compute() {
-    //    // Get the current rows
-    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
-    //
-    //    vm.selectAll = false;
-    //    vm.selected = {};
-    //    _(displayedRows[0]).forEach(function(index) {
-    //        vm.selected[vm.shops[index]._id.$oid] = false;
-    //    });
-    //}
-
-    // Image
-    $scope.image = function(id) {
-        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
-    }
-
-}]);
-'use strict';
-
-/*
  |--------------------------------------------------------------------------
  | Shop Details Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$scope", "$location", "utils", "Restangular", "CONSTANTS", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "$timeout", "ApiDevelop", function ($rootScope, $scope, $location, utils, Restangular,
+angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$scope", "$location", "utils", "Restangular", "CONSTANTS", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "$timeout", "API", function ($rootScope, $scope, $location, utils, Restangular,
                                                                         CONSTANTS, DTOptionsBuilder,
                                                                         DTColumnBuilder, DTColumnDefBuilder, $timeout,
-                                                                        ApiDevelop) {
+                                                                        API) {
 
     var vm = this;
 
@@ -336,8 +125,8 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
     vm.shopId = utils.getUrlParameter.id;
     vm.tabIndex = utils.getUrlParameter.tab;
 
-    ApiDevelop.getShopDetailsPromise(vm.shopId).then(function(result) {
-        vm.info = result;
+    API.getShopDetailsPromise(vm.shopId).then(function(response) {
+        vm.info = response.data;
 
         vm.setTab(0);
     });
@@ -526,9 +315,8 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
  | Shop Details Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopResumeController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ApiDevelop", function ($scope, $rootScope,
-                                                                       $timeout, utils, CONSTANTS,
-                                                                       ApiDevelop) {
+angular.module('intshop').controller('shopResumeController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ENV", "API", function ($scope, $rootScope,
+                                                                       $timeout, utils, CONSTANTS, ENV, API) {
 
     var vm = this;
     vm.loaded = false;
@@ -536,21 +324,26 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
     /* When tab is selected
      ========================================================================== */
     $rootScope.$on('tab:shop-resume', function (event, data) {
-        vm.loaded = true;
+        if(!vm.loaded)
+            loadData(data);
+    });
+
+    function loadData(data) {
         vm.details = data;
         vm.regDate = utils.getFullDate(vm.details.regDate.$date);
 
+        // Activate jquery star rating plugin, ugly but ... :$
         $timeout(function () {
             $("#rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
         }, 200);
 
-        ApiDevelop.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(result) {
-            console.log(result);
-            vm.lastOrders = result;
+        // Get shop last orders
+        API.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(response) {
+            vm.lastOrders = response.data;
         });
 
-    });
-
+        vm.loaded = true;
+    }
 
     // Chart
     $scope.salesChart = {};
@@ -651,7 +444,7 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
      ========================================================================== */
     // Image
     vm.image = function (id) {
-        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+        return ENV.getShopImageUrlById(id);
     };
 
 
@@ -665,36 +458,317 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
 
 /*
  |--------------------------------------------------------------------------
- | Shop Details Controller
+ | Shop Sales Controller
  |--------------------------------------------------------------------------
  */
-//angular.module('intshop').controller('shopDetailsController', function ($scope, $location, utils, Restangular, CONSTANTS) {
-//
-//    /* Shop Details
-//       ========================================================================== */
-//    $scope.shopId = utils.getUrlParameter.id;
-//
-//    Restangular.one('Retailers').one("getRetailer").get({id: $scope.shopId}).then(function(result) {
-//        $scope.info = result;
-//        $scope.regDate = utils.getFullDate($scope.info.regDate.$date);
-//    }, function() {
-//        alert("Error getting the shop details..");
-//    });
-//
-//    // Image
-//    $scope.image = function(id) {
-//        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
-//    };
-//
-//    /* Shop last 5 orders
-//       ========================================================================== */
-//    Restangular.one('Retailers').one("lastOrders").get({id: $scope.shopId, limit: 5}).then(function(result) {
-//        $scope.lastOrders = result;
-//
-//        console.log(result.length);
-//    }, function() {
-//        alert("Error getting the shop last orders..");
-//    });
-//
-//
-//});
+angular.module('intshop').controller('shopSalesController', ["$scope", "$location", "utils", function ($scope, $location, utils) {
+
+    var vm = this;
+    vm.loaded = false;
+
+    /* When tab is selected
+     ========================================================================== */
+    $rootScope.$on('tab:shop-sales', function (event, data) {
+        if(!vm.loaded)
+            loadData(data);
+    });
+
+    function loadData(data) {
+        vm.details = data;
+        vm.regDate = utils.getFullDate(vm.details.regDate.$date);
+
+        // Activate jquery star rating plugin, ugly but ... :$
+        $timeout(function () {
+            $("#rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+        }, 200);
+
+        // Get shop last orders
+        ApiDevelop.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(result) {
+            console.log(result);
+            vm.lastOrders = result;
+        });
+
+        vm.loaded = true;
+    }
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Shops Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "CONSTANTS", function ($scope, $timeout, Restangular, DTOptionsBuilder,
+                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
+
+    var vm = this;
+
+    // Datatable options
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>')
+        .withOption('drawCallback', function (settings) {
+            if(settings.aoData.length > 0) {
+                // Move this code to a directive
+                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+                //$timeout(function() {
+                //    compute();
+                //}, 0);
+            }
+        });
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6).notSortable()
+    ];
+
+    vm.dtInstance = {};
+
+    // Fetch the table data (shop lists)
+    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
+        vm.shops = result;
+    });
+
+    /* Search
+       ========================================================================== */
+    $scope.searchText = "";
+    $scope.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search($scope.searchText);
+        vm.dtInstance.DataTable.search($scope.searchText).draw();
+    };
+
+    /* Select rows
+       ========================================================================== */
+    //vm.selected = {};
+    //vm.selectAll = false;
+    //vm.toggleAll = toggleAll;
+    //vm.toggleOne = toggleOne;
+    //
+    //function toggleAll (selectAll, selectedItems) {
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            selectedItems[id] = selectAll;
+    //        }
+    //    }
+    //}
+    //function toggleOne (selectedItems) {
+    //    console.log(selectedItems);
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            if(!selectedItems[id]) {
+    //                vm.selectAll = false;
+    //                return;
+    //            }
+    //        }
+    //    }
+    //    vm.selectAll = true;
+    //}
+
+    //function compute() {
+    //    // Get the current rows
+    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
+    //
+    //    vm.selectAll = false;
+    //    vm.selected = {};
+    //    _(displayedRows[0]).forEach(function(index) {
+    //        vm.selected[vm.shops[index]._id.$oid] = false;
+    //    });
+    //}
+
+    // Image
+    $scope.image = function(id) {
+        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+    }
+
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Api Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV, $http) {
+    return {
+        getShopDetailsPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopDetailsUrl,
+                params: {id: id}
+            });
+        },
+        getShopLastOrdersPromise: function (id, limit) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopLastOrdersUrl,
+                params: {id: id, limit: limit}
+            });
+        }
+    }
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Api Develop Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').factory('DevelopRestangular', ["Restangular", function (Restangular) {
+    return Restangular.withConfig(function (RestangularConfigurer) {
+        RestangularConfigurer.setBaseUrl('http://intshop-admin.dev:8080');
+    });
+}]);
+
+angular.module('intshop').service('ApiDevelop', ["DevelopRestangular", "CONSTANTS", function (DevelopRestangular, CONSTANTS) {
+    return {
+        getShopDetailsPromise: function (id) {
+            return DevelopRestangular.one('api').one("shop-details.json").get();
+        },
+        getShopLastOrdersPromise: function (id, limit) {
+            return DevelopRestangular.one('api').one("shop-last-orders.json").get();
+        },
+        getShopImageUrl: function (id) {
+            return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+        }
+    }
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Filters
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop.filters', [])
+
+    .filter('money', ["CONSTANTS", function (CONSTANTS) {
+        return function (number) {
+            return CONSTANTS.CURRENCY + " " + parseFloat(number).toFixed(2);
+        };
+    }])
+
+    .filter('fullDate', ["utils", function (utils) {
+        return function (date) {
+            return utils.getFullDate(date);
+        };
+    }])
+
+    .filter('monthDate', ["utils", function (utils) {
+        return function (date) {
+            return utils.getMonthDate(date);
+        };
+    }])
+
+    .filter('simpleDate', ["utils", function (utils) {
+        return function (date) {
+            var d = new Date(date);
+            return utils.pad(d.getDate(), 2) + '/' + utils.pad(d.getMonth() + 1, 2) + '/' + d.getFullYear();
+        };
+    }]);
+
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Local Storage Service
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').service('store', ['$window', function ($window) {
+    return {
+        get: function (key) {
+            if ( $window.localStorage.getItem(key) )  {
+                var cart = angular.fromJson( $window.localStorage.getItem(key) ) ;
+                return JSON.parse(cart);
+            }
+            return false;
+
+        },
+
+
+        set: function (key, val) {
+
+            if (val === undefined) {
+                $window.localStorage.removeItem(key);
+            } else {
+                $window.localStorage.setItem( key, angular.toJson(val) );
+            }
+            return $window.localStorage.getItem(key);
+        }
+    }
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Utils Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').service('utils', ["$window", function ($window) {
+    return {
+        getUrlParameter: function () {
+            var query_string = {};
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                // If first entry with this name
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = decodeURIComponent(pair[1]);
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                    query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                    query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
+            }
+            return query_string;
+        }(),
+        getFullDate: function (param) {
+            var fortnightAway = new Date(param),
+                date = fortnightAway.getDate(),
+                month = "January,February,March,April,May,June,July,August,September,October,November,December"
+                    .split(",")[fortnightAway.getMonth()];
+
+            function nth(d) {
+                if (d > 3 && d < 21) return 'th';
+                switch (d % 10) {
+                    case 1:
+                        return "st";
+                    case 2:
+                        return "nd";
+                    case 3:
+                        return "rd";
+                    default:
+                        return "th";
+                }
+            }
+
+            return date + nth(date) + " of "
+                + month + ", " + fortnightAway.getFullYear();
+        },
+        getMonthDate: function (param) {
+            var fortnightAway = new Date(param),
+                month = "January,February,March,April,May,June,July,August,September,October,November,December"
+                    .split(",")[fortnightAway.getMonth()];
+
+
+            return month + ", " + fortnightAway.getFullYear();
+        },
+        pad: function (num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        }
+    }
+}]);

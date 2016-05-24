@@ -6,8 +6,7 @@
  |--------------------------------------------------------------------------
  */
 angular.module('intshop').controller('shopResumeController', function ($scope, $rootScope,
-                                                                       $timeout, utils, CONSTANTS,
-                                                                       ApiDevelop) {
+                                                                       $timeout, utils, CONSTANTS, ENV, API) {
 
     var vm = this;
     vm.loaded = false;
@@ -15,21 +14,26 @@ angular.module('intshop').controller('shopResumeController', function ($scope, $
     /* When tab is selected
      ========================================================================== */
     $rootScope.$on('tab:shop-resume', function (event, data) {
-        vm.loaded = true;
+        if(!vm.loaded)
+            loadData(data);
+    });
+
+    function loadData(data) {
         vm.details = data;
         vm.regDate = utils.getFullDate(vm.details.regDate.$date);
 
+        // Activate jquery star rating plugin, ugly but ... :$
         $timeout(function () {
             $("#rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
         }, 200);
 
-        ApiDevelop.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(result) {
-            console.log(result);
-            vm.lastOrders = result;
+        // Get shop last orders
+        API.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(response) {
+            vm.lastOrders = response.data;
         });
 
-    });
-
+        vm.loaded = true;
+    }
 
     // Chart
     $scope.salesChart = {};
@@ -130,7 +134,7 @@ angular.module('intshop').controller('shopResumeController', function ($scope, $
      ========================================================================== */
     // Image
     vm.image = function (id) {
-        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+        return ENV.getShopImageUrlById(id);
     };
 
 

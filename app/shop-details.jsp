@@ -1,35 +1,4 @@
 <%@include file="partials/header.jsp" %>
-
-<script type="text/javascript">
-    //google.charts.load('current', {packages: ['corechart', 'bar']});
-
-    //google.charts.setOnLoadCallback(drawBasic);
-
-    function drawBasic() {
-        var data = google.visualization.arrayToDataTable([
-            ['Element', 'Sales', {role: 'style'}],
-            ['6h', 8, '#3493d5'],            // RGB value
-            ['12h', 10, '#3493d5'],            // English color name
-            ['24h', 19, '#3493d5'],
-            ['total', 21, 'color: #3493d5'] // CSS-style declaration
-        ]);
-
-        var options = {
-            legend: {position: 'none'},
-            vAxis: {
-                gridlines: {
-                    color: 'transparent'
-                }
-            }
-        };
-
-        var chart = new google.visualization.ColumnChart(
-                document.getElementById('chart_div'));
-
-        //chart.draw(data, options);
-    }
-</script>
-
 <div ng-controller="shopDetailsController as shop">
 
     <div ng-class="{sales_page: shop.tabs[1].active}" class="subbar_area shopsview_page">
@@ -45,7 +14,9 @@
                                     <img width="6" src="assets/images/left-arrow.png" alt="Left Arrow">
                                     Back to list
                                 </a>
-                                <a href="#" class="tesco_express" title="{{ shop.info.storeName }}">{{ shop.info.storeName }}</a>
+                                <a href="#" class="tesco_express" title="{{ shop.info.storeName }}">
+                                    {{ shop.info.storeName }}
+                                </a>
                             </div>
                         </div>
 
