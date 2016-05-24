@@ -22,7 +22,10 @@
                         <div class="single_right">
                             <p>Products</p>
                             <h4>{{ shop.info.totalProducts }}</h4>
-                            <a href="#" class="view_page" title="View Page">View Page</a>
+                            <a ng-href="{{ shop.urls.linkToShopItemsPage(shop.shopId) }}" target="_blank"
+                               class="view_page" title="View Page">
+                                INTSHOP
+                            </a>
                         </div>
 
                     </div>
@@ -103,9 +106,12 @@
                                         <span>{{ shop.info.email }}</span>
                                     </li>
                                     <li>
-                                        <img width="9" src="assets/images/map-marker.png" alt="Map Marker Ico"> <span>{{ shop.info.address }},<br/>
+                                        <img width="9" src="assets/images/map-marker.png" alt="Map Marker Ico">
+                                        <span>{{ shop.info.address }},<br/>
                                             {{ shop.info.city }},<br/>
-                                            {{ shop.info.postcode }}</span></li>
+                                            {{ shop.info.postcode }}
+                                    </span>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="contact_right">
@@ -163,8 +169,10 @@
                     <div class="list_of_order">
                         <div class="list_of_order_head">
                             <h3>Last Orders</h3>
-                            <a href="#" class="view_all-order" title="View all Orders">View all orders <span>
-                                        <img width="4" src="assets/images/angle-right.png" alt="Arrow right"></span>
+                            <a ng-href="{{ shop.urls.linkToOrdersList() }}" class="view_all-order" title="View all Orders">View all orders
+                                <span>
+                                    <img width="4" src="assets/images/angle-right.png" alt="Arrow right">
+                                </span>
                             </a>
                         </div>
 
@@ -184,11 +192,19 @@
 
                                     <tr class="table_row" ng-repeat="order in resume.lastOrders">
                                         <td class="date_list">{{ order.$date | simpleDate }}</td>
-                                        <td class="price_list">£ 1 365.32</td>
-                                        <td class="status">Sended</td>
-                                        <td class="driver_by">Shop</td>
+                                        <td class="price_list">{{ order.price | money }}</td>
+                                        <td class="status">
+                                            <div ng-show="order.status == 'waiting'">
+                                                <img  width="14" src="./assets/images/waiting-icon.png" alt=""/>
+                                                Waiting...
+                                            </div>
+                                            <div ng-show="order.status != 'waiting'">
+                                                {{ order.status | capitalize }}
+                                            </div>
+                                        </td>
+                                        <td class="driver_by">{{ order.driver_by | capitalize }}</td>
                                         <td class="view_link">
-                                            <a href="#" title="View">View</a>
+                                            <a ng-href="{{ shop.urls.linkToOrderInfo(order._id.$oid) }}" title="View">View</a>
                                         </td>
                                     </tr>
 

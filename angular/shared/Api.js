@@ -20,6 +20,13 @@ angular.module('intshop.api', []).service('API', function (ENV, $http) {
                 url: ENV.getShopLastOrdersUrl,
                 params: {id: id, limit: limit}
             });
+        },
+        getShopSalesChartPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopSalesChart,
+                params: {id: id}
+            });
         }
     }
 });

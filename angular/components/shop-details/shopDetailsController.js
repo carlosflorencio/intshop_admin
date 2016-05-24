@@ -8,7 +8,7 @@
 angular.module('intshop').controller('shopDetailsController', function ($rootScope, $scope, $location, utils, Restangular,
                                                                         CONSTANTS, DTOptionsBuilder,
                                                                         DTColumnBuilder, DTColumnDefBuilder, $timeout,
-                                                                        API) {
+                                                                        API, urls) {
 
     var vm = this;
 
@@ -16,6 +16,7 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
      ========================================================================== */
     vm.shopId = utils.getUrlParameter.id;
     vm.tabIndex = utils.getUrlParameter.tab;
+    vm.urls = urls;
 
     API.getShopDetailsPromise(vm.shopId).then(function(response) {
         vm.info = response.data;
@@ -26,9 +27,9 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
     /* Tabs
      ========================================================================== */
     vm.tabs = [
-        {name: "resume", active: true},
-        {name: "sales", active: false},
-        {name: "invoices", active: false}
+        {name: "shop-resume", active: true},
+        {name: "shop-sales", active: false},
+        {name: "shop-invoices", active: false}
     ];
 
     vm.setTab = function (index) {
@@ -37,7 +38,7 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
         });
 
         vm.tabs[index].active = true;
-        $rootScope.$broadcast('tab:shop-resume', vm.info);
+        $rootScope.$broadcast('tab:' + vm.tabs[index].name, vm.info);
     };
 
 

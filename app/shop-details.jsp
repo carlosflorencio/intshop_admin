@@ -17,6 +17,9 @@
                                 <a href="#" class="tesco_express" title="{{ shop.info.storeName }}">
                                     {{ shop.info.storeName }}
                                 </a>
+                                <a title="Suspend Account" class="suspend_account" href="#">
+                                    Suspend Account
+                                </a>
                             </div>
                         </div>
 

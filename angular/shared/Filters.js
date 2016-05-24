@@ -30,4 +30,10 @@ angular.module('intshop.filters', [])
             var d = new Date(date);
             return utils.pad(d.getDate(), 2) + '/' + utils.pad(d.getMonth() + 1, 2) + '/' + d.getFullYear();
         };
+    })
+
+    .filter('capitalize', function () {
+        return function (string) {
+            return string.charAt(0).toUpperCase() + string.slice(1)
+        };
     });

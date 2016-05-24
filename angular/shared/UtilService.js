@@ -7,6 +7,9 @@
  */
 angular.module('intshop').service('utils', function ($window) {
     return {
+        /**
+         * Get url query string in object format
+         */
         getUrlParameter: function () {
             var query_string = {};
             var query = window.location.search.substring(1);
@@ -27,6 +30,12 @@ angular.module('intshop').service('utils', function ($window) {
             }
             return query_string;
         }(),
+
+        /**
+         * Get full date string from iso string
+         * @param param
+         * @returns {string}
+         */
         getFullDate: function (param) {
             var fortnightAway = new Date(param),
                 date = fortnightAway.getDate(),
@@ -50,6 +59,12 @@ angular.module('intshop').service('utils', function ($window) {
             return date + nth(date) + " of "
                 + month + ", " + fortnightAway.getFullYear();
         },
+
+        /**
+         * Get month string date format from iso string
+         * @param param
+         * @returns {string}
+         */
         getMonthDate: function (param) {
             var fortnightAway = new Date(param),
                 month = "January,February,March,April,May,June,July,August,September,October,November,December"
@@ -58,10 +73,50 @@ angular.module('intshop').service('utils', function ($window) {
 
             return month + ", " + fortnightAway.getFullYear();
         },
+
+        /**
+         * Pad number with zeros
+         * @param num
+         * @param size
+         * @returns {string}
+         */
         pad: function (num, size) {
             var s = num + "";
             while (s.length < size) s = "0" + s;
             return s;
+        },
+
+        /**
+         * Convert object to column chart data, label1 and label2 properties are required
+         * @param object
+         * @returns {{cols: *[], rows: Array}}
+         */
+        getColumnChartDataFromObject: function (object) {
+            var res = {
+                "cols": [
+                    {id: "t", label: object.label1, type: "string"},
+                    {id: "s", label: object.label2, type: "number"}
+                ],
+                "rows": []
+            };
+
+            var rows = [];
+            for (var k in object) {
+                if (object.hasOwnProperty(k)) {
+                    if (k == 'label1' || k == 'label2') continue;
+
+                    rows.push({
+                        c: [
+                            {v: k},
+                            {v: object[k]}
+                        ]
+                    });
+                }
+            }
+            res.rows = rows;
+
+            return res;
         }
+
     }
 });

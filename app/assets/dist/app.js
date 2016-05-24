@@ -54,6 +54,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         // API ENDPOINTS
         getShopDetailsUrl: url + '/api/shop-details.json',
         getShopLastOrdersUrl: url + '/api/shop-last-orders.json',
+        getShopSalesChart: url + '/api/shop-sales-chart.json'
     }
 })());
 
@@ -109,14 +110,113 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
 'use strict';
 
 /*
+|--------------------------------------------------------------------------
+| Shops Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "CONSTANTS", function ($scope, $timeout, Restangular, DTOptionsBuilder,
+                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
+
+    var vm = this;
+
+    // Datatable options
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>')
+        .withOption('drawCallback', function (settings) {
+            if(settings.aoData.length > 0) {
+                // Move this code to a directive
+                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+                //$timeout(function() {
+                //    compute();
+                //}, 0);
+            }
+        });
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6).notSortable()
+    ];
+
+    vm.dtInstance = {};
+
+    // Fetch the table data (shop lists)
+    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
+        vm.shops = result;
+    });
+
+    /* Search
+       ========================================================================== */
+    $scope.searchText = "";
+    $scope.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search($scope.searchText);
+        vm.dtInstance.DataTable.search($scope.searchText).draw();
+    };
+
+    /* Select rows
+       ========================================================================== */
+    //vm.selected = {};
+    //vm.selectAll = false;
+    //vm.toggleAll = toggleAll;
+    //vm.toggleOne = toggleOne;
+    //
+    //function toggleAll (selectAll, selectedItems) {
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            selectedItems[id] = selectAll;
+    //        }
+    //    }
+    //}
+    //function toggleOne (selectedItems) {
+    //    console.log(selectedItems);
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            if(!selectedItems[id]) {
+    //                vm.selectAll = false;
+    //                return;
+    //            }
+    //        }
+    //    }
+    //    vm.selectAll = true;
+    //}
+
+    //function compute() {
+    //    // Get the current rows
+    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
+    //
+    //    vm.selectAll = false;
+    //    vm.selected = {};
+    //    _(displayedRows[0]).forEach(function(index) {
+    //        vm.selected[vm.shops[index]._id.$oid] = false;
+    //    });
+    //}
+
+    // Image
+    $scope.image = function(id) {
+        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+    }
+
+}]);
+'use strict';
+
+/*
  |--------------------------------------------------------------------------
  | Shop Details Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$scope", "$location", "utils", "Restangular", "CONSTANTS", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "$timeout", "API", function ($rootScope, $scope, $location, utils, Restangular,
+angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$scope", "$location", "utils", "Restangular", "CONSTANTS", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "$timeout", "API", "urls", function ($rootScope, $scope, $location, utils, Restangular,
                                                                         CONSTANTS, DTOptionsBuilder,
                                                                         DTColumnBuilder, DTColumnDefBuilder, $timeout,
-                                                                        API) {
+                                                                        API, urls) {
 
     var vm = this;
 
@@ -124,6 +224,7 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
      ========================================================================== */
     vm.shopId = utils.getUrlParameter.id;
     vm.tabIndex = utils.getUrlParameter.tab;
+    vm.urls = urls;
 
     API.getShopDetailsPromise(vm.shopId).then(function(response) {
         vm.info = response.data;
@@ -134,9 +235,9 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
     /* Tabs
      ========================================================================== */
     vm.tabs = [
-        {name: "resume", active: true},
-        {name: "sales", active: false},
-        {name: "invoices", active: false}
+        {name: "shop-resume", active: true},
+        {name: "shop-sales", active: false},
+        {name: "shop-invoices", active: false}
     ];
 
     vm.setTab = function (index) {
@@ -145,7 +246,7 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
         });
 
         vm.tabs[index].active = true;
-        $rootScope.$broadcast('tab:shop-resume', vm.info);
+        $rootScope.$broadcast('tab:' + vm.tabs[index].name, vm.info);
     };
 
 
@@ -342,6 +443,12 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
             vm.lastOrders = response.data;
         });
 
+        // Get shop sales chart
+        API.getShopSalesChartPromise(vm.details._id.$oid).then(function(response) {
+            vm.salesChartData = response.data;
+            $scope.salesChart.data = utils.getColumnChartDataFromObject(vm.salesChartData);
+        });
+
         vm.loaded = true;
     }
 
@@ -349,86 +456,6 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
     $scope.salesChart = {};
     $scope.salesChart.type = "ColumnChart";
 
-    // TODO: replace with data from json
-    $scope.salesChart.data = {
-        "cols": [
-            {id: "t", label: "Month", type: "string"},
-            {id: "s", label: "Sales", type: "number"}
-        ], "rows": [
-            {
-                c: [
-                    {v: "January"},
-                    {v: 3}
-                ]
-            },
-            {
-                c: [
-                    {v: "February"},
-                    {v: 31}
-                ]
-            },
-            {
-                c: [
-                    {v: "March"},
-                    {v: 21}
-                ]
-            },
-            {
-                c: [
-                    {v: "April"},
-                    {v: 6},
-                ]
-            },
-            {
-                c: [
-                    {v: "May"},
-                    {v: 12},
-                ]
-            },
-            {
-                c: [
-                    {v: "June"},
-                    {v: 15},
-                ]
-            },
-            {
-                c: [
-                    {v: "July"},
-                    {v: 25},
-                ]
-            }, {
-                c: [
-                    {v: "August"},
-                    {v: 32},
-                ]
-            },
-            {
-                c: [
-                    {v: "September"},
-                    {v: 63},
-                ]
-            },
-            {
-                c: [
-                    {v: "October"},
-                    {v: 33},
-                ]
-            },
-            {
-                c: [
-                    {v: "November"},
-                    {v: 7},
-                ]
-            },
-            {
-                c: [
-                    {v: "December"},
-                    {v: 22}
-                ]
-            }
-
-        ]
-    };
     $scope.salesChart.options = {
         legend: {position: 'none'},
         vAxis: {
@@ -494,105 +521,6 @@ angular.module('intshop').controller('shopSalesController', ["$scope", "$locatio
 'use strict';
 
 /*
-|--------------------------------------------------------------------------
-| Shops Controller
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "CONSTANTS", function ($scope, $timeout, Restangular, DTOptionsBuilder,
-                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
-
-    var vm = this;
-
-    // Datatable options
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('numbers')
-        .withOption('aaSorting', [])
-        //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>')
-        .withOption('drawCallback', function (settings) {
-            if(settings.aoData.length > 0) {
-                // Move this code to a directive
-                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
-                //$timeout(function() {
-                //    compute();
-                //}, 0);
-            }
-        });
-
-    // Columns sortable
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).notSortable(),
-        DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2),
-        DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5),
-        DTColumnDefBuilder.newColumnDef(6).notSortable()
-    ];
-
-    vm.dtInstance = {};
-
-    // Fetch the table data (shop lists)
-    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
-        vm.shops = result;
-    });
-
-    /* Search
-       ========================================================================== */
-    $scope.searchText = "";
-    $scope.searchTable = function ()
-    {
-        vm.dtInstance.DataTable.search($scope.searchText);
-        vm.dtInstance.DataTable.search($scope.searchText).draw();
-    };
-
-    /* Select rows
-       ========================================================================== */
-    //vm.selected = {};
-    //vm.selectAll = false;
-    //vm.toggleAll = toggleAll;
-    //vm.toggleOne = toggleOne;
-    //
-    //function toggleAll (selectAll, selectedItems) {
-    //    for (var id in selectedItems) {
-    //        if (selectedItems.hasOwnProperty(id)) {
-    //            selectedItems[id] = selectAll;
-    //        }
-    //    }
-    //}
-    //function toggleOne (selectedItems) {
-    //    console.log(selectedItems);
-    //    for (var id in selectedItems) {
-    //        if (selectedItems.hasOwnProperty(id)) {
-    //            if(!selectedItems[id]) {
-    //                vm.selectAll = false;
-    //                return;
-    //            }
-    //        }
-    //    }
-    //    vm.selectAll = true;
-    //}
-
-    //function compute() {
-    //    // Get the current rows
-    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
-    //
-    //    vm.selectAll = false;
-    //    vm.selected = {};
-    //    _(displayedRows[0]).forEach(function(index) {
-    //        vm.selected[vm.shops[index]._id.$oid] = false;
-    //    });
-    //}
-
-    // Image
-    $scope.image = function(id) {
-        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
-    }
-
-}]);
-'use strict';
-
-/*
  |--------------------------------------------------------------------------
  | Api Service
  |--------------------------------------------------------------------------
@@ -612,32 +540,13 @@ angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV,
                 url: ENV.getShopLastOrdersUrl,
                 params: {id: id, limit: limit}
             });
-        }
-    }
-}]);
-'use strict';
-
-/*
- |--------------------------------------------------------------------------
- | Api Develop Service
- |--------------------------------------------------------------------------
- */
-angular.module('intshop').factory('DevelopRestangular', ["Restangular", function (Restangular) {
-    return Restangular.withConfig(function (RestangularConfigurer) {
-        RestangularConfigurer.setBaseUrl('http://intshop-admin.dev:8080');
-    });
-}]);
-
-angular.module('intshop').service('ApiDevelop', ["DevelopRestangular", "CONSTANTS", function (DevelopRestangular, CONSTANTS) {
-    return {
-        getShopDetailsPromise: function (id) {
-            return DevelopRestangular.one('api').one("shop-details.json").get();
         },
-        getShopLastOrdersPromise: function (id, limit) {
-            return DevelopRestangular.one('api').one("shop-last-orders.json").get();
-        },
-        getShopImageUrl: function (id) {
-            return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+        getShopSalesChartPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopSalesChart,
+                params: {id: id}
+            });
         }
     }
 }]);
@@ -673,7 +582,13 @@ angular.module('intshop.filters', [])
             var d = new Date(date);
             return utils.pad(d.getDate(), 2) + '/' + utils.pad(d.getMonth() + 1, 2) + '/' + d.getFullYear();
         };
-    }]);
+    }])
+
+    .filter('capitalize', function () {
+        return function (string) {
+            return string.charAt(0).toUpperCase() + string.slice(1)
+        };
+    });
 
 'use strict';
 
@@ -709,11 +624,34 @@ angular.module('intshop').service('store', ['$window', function ($window) {
 
 /*
  |--------------------------------------------------------------------------
+ | Urls Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').service('urls', function () {
+    return {
+        linkToOrderInfo: function(id) {
+            return 'orders-info.jsp?id=' + id;
+        },
+        linkToOrdersList: function() {
+            return 'orders.jsp'
+        },
+        linkToShopItemsPage: function(id) {
+            return 'http://test.intshop.com/shop-items.jsp';
+        }
+    }
+});
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
  | Utils Service
  |--------------------------------------------------------------------------
  */
 angular.module('intshop').service('utils', ["$window", function ($window) {
     return {
+        /**
+         * Get url query string in object format
+         */
         getUrlParameter: function () {
             var query_string = {};
             var query = window.location.search.substring(1);
@@ -734,6 +672,12 @@ angular.module('intshop').service('utils', ["$window", function ($window) {
             }
             return query_string;
         }(),
+
+        /**
+         * Get full date string from iso string
+         * @param param
+         * @returns {string}
+         */
         getFullDate: function (param) {
             var fortnightAway = new Date(param),
                 date = fortnightAway.getDate(),
@@ -757,6 +701,12 @@ angular.module('intshop').service('utils', ["$window", function ($window) {
             return date + nth(date) + " of "
                 + month + ", " + fortnightAway.getFullYear();
         },
+
+        /**
+         * Get month string date format from iso string
+         * @param param
+         * @returns {string}
+         */
         getMonthDate: function (param) {
             var fortnightAway = new Date(param),
                 month = "January,February,March,April,May,June,July,August,September,October,November,December"
@@ -765,10 +715,50 @@ angular.module('intshop').service('utils', ["$window", function ($window) {
 
             return month + ", " + fortnightAway.getFullYear();
         },
+
+        /**
+         * Pad number with zeros
+         * @param num
+         * @param size
+         * @returns {string}
+         */
         pad: function (num, size) {
             var s = num + "";
             while (s.length < size) s = "0" + s;
             return s;
+        },
+
+        /**
+         * Convert object to column chart data, label1 and label2 properties are required
+         * @param object
+         * @returns {{cols: *[], rows: Array}}
+         */
+        getColumnChartDataFromObject: function (object) {
+            var res = {
+                "cols": [
+                    {id: "t", label: object.label1, type: "string"},
+                    {id: "s", label: object.label2, type: "number"}
+                ],
+                "rows": []
+            };
+
+            var rows = [];
+            for (var k in object) {
+                if (object.hasOwnProperty(k)) {
+                    if (k == 'label1' || k == 'label2') continue;
+
+                    rows.push({
+                        c: [
+                            {v: k},
+                            {v: object[k]}
+                        ]
+                    });
+                }
+            }
+            res.rows = rows;
+
+            return res;
         }
+
     }
 }]);
