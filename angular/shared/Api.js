@@ -41,6 +41,13 @@ angular.module('intshop.api', []).service('API', function (ENV, $http) {
                 url: ENV.getShopRestoreUrl,
                 params: {id: id}
             });
+        },
+        getShopSalesPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopSalesUrl,
+                params: {id: id}
+            });
         }
     }
 });

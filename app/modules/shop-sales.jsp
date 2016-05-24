@@ -1,10 +1,10 @@
-<div class="data_table_area">
+<div class="data_table_area" ng-controller="shopSalesController as sales">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <div class="table-responsive shops_sales_table">
-                    <table class="table" datatable="ng" dt-instance="shopDetails.dtInstance"
-                           dt-options="shopDetails.dtOptions" dt-column-defs="shopDetails.dtColumnDefs">
+                    <table class="table" datatable="ng" dt-instance="sales.dtInstance"
+                           dt-options="sales.dtOptions" dt-column-defs="sales.dtColumnDefs">
                         <thead>
                         <tr class="table_title">
                             <th>Name</th>
@@ -19,13 +19,21 @@
                         <tbody>
 
                         <!-- Single Table Row -->
-                        <tr class="table_row" ng-repeat="sale in ::shopDetails.sales">
-                            <td class="sales_name">{{ sale.storeName }}</td>
-                            <td class="sales_date">16/05/2016</td>
-                            <td class="sales_price">£ 1 365.32</td>
-                            <td class="sales_postcode">N3 2DB</td>
-                            <td class="sales_stutas">Sended</td>
-                            <td class="sales_driverby">Shop</td>
+                        <tr class="table_row" ng-repeat="sale in ::sales.list">
+                            <td class="sales_name">{{ sale.name }}</td>
+                            <td class="sales_date">{{ sale.$date | simpleDate }}</td>
+                            <td class="sales_price">{{ sale.price | money }}</td>
+                            <td class="sales_postcode">{{ sale.postcode }}</td>
+                            <td class="sales_stutas">
+                                <div ng-show="sale.status == 'waiting'">
+                                    <img  width="14" src="./assets/images/waiting-icon.png" alt=""/>
+                                    Waiting...
+                                </div>
+                                <div ng-show="sale.status != 'waiting'">
+                                    {{ sale.status | capitalize }}
+                                </div>
+                            </td>
+                            <td class="sales_driverby">{{ sale.driver_by }}</td>
                             <td class="sales_views">
                                 <a href="#" class="sales_view_button" title="View">View</a>
                             </td>

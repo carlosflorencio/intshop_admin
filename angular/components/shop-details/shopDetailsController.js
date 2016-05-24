@@ -5,9 +5,8 @@
  | Shop Details Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopDetailsController', function ($rootScope, $scope, $location, utils, Restangular,
-                                                                        CONSTANTS, DTOptionsBuilder,
-                                                                        DTColumnBuilder, DTColumnDefBuilder, $timeout,
+angular.module('intshop').controller('shopDetailsController', function ($rootScope, utils,
+                                                                        $timeout,
                                                                         API, urls) {
 
     var vm = this;
@@ -38,6 +37,7 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
         });
 
         vm.tabs[index].active = true;
+        vm.tab = vm.tabs[index];
         $rootScope.$broadcast('tab:' + vm.tabs[index].name, vm.info);
     };
 
@@ -73,6 +73,16 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
         });
     };
 
+    /* Search input
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        if(vm.tab.name == 'shop-sales') {
+            $rootScope.$broadcast('tab:' + vm.tab.name + ":search", vm.searchText);
+        }
+    };
+
 
     // TODO: each tab it its controller, send events to change tabs and load data
     //if(vm.tabIndex) {
@@ -91,22 +101,6 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
     //}
 
 
-    ///* Resume tab
-    // ========================================================================== */
-    //function loadTabResume() {
-    //    var tab = vm.tabs[0];
-    //    tab.isLoaded = true;
-    //
-    //    Restangular.one('Retailers').one("lastOrders").get({id: vm.shopId, limit: 5}).then(function (result) {
-    //        vm.lastOrders = result;
-    //
-    //        console.log(result.length);
-    //    }, function () {
-    //        alert("Error getting the shop last orders..");
-    //    });
-    //}
-    //
-    //
     ///* Sales tab
     //========================================================================== */
     //

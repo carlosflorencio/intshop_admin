@@ -19,11 +19,12 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         },
 
         // API ENDPOINTS
-        getShopDetailsUrl: url + '/api/shop-details.json',
-        getShopLastOrdersUrl: url + '/api/shop-last-orders.json',
-        getShopSalesChartUrl: url + '/api/shop-sales-chart.json',
-        getShopSuspendUrl: url + '/api/shop-sales-chart.json',
-        getShopRestoreUrl: url + '/api/shop-sales-chart.json'
+        getShopDetailsUrl: url + '/api/shop/shop-details.json',
+        getShopLastOrdersUrl: url + '/api/shop/shop-last-orders.json',
+        getShopSalesChartUrl: url + '/api/shop/shop-sales-chart.json',
+        getShopSuspendUrl: url + '/api/shop/shop-sales-chart.json',
+        getShopRestoreUrl: url + '/api/shop/shop-sales-chart.json',
+        getShopSalesUrl: url + '/api/shop/shop-sales.json',
     }
 })());
 

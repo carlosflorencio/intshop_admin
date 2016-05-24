@@ -52,11 +52,12 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         },
 
         // API ENDPOINTS
-        getShopDetailsUrl: url + '/api/shop-details.json',
-        getShopLastOrdersUrl: url + '/api/shop-last-orders.json',
-        getShopSalesChartUrl: url + '/api/shop-sales-chart.json',
-        getShopSuspendUrl: url + '/api/shop-sales-chart.json',
-        getShopRestoreUrl: url + '/api/shop-sales-chart.json'
+        getShopDetailsUrl: url + '/api/shop/shop-details.json',
+        getShopLastOrdersUrl: url + '/api/shop/shop-last-orders.json',
+        getShopSalesChartUrl: url + '/api/shop/shop-sales-chart.json',
+        getShopSuspendUrl: url + '/api/shop/shop-sales-chart.json',
+        getShopRestoreUrl: url + '/api/shop/shop-sales-chart.json',
+        getShopSalesUrl: url + '/api/shop/shop-sales.json',
     }
 })());
 
@@ -112,112 +113,12 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
 'use strict';
 
 /*
-|--------------------------------------------------------------------------
-| Shops Controller
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "CONSTANTS", function ($scope, $timeout, Restangular, DTOptionsBuilder,
-                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
-
-    var vm = this;
-
-    // Datatable options
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('numbers')
-        .withOption('aaSorting', [])
-        //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>')
-        .withOption('drawCallback', function (settings) {
-            if(settings.aoData.length > 0) {
-                // Move this code to a directive
-                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
-                //$timeout(function() {
-                //    compute();
-                //}, 0);
-            }
-        });
-
-    // Columns sortable
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).notSortable(),
-        DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2),
-        DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5),
-        DTColumnDefBuilder.newColumnDef(6).notSortable()
-    ];
-
-    vm.dtInstance = {};
-
-    // Fetch the table data (shop lists)
-    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
-        vm.shops = result;
-    });
-
-    /* Search
-       ========================================================================== */
-    $scope.searchText = "";
-    $scope.searchTable = function ()
-    {
-        vm.dtInstance.DataTable.search($scope.searchText);
-        vm.dtInstance.DataTable.search($scope.searchText).draw();
-    };
-
-    /* Select rows
-       ========================================================================== */
-    //vm.selected = {};
-    //vm.selectAll = false;
-    //vm.toggleAll = toggleAll;
-    //vm.toggleOne = toggleOne;
-    //
-    //function toggleAll (selectAll, selectedItems) {
-    //    for (var id in selectedItems) {
-    //        if (selectedItems.hasOwnProperty(id)) {
-    //            selectedItems[id] = selectAll;
-    //        }
-    //    }
-    //}
-    //function toggleOne (selectedItems) {
-    //    console.log(selectedItems);
-    //    for (var id in selectedItems) {
-    //        if (selectedItems.hasOwnProperty(id)) {
-    //            if(!selectedItems[id]) {
-    //                vm.selectAll = false;
-    //                return;
-    //            }
-    //        }
-    //    }
-    //    vm.selectAll = true;
-    //}
-
-    //function compute() {
-    //    // Get the current rows
-    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
-    //
-    //    vm.selectAll = false;
-    //    vm.selected = {};
-    //    _(displayedRows[0]).forEach(function(index) {
-    //        vm.selected[vm.shops[index]._id.$oid] = false;
-    //    });
-    //}
-
-    // Image
-    $scope.image = function(id) {
-        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
-    }
-
-}]);
-'use strict';
-
-/*
  |--------------------------------------------------------------------------
  | Shop Details Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$scope", "$location", "utils", "Restangular", "CONSTANTS", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "$timeout", "API", "urls", function ($rootScope, $scope, $location, utils, Restangular,
-                                                                        CONSTANTS, DTOptionsBuilder,
-                                                                        DTColumnBuilder, DTColumnDefBuilder, $timeout,
+angular.module('intshop').controller('shopDetailsController', ["$rootScope", "utils", "$timeout", "API", "urls", function ($rootScope, utils,
+                                                                        $timeout,
                                                                         API, urls) {
 
     var vm = this;
@@ -248,6 +149,7 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
         });
 
         vm.tabs[index].active = true;
+        vm.tab = vm.tabs[index];
         $rootScope.$broadcast('tab:' + vm.tabs[index].name, vm.info);
     };
 
@@ -283,6 +185,16 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
         });
     };
 
+    /* Search input
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        if(vm.tab.name == 'shop-sales') {
+            $rootScope.$broadcast('tab:' + vm.tab.name + ":search", vm.searchText);
+        }
+    };
+
 
     // TODO: each tab it its controller, send events to change tabs and load data
     //if(vm.tabIndex) {
@@ -301,22 +213,6 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
     //}
 
 
-    ///* Resume tab
-    // ========================================================================== */
-    //function loadTabResume() {
-    //    var tab = vm.tabs[0];
-    //    tab.isLoaded = true;
-    //
-    //    Restangular.one('Retailers').one("lastOrders").get({id: vm.shopId, limit: 5}).then(function (result) {
-    //        vm.lastOrders = result;
-    //
-    //        console.log(result.length);
-    //    }, function () {
-    //        alert("Error getting the shop last orders..");
-    //    });
-    //}
-    //
-    //
     ///* Sales tab
     //========================================================================== */
     //
@@ -522,7 +418,8 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
  | Shop Sales Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopSalesController', ["$scope", "$location", "utils", function ($scope, $location, utils) {
+angular.module('intshop').controller('shopSalesController', ["$rootScope", "API", "DTOptionsBuilder", "DTColumnDefBuilder", function ($rootScope, API, DTOptionsBuilder,
+                                                                      DTColumnDefBuilder) {
 
     var vm = this;
     vm.loaded = false;
@@ -536,21 +433,139 @@ angular.module('intshop').controller('shopSalesController', ["$scope", "$locatio
 
     function loadData(data) {
         vm.details = data;
-        vm.regDate = utils.getFullDate(vm.details.regDate.$date);
-
-        // Activate jquery star rating plugin, ugly but ... :$
-        $timeout(function () {
-            $("#rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
-        }, 200);
 
         // Get shop last orders
-        ApiDevelop.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(result) {
-            console.log(result);
-            vm.lastOrders = result;
+        API.getShopSalesPromise(vm.details._id.$oid).then(function(response) {
+            vm.list = response.data;
         });
 
         vm.loaded = true;
     }
+
+    /* Datatable
+       ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>');
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6).notSortable()
+    ];
+
+    $rootScope.$on('tab:shop-sales:search', function (event, search) {
+        vm.dtInstance.DataTable.search(search);
+        vm.dtInstance.DataTable.search(search).draw();
+    });
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Shops Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "CONSTANTS", function ($scope, $timeout, Restangular, DTOptionsBuilder,
+                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
+
+    var vm = this;
+
+    // Datatable options
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>')
+        .withOption('drawCallback', function (settings) {
+            if(settings.aoData.length > 0) {
+                // Move this code to a directive
+                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+                //$timeout(function() {
+                //    compute();
+                //}, 0);
+            }
+        });
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6).notSortable()
+    ];
+
+    vm.dtInstance = {};
+
+    // Fetch the table data (shop lists)
+    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
+        vm.shops = result;
+    });
+
+    /* Search
+       ========================================================================== */
+    $scope.searchText = "";
+    $scope.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search($scope.searchText);
+        vm.dtInstance.DataTable.search($scope.searchText).draw();
+    };
+
+    /* Select rows
+       ========================================================================== */
+    //vm.selected = {};
+    //vm.selectAll = false;
+    //vm.toggleAll = toggleAll;
+    //vm.toggleOne = toggleOne;
+    //
+    //function toggleAll (selectAll, selectedItems) {
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            selectedItems[id] = selectAll;
+    //        }
+    //    }
+    //}
+    //function toggleOne (selectedItems) {
+    //    console.log(selectedItems);
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            if(!selectedItems[id]) {
+    //                vm.selectAll = false;
+    //                return;
+    //            }
+    //        }
+    //    }
+    //    vm.selectAll = true;
+    //}
+
+    //function compute() {
+    //    // Get the current rows
+    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
+    //
+    //    vm.selectAll = false;
+    //    vm.selected = {};
+    //    _(displayedRows[0]).forEach(function(index) {
+    //        vm.selected[vm.shops[index]._id.$oid] = false;
+    //    });
+    //}
+
+    // Image
+    $scope.image = function(id) {
+        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+    }
+
 }]);
 'use strict';
 
@@ -593,6 +608,13 @@ angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV,
             return $http({
                 method: "GET",
                 url: ENV.getShopRestoreUrl,
+                params: {id: id}
+            });
+        },
+        getShopSalesPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopSalesUrl,
                 params: {id: id}
             });
         }
