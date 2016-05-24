@@ -54,7 +54,9 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         // API ENDPOINTS
         getShopDetailsUrl: url + '/api/shop-details.json',
         getShopLastOrdersUrl: url + '/api/shop-last-orders.json',
-        getShopSalesChart: url + '/api/shop-sales-chart.json'
+        getShopSalesChartUrl: url + '/api/shop-sales-chart.json',
+        getShopSuspendUrl: url + '/api/shop-sales-chart.json',
+        getShopRestoreUrl: url + '/api/shop-sales-chart.json'
     }
 })());
 
@@ -226,7 +228,7 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
     vm.tabIndex = utils.getUrlParameter.tab;
     vm.urls = urls;
 
-    API.getShopDetailsPromise(vm.shopId).then(function(response) {
+    API.getShopDetailsPromise(vm.shopId).then(function (response) {
         vm.info = response.data;
 
         vm.setTab(0);
@@ -247,6 +249,38 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "$s
 
         vm.tabs[index].active = true;
         $rootScope.$broadcast('tab:' + vm.tabs[index].name, vm.info);
+    };
+
+    /* Suspend & Restore shop
+     ========================================================================== */
+    vm.suspend = function () {
+        swal({
+            title: "Are you sure?",
+            text: "You are about to suspend the shop!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, suspend it!",
+            closeOnConfirm: false
+        }, function () {
+            swal("Shop Suspended!", "", "success");
+
+            API.getShopSuspendPromise(vm.shopId).then(function(response) {
+                if(response.status == 200) {
+                    vm.info.active = false;
+                }
+            });
+        });
+    };
+
+    vm.restore = function() {
+        swal("Shop restored!", "", "success");
+
+        API.getShopRestorePromise(vm.shopId).then(function(response) {
+            if(response.status == 200) {
+                vm.info.active = true;
+            }
+        });
     };
 
 
@@ -544,7 +578,21 @@ angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV,
         getShopSalesChartPromise: function (id) {
             return $http({
                 method: "GET",
-                url: ENV.getShopSalesChart,
+                url: ENV.getShopSalesChartUrl,
+                params: {id: id}
+            });
+        },
+        getShopSuspendPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopSuspendUrl,
+                params: {id: id}
+            });
+        },
+        getShopRestorePromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopRestoreUrl,
                 params: {id: id}
             });
         }

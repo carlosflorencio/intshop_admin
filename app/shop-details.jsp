@@ -17,8 +17,15 @@
                                 <a href="#" class="tesco_express" title="{{ shop.info.storeName }}">
                                     {{ shop.info.storeName }}
                                 </a>
-                                <a title="Suspend Account" class="suspend_account" href="#">
+                                <a ng-show="shop.info.active" ng-click="shop.suspend()"
+                                   title="Suspend Account" class="suspend_account"
+                                   href="#">
                                     Suspend Account
+                                </a>
+                                <a ng-show="!shop.info.active" ng-click="shop.restore()"
+                                   title="Suspend Account" class="restore_account"
+                                   href="#">
+                                    Restore Account
                                 </a>
                             </div>
                         </div>

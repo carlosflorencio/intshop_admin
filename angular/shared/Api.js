@@ -24,7 +24,21 @@ angular.module('intshop.api', []).service('API', function (ENV, $http) {
         getShopSalesChartPromise: function (id) {
             return $http({
                 method: "GET",
-                url: ENV.getShopSalesChart,
+                url: ENV.getShopSalesChartUrl,
+                params: {id: id}
+            });
+        },
+        getShopSuspendPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopSuspendUrl,
+                params: {id: id}
+            });
+        },
+        getShopRestorePromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopRestoreUrl,
                 params: {id: id}
             });
         }

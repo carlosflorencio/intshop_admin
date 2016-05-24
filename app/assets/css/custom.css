@@ -273,3 +273,21 @@ table.dataTable thead .sorting {
 }
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+a.restore_account {
+    border: 1px solid #5cb85c;
+    border-radius: 5px;
+    color: #5cb85c;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    text-transform: uppercase;
+}
+
+a.restore_account:hover {
+    background: #5cb85c;
+    color: #fff;
+    -webkit-transition: .4s;
+    transition: .4s;
+}

@@ -21,7 +21,9 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         // API ENDPOINTS
         getShopDetailsUrl: url + '/api/shop-details.json',
         getShopLastOrdersUrl: url + '/api/shop-last-orders.json',
-        getShopSalesChart: url + '/api/shop-sales-chart.json'
+        getShopSalesChartUrl: url + '/api/shop-sales-chart.json',
+        getShopSuspendUrl: url + '/api/shop-sales-chart.json',
+        getShopRestoreUrl: url + '/api/shop-sales-chart.json'
     }
 })());
 

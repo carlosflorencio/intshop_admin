@@ -58,6 +58,7 @@ gulp.task('styles', function () {
             paths.assetsCssFolder + "/vendor/bootstrap.min.css",
             paths.assetsCssFolder + "/vendor/jquery.dataTables.min.css",
             paths.assetsCssFolder + "/vendor/angular-datatables.min.css",
+            paths.assetsCssFolder + "/vendor/sweetalert.css",
             paths.assetsCssFolder + "/style.css",
             paths.assetsCssFolder + "/custom.css",
             paths.assetsCssFolder + "/responsive.css"
@@ -88,6 +89,7 @@ gulp.task('scripts', function () {
             paths.assetsJsFolder + "/vendor/ng-google-chart.min.js",
             paths.assetsJsFolder + "/vendor/jquery.sticky.js",
             paths.assetsJsFolder + "/vendor/star-rating.min.js",
+            paths.assetsJsFolder + "/vendor/sweetalert.min.js",
             paths.assetsJsFolder + "/main.js"
 
         ])

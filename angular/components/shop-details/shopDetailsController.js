@@ -18,7 +18,7 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
     vm.tabIndex = utils.getUrlParameter.tab;
     vm.urls = urls;
 
-    API.getShopDetailsPromise(vm.shopId).then(function(response) {
+    API.getShopDetailsPromise(vm.shopId).then(function (response) {
         vm.info = response.data;
 
         vm.setTab(0);
@@ -39,6 +39,38 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
 
         vm.tabs[index].active = true;
         $rootScope.$broadcast('tab:' + vm.tabs[index].name, vm.info);
+    };
+
+    /* Suspend & Restore shop
+     ========================================================================== */
+    vm.suspend = function () {
+        swal({
+            title: "Are you sure?",
+            text: "You are about to suspend the shop!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, suspend it!",
+            closeOnConfirm: false
+        }, function () {
+            swal("Shop Suspended!", "", "success");
+
+            API.getShopSuspendPromise(vm.shopId).then(function(response) {
+                if(response.status == 200) {
+                    vm.info.active = false;
+                }
+            });
+        });
+    };
+
+    vm.restore = function() {
+        swal("Shop restored!", "", "success");
+
+        API.getShopRestorePromise(vm.shopId).then(function(response) {
+            if(response.status == 200) {
+                vm.info.active = true;
+            }
+        });
     };
 
 
