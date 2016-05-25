@@ -5,7 +5,7 @@
  | Shop Sales Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopSalesController', function ($rootScope, API, DTOptionsBuilder,
+angular.module('intshop').controller('shopSalesController', function ($rootScope, API_SHOPS, DTOptionsBuilder,
                                                                       DTColumnDefBuilder) {
 
     var vm = this;
@@ -22,7 +22,7 @@ angular.module('intshop').controller('shopSalesController', function ($rootScope
         vm.details = data;
 
         // Get shop last orders
-        API.getShopSalesPromise(vm.details._id.$oid).then(function(response) {
+        API_SHOPS.getShopSalesPromise(vm.details._id.$oid).then(function(response) {
             vm.list = response.data;
         });
 

@@ -30,6 +30,9 @@ angular.module('intshop').service('urls', function () {
         },
         linkToShopDetails: function(id) {
             return 'shop-details.jsp?id=' + id;
+        },
+        linkToDriversDetails: function(id) {
+            return 'drivers-details.jsp?id=' + id;
         }
     }
 });

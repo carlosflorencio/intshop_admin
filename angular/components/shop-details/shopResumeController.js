@@ -6,7 +6,7 @@
  |--------------------------------------------------------------------------
  */
 angular.module('intshop').controller('shopResumeController', function ($scope, $rootScope,
-                                                                       $timeout, utils, CONSTANTS, ENV, API) {
+                                                                       $timeout, utils, CONSTANTS, ENV, API_SHOPS) {
 
     var vm = this;
     vm.loaded = false;
@@ -28,12 +28,12 @@ angular.module('intshop').controller('shopResumeController', function ($scope, $
         }, 200);
 
         // Get shop last orders
-        API.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(response) {
+        API_SHOPS.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(response) {
             vm.lastOrders = response.data;
         });
 
         // Get shop sales chart
-        API.getShopSalesChartPromise(vm.details._id.$oid).then(function(response) {
+        API_SHOPS.getShopSalesChartPromise(vm.details._id.$oid).then(function(response) {
             vm.salesChartData = response.data;
             vm.salesChart.data = utils.getColumnChartDataFromObject(vm.salesChartData);
         });

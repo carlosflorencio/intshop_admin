@@ -6,7 +6,7 @@
  |--------------------------------------------------------------------------
  */
 angular.module('intshop').controller('shopInvoicesController', function ($scope, $rootScope,
-                                                                         $timeout, utils, CONSTANTS, ENV, API,
+                                                                         $timeout, utils, CONSTANTS, ENV, API_SHOPS,
                                                                          DTOptionsBuilder) {
 
     var vm = this;
@@ -62,18 +62,18 @@ angular.module('intshop').controller('shopInvoicesController', function ($scope,
 
         switch (type) {
             case 0:
-                API.getShopInvoicesChartYearPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopInvoicesChartYearPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
 
             case 1:
-                API.getShopInvoicesChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopInvoicesChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
             case 2:
-                API.getShopInvoicesChart1MonthPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopInvoicesChart1MonthPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
@@ -103,18 +103,18 @@ angular.module('intshop').controller('shopInvoicesController', function ($scope,
 
         switch (type) {
             case 0:
-                API.getShopAllInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopAllInvoicesPromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;
 
             case 1:
-                API.getShopDueInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopDueInvoicesPromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;
             case 2:
-                API.getShopPaidInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopPaidInvoicesPromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;

@@ -5,7 +5,7 @@
 | Shops Controller
 |--------------------------------------------------------------------------
 */
-angular.module('intshop').controller('shopsController', function ($scope, $timeout, API, DTOptionsBuilder,
+angular.module('intshop').controller('shopsController', function ($scope, $timeout, API_SHOPS, DTOptionsBuilder,
                                                                   DTColumnBuilder, DTColumnDefBuilder, ENV, urls) {
 
     var vm = this;
@@ -34,14 +34,14 @@ angular.module('intshop').controller('shopsController', function ($scope, $timeo
         DTColumnDefBuilder.newColumnDef(2),
         DTColumnDefBuilder.newColumnDef(3),
         DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(5).notSortable(),
         DTColumnDefBuilder.newColumnDef(6).notSortable()
     ];
 
     vm.dtInstance = {};
 
     // Fetch the table data (shop lists)
-    API.getShopListPromise().then(function(response) {
+    API_SHOPS.getShopListPromise().then(function(response) {
         vm.shops = response.data;
     });
 

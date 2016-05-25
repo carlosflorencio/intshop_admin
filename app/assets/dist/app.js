@@ -11,7 +11,8 @@ angular.module('intshop', [
     'googlechart',
     'intshop.filters',
     'intshop.env',
-    'intshop.api'
+    'intshop.api.shops',
+    'intshop.api.drivers'
 ]);
 
 /**
@@ -47,11 +48,19 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         url: url,
 
         // Images
-        getShopImageUrlById: function(id) {
+        getShopImageUrlById: function (id) {
             return url + "/assets/images/tesco.jpg";
+        },
+        getDriverImageUrlById: function (id) {
+            return url + "/assets/images/image-icon.png";
+        },
+        getDriverVehicleImageUrlByType: function (type) {
+            return url + "/assets/images/" + type + ".png";
         },
 
         // API ENDPOINTS
+
+        // Shops
         getShopDetailsUrl: url + '/api/shop/shop-details.json',
         getShopListUrl: url + '/api/shop/shop-list.json',
         getShopLastOrdersUrl: url + '/api/shop/resume/shop-last-orders.json',
@@ -64,19 +73,22 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getShopPaidInvoicesUrl: url + '/api/shop/invoices/shop-invoices-paid.json',
         getShopYearInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-year.json',
         getShop6MonthsInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-6m.json',
-        getShop1MonthInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-1m.json'
+        getShop1MonthInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-1m.json',
+
+        // Drivers
+        getDriversListUrl: url + '/api/drivers/drivers-list.json'
     }
 })());
 
 /*
-|--------------------------------------------------------------------------
-| Log $http requests
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').config(["$provide", "$httpProvider", function($provide, $httpProvider) {
-    $provide.factory('myHttpInterceptor', ["$q", function($q) {
+ |--------------------------------------------------------------------------
+ | Log $http requests
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').config(["$provide", "$httpProvider", function ($provide, $httpProvider) {
+    $provide.factory('myHttpInterceptor', ["$q", function ($q) {
         return {
-            'request': function(config) {
+            'request': function (config) {
                 var params = config.params ? JSON.stringify(config.params) : 'no';
                 console.log("REQUEST: " + config.url + " PARAMS: " + params);
                 return config;
@@ -86,6 +98,100 @@ angular.module('intshop').config(["$provide", "$httpProvider", function($provide
 
 
     $httpProvider.interceptors.push('myHttpInterceptor');
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Shops Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('driversController', ["API_DRIVERS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_DRIVERS, DTOptionsBuilder,
+                                                                    DTColumnDefBuilder, ENV, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Datatable options
+       ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>')
+        .withOption('drawCallback', function (settings) {
+            if(settings.aoData.length > 0) {
+                $("#rating-stars, .rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+            }
+        });
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2).notSortable(),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5).notSortable(),
+        DTColumnDefBuilder.newColumnDef(6).notSortable()
+    ];
+
+    // Fetch the table data (shop lists)
+    API_DRIVERS.getDriversListPromise().then(function(response) {
+        vm.drivers = response.data;
+    });
+
+    /* Search
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search(vm.searchText);
+        vm.dtInstance.DataTable.search(vm.searchText).draw();
+    };
+
+
+    /* Functions
+       ========================================================================== */
+    vm.image = function(id) {
+        return ENV.getDriverImageUrlById(id);
+    };
+
+    vm.carImage = function(type) {
+        switch (type) {
+            case 'bike':
+                return ENV.getDriverVehicleImageUrlByType('bike');
+            case 'small_car':
+                return ENV.getDriverVehicleImageUrlByType('small-car');
+            default:
+                return ENV.getDriverVehicleImageUrlByType('car');
+        }
+    };
+
+    vm.carImageSize = function(type) {
+        switch (type) {
+            case 'bike':
+                return 20;
+            case 'small_car':
+                return 35;
+            default:
+                return 45;
+        }
+    };
+
+    vm.carName = function(type) {
+        switch (type) {
+            case 'bike':
+                return 'Bike';
+            case 'small_car':
+                return 'Small Car';
+            default:
+                return 'Car';
+        }
+    }
+
 }]);
 'use strict';
 
@@ -127,9 +233,9 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
  | Shop Details Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopDetailsController', ["$rootScope", "utils", "$timeout", "API", "urls", function ($rootScope, utils,
+angular.module('intshop').controller('shopDetailsController', ["$rootScope", "utils", "$timeout", "API_SHOPS", "urls", function ($rootScope, utils,
                                                                         $timeout,
-                                                                        API, urls) {
+                                                                        API_SHOPS, urls) {
 
     var vm = this;
 
@@ -139,7 +245,7 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "ut
     vm.tabIndex = utils.getUrlParameter.tab;
     vm.urls = urls;
 
-    API.getShopDetailsPromise(vm.shopId).then(function (response) {
+    API_SHOPS.getShopDetailsPromise(vm.shopId).then(function (response) {
         vm.info = response.data;
 
         vm.setTab(0);
@@ -177,7 +283,7 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "ut
         }, function () {
             swal("Shop Suspended!", "", "success");
 
-            API.getShopSuspendPromise(vm.shopId).then(function(response) {
+            API_SHOPS.getShopSuspendPromise(vm.shopId).then(function(response) {
                 if(response.status == 200) {
                     vm.info.active = false;
                 }
@@ -188,7 +294,7 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "ut
     vm.restore = function() {
         swal("Shop restored!", "", "success");
 
-        API.getShopRestorePromise(vm.shopId).then(function(response) {
+        API_SHOPS.getShopRestorePromise(vm.shopId).then(function(response) {
             if(response.status == 200) {
                 vm.info.active = true;
             }
@@ -215,8 +321,8 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "ut
  | Shop Details Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopInvoicesController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ENV", "API", "DTOptionsBuilder", function ($scope, $rootScope,
-                                                                         $timeout, utils, CONSTANTS, ENV, API,
+angular.module('intshop').controller('shopInvoicesController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ENV", "API_SHOPS", "DTOptionsBuilder", function ($scope, $rootScope,
+                                                                         $timeout, utils, CONSTANTS, ENV, API_SHOPS,
                                                                          DTOptionsBuilder) {
 
     var vm = this;
@@ -272,18 +378,18 @@ angular.module('intshop').controller('shopInvoicesController', ["$scope", "$root
 
         switch (type) {
             case 0:
-                API.getShopInvoicesChartYearPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopInvoicesChartYearPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
 
             case 1:
-                API.getShopInvoicesChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopInvoicesChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
             case 2:
-                API.getShopInvoicesChart1MonthPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopInvoicesChart1MonthPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
@@ -313,18 +419,18 @@ angular.module('intshop').controller('shopInvoicesController', ["$scope", "$root
 
         switch (type) {
             case 0:
-                API.getShopAllInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopAllInvoicesPromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;
 
             case 1:
-                API.getShopDueInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopDueInvoicesPromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;
             case 2:
-                API.getShopPaidInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_SHOPS.getShopPaidInvoicesPromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;
@@ -355,8 +461,8 @@ angular.module('intshop').controller('shopInvoicesController', ["$scope", "$root
  | Shop Details Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopResumeController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ENV", "API", function ($scope, $rootScope,
-                                                                       $timeout, utils, CONSTANTS, ENV, API) {
+angular.module('intshop').controller('shopResumeController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ENV", "API_SHOPS", function ($scope, $rootScope,
+                                                                       $timeout, utils, CONSTANTS, ENV, API_SHOPS) {
 
     var vm = this;
     vm.loaded = false;
@@ -378,12 +484,12 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
         }, 200);
 
         // Get shop last orders
-        API.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(response) {
+        API_SHOPS.getShopLastOrdersPromise(vm.details._id.$oid, 5).then(function(response) {
             vm.lastOrders = response.data;
         });
 
         // Get shop sales chart
-        API.getShopSalesChartPromise(vm.details._id.$oid).then(function(response) {
+        API_SHOPS.getShopSalesChartPromise(vm.details._id.$oid).then(function(response) {
             vm.salesChartData = response.data;
             vm.salesChart.data = utils.getColumnChartDataFromObject(vm.salesChartData);
         });
@@ -427,7 +533,7 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
  | Shop Sales Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopSalesController', ["$rootScope", "API", "DTOptionsBuilder", "DTColumnDefBuilder", function ($rootScope, API, DTOptionsBuilder,
+angular.module('intshop').controller('shopSalesController', ["$rootScope", "API_SHOPS", "DTOptionsBuilder", "DTColumnDefBuilder", function ($rootScope, API_SHOPS, DTOptionsBuilder,
                                                                       DTColumnDefBuilder) {
 
     var vm = this;
@@ -444,7 +550,7 @@ angular.module('intshop').controller('shopSalesController', ["$rootScope", "API"
         vm.details = data;
 
         // Get shop last orders
-        API.getShopSalesPromise(vm.details._id.$oid).then(function(response) {
+        API_SHOPS.getShopSalesPromise(vm.details._id.$oid).then(function(response) {
             vm.list = response.data;
         });
 
@@ -484,7 +590,7 @@ angular.module('intshop').controller('shopSalesController', ["$rootScope", "API"
 | Shops Controller
 |--------------------------------------------------------------------------
 */
-angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "API", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "ENV", "urls", function ($scope, $timeout, API, DTOptionsBuilder,
+angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "API_SHOPS", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "ENV", "urls", function ($scope, $timeout, API_SHOPS, DTOptionsBuilder,
                                                                   DTColumnBuilder, DTColumnDefBuilder, ENV, urls) {
 
     var vm = this;
@@ -513,14 +619,14 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
         DTColumnDefBuilder.newColumnDef(2),
         DTColumnDefBuilder.newColumnDef(3),
         DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(5).notSortable(),
         DTColumnDefBuilder.newColumnDef(6).notSortable()
     ];
 
     vm.dtInstance = {};
 
     // Fetch the table data (shop lists)
-    API.getShopListPromise().then(function(response) {
+    API_SHOPS.getShopListPromise().then(function(response) {
         vm.shops = response.data;
     });
 
@@ -584,7 +690,28 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
  | Api Service
  |--------------------------------------------------------------------------
  */
-angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV, $http) {
+angular.module('intshop.api.drivers', []).service('API_DRIVERS', ["ENV", "$http", function (ENV, $http) {
+    return {
+
+        /* Drivers list
+           ========================================================================== */
+        getDriversListPromise: function () {
+            return $http({
+                method: "GET",
+                url: ENV.getDriversListUrl
+            });
+        }
+
+    }
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Api Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop.api.shops', []).service('API_SHOPS', ["ENV", "$http", function (ENV, $http) {
     return {
 
         /* Shop list
@@ -699,7 +826,7 @@ angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV,
                 url: ENV.getShop1MonthInvoiceChartUrl,
                 params: {id: id}
             });
-        },
+        }
     }
 }]);
 'use strict';
@@ -810,6 +937,9 @@ angular.module('intshop').service('urls', function () {
         },
         linkToShopDetails: function(id) {
             return 'shop-details.jsp?id=' + id;
+        },
+        linkToDriversDetails: function(id) {
+            return 'drivers-details.jsp?id=' + id;
         }
     }
 });

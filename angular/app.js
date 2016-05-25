@@ -11,7 +11,8 @@ angular.module('intshop', [
     'googlechart',
     'intshop.filters',
     'intshop.env',
-    'intshop.api'
+    'intshop.api.shops',
+    'intshop.api.drivers'
 ]);
 
 /**

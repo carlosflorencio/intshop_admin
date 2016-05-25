@@ -7,7 +7,7 @@
  */
 angular.module('intshop').controller('shopDetailsController', function ($rootScope, utils,
                                                                         $timeout,
-                                                                        API, urls) {
+                                                                        API_SHOPS, urls) {
 
     var vm = this;
 
@@ -17,7 +17,7 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
     vm.tabIndex = utils.getUrlParameter.tab;
     vm.urls = urls;
 
-    API.getShopDetailsPromise(vm.shopId).then(function (response) {
+    API_SHOPS.getShopDetailsPromise(vm.shopId).then(function (response) {
         vm.info = response.data;
 
         vm.setTab(0);
@@ -55,7 +55,7 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
         }, function () {
             swal("Shop Suspended!", "", "success");
 
-            API.getShopSuspendPromise(vm.shopId).then(function(response) {
+            API_SHOPS.getShopSuspendPromise(vm.shopId).then(function(response) {
                 if(response.status == 200) {
                     vm.info.active = false;
                 }
@@ -66,7 +66,7 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
     vm.restore = function() {
         swal("Shop restored!", "", "success");
 
-        API.getShopRestorePromise(vm.shopId).then(function(response) {
+        API_SHOPS.getShopRestorePromise(vm.shopId).then(function(response) {
             if(response.status == 200) {
                 vm.info.active = true;
             }

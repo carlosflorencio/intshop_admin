@@ -1,0 +1,901 @@
+[{
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005dc"
+  },
+  "name": "William Ryan",
+  "vehicle": "small_car",
+  "deliverys": 153,
+  "amount_win": 1188.89,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005dd"
+  },
+  "name": "William Gonzalez",
+  "vehicle": "car",
+  "deliverys": 547,
+  "amount_win": 1265.55,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005de"
+  },
+  "name": "Terry Carpenter",
+  "vehicle": "car",
+  "deliverys": 679,
+  "amount_win": 1558.97,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005df"
+  },
+  "name": "Carl Johnson",
+  "vehicle": "car",
+  "deliverys": 167,
+  "amount_win": 793.75,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e0"
+  },
+  "name": "Roy Fox",
+  "vehicle": "small_car",
+  "deliverys": 428,
+  "amount_win": 1247.44,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e1"
+  },
+  "name": "Mildred Fields",
+  "vehicle": "small_car",
+  "deliverys": 450,
+  "amount_win": 915.05,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e2"
+  },
+  "name": "Tina Crawford",
+  "vehicle": "car",
+  "deliverys": 426,
+  "amount_win": 1209.0,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e3"
+  },
+  "name": "Emily Reynolds",
+  "vehicle": "small_car",
+  "deliverys": 232,
+  "amount_win": 1479.51,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e4"
+  },
+  "name": "Tammy Johnson",
+  "vehicle": "small_car",
+  "deliverys": 670,
+  "amount_win": 1117.37,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e5"
+  },
+  "name": "Wanda Harrison",
+  "vehicle": "bike",
+  "deliverys": 991,
+  "amount_win": 1596.32,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e6"
+  },
+  "name": "Justin Lynch",
+  "vehicle": "bike",
+  "deliverys": 802,
+  "amount_win": 1225.35,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e7"
+  },
+  "name": "Roy Price",
+  "vehicle": "small_car",
+  "deliverys": 771,
+  "amount_win": 503.06,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e8"
+  },
+  "name": "Michael Stewart",
+  "vehicle": "car",
+  "deliverys": 477,
+  "amount_win": 1178.43,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005e9"
+  },
+  "name": "Rose Harrison",
+  "vehicle": "car",
+  "deliverys": 778,
+  "amount_win": 887.44,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005ea"
+  },
+  "name": "Cynthia Richardson",
+  "vehicle": "small_car",
+  "deliverys": 256,
+  "amount_win": 832.91,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005eb"
+  },
+  "name": "Justin Martin",
+  "vehicle": "small_car",
+  "deliverys": 725,
+  "amount_win": 1019.28,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005ec"
+  },
+  "name": "David Hicks",
+  "vehicle": "car",
+  "deliverys": 174,
+  "amount_win": 1994.98,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005ed"
+  },
+  "name": "Timothy West",
+  "vehicle": "car",
+  "deliverys": 335,
+  "amount_win": 1083.65,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005ee"
+  },
+  "name": "Kevin Carroll",
+  "vehicle": "bike",
+  "deliverys": 786,
+  "amount_win": 1207.46,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005ef"
+  },
+  "name": "Jack Ross",
+  "vehicle": "bike",
+  "deliverys": 462,
+  "amount_win": 596.72,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f0"
+  },
+  "name": "Charles Wheeler",
+  "vehicle": "bike",
+  "deliverys": 837,
+  "amount_win": 1262.54,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f1"
+  },
+  "name": "Alan Fuller",
+  "vehicle": "small_car",
+  "deliverys": 831,
+  "amount_win": 1069.16,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f2"
+  },
+  "name": "Chris Bishop",
+  "vehicle": "car",
+  "deliverys": 719,
+  "amount_win": 559.27,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f3"
+  },
+  "name": "Linda Oliver",
+  "vehicle": "small_car",
+  "deliverys": 493,
+  "amount_win": 1102.78,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f4"
+  },
+  "name": "Jane Reed",
+  "vehicle": "car",
+  "deliverys": 183,
+  "amount_win": 1447.62,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f5"
+  },
+  "name": "Lois Hicks",
+  "vehicle": "car",
+  "deliverys": 181,
+  "amount_win": 612.56,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f6"
+  },
+  "name": "Nicole Daniels",
+  "vehicle": "small_car",
+  "deliverys": 387,
+  "amount_win": 1601.21,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f7"
+  },
+  "name": "Elizabeth Diaz",
+  "vehicle": "bike",
+  "deliverys": 617,
+  "amount_win": 1077.63,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f8"
+  },
+  "name": "Julie Fox",
+  "vehicle": "car",
+  "deliverys": 367,
+  "amount_win": 863.95,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005f9"
+  },
+  "name": "Cheryl Reyes",
+  "vehicle": "bike",
+  "deliverys": 105,
+  "amount_win": 648.08,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005fa"
+  },
+  "name": "Jonathan Ferguson",
+  "vehicle": "bike",
+  "deliverys": 740,
+  "amount_win": 1837.67,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005fb"
+  },
+  "name": "Anthony Walker",
+  "vehicle": "bike",
+  "deliverys": 241,
+  "amount_win": 963.07,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005fc"
+  },
+  "name": "Jerry Knight",
+  "vehicle": "small_car",
+  "deliverys": 157,
+  "amount_win": 1506.69,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005fd"
+  },
+  "name": "Gloria Garrett",
+  "vehicle": "small_car",
+  "deliverys": 620,
+  "amount_win": 1961.07,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005fe"
+  },
+  "name": "Ann Hawkins",
+  "vehicle": "car",
+  "deliverys": 798,
+  "amount_win": 578.59,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f920005ff"
+  },
+  "name": "Nicole Lee",
+  "vehicle": "bike",
+  "deliverys": 833,
+  "amount_win": 1445.75,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000600"
+  },
+  "name": "Arthur Thomas",
+  "vehicle": "bike",
+  "deliverys": 612,
+  "amount_win": 1036.95,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000601"
+  },
+  "name": "Anna Lynch",
+  "vehicle": "bike",
+  "deliverys": 985,
+  "amount_win": 1860.42,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000602"
+  },
+  "name": "Jean Dean",
+  "vehicle": "car",
+  "deliverys": 874,
+  "amount_win": 1310.63,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000603"
+  },
+  "name": "Ruby Frazier",
+  "vehicle": "small_car",
+  "deliverys": 591,
+  "amount_win": 1484.76,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000604"
+  },
+  "name": "Sandra Grant",
+  "vehicle": "car",
+  "deliverys": 133,
+  "amount_win": 1102.86,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000605"
+  },
+  "name": "Ashley Mendoza",
+  "vehicle": "bike",
+  "deliverys": 670,
+  "amount_win": 783.42,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000606"
+  },
+  "name": "Jack Gutierrez",
+  "vehicle": "small_car",
+  "deliverys": 197,
+  "amount_win": 1165.94,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000607"
+  },
+  "name": "Ruth Powell",
+  "vehicle": "car",
+  "deliverys": 840,
+  "amount_win": 834.97,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000608"
+  },
+  "name": "Earl Cruz",
+  "vehicle": "bike",
+  "deliverys": 166,
+  "amount_win": 1913.43,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000609"
+  },
+  "name": "Mary Davis",
+  "vehicle": "car",
+  "deliverys": 752,
+  "amount_win": 670.9,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200060a"
+  },
+  "name": "Harold Brooks",
+  "vehicle": "small_car",
+  "deliverys": 131,
+  "amount_win": 694.57,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200060b"
+  },
+  "name": "Kelly Jenkins",
+  "vehicle": "bike",
+  "deliverys": 712,
+  "amount_win": 730.6,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200060c"
+  },
+  "name": "Samuel Day",
+  "vehicle": "bike",
+  "deliverys": 956,
+  "amount_win": 1161.79,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200060d"
+  },
+  "name": "Joshua Davis",
+  "vehicle": "car",
+  "deliverys": 227,
+  "amount_win": 1439.41,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200060e"
+  },
+  "name": "Jeffrey Hughes",
+  "vehicle": "bike",
+  "deliverys": 211,
+  "amount_win": 769.56,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200060f"
+  },
+  "name": "Bruce Baker",
+  "vehicle": "car",
+  "deliverys": 501,
+  "amount_win": 974.27,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000610"
+  },
+  "name": "Sean Perry",
+  "vehicle": "car",
+  "deliverys": 168,
+  "amount_win": 1554.41,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000611"
+  },
+  "name": "Ann Burke",
+  "vehicle": "bike",
+  "deliverys": 600,
+  "amount_win": 982.34,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000612"
+  },
+  "name": "Norma Fernandez",
+  "vehicle": "car",
+  "deliverys": 680,
+  "amount_win": 1540.1,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000613"
+  },
+  "name": "Paula Garcia",
+  "vehicle": "bike",
+  "deliverys": 300,
+  "amount_win": 1717.32,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000614"
+  },
+  "name": "Diana Harvey",
+  "vehicle": "car",
+  "deliverys": 959,
+  "amount_win": 1136.37,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000615"
+  },
+  "name": "Donna Powell",
+  "vehicle": "small_car",
+  "deliverys": 742,
+  "amount_win": 1163.85,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000616"
+  },
+  "name": "Walter Murray",
+  "vehicle": "bike",
+  "deliverys": 137,
+  "amount_win": 1819.0,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000617"
+  },
+  "name": "Denise Gray",
+  "vehicle": "bike",
+  "deliverys": 1000,
+  "amount_win": 1146.84,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000618"
+  },
+  "name": "Raymond Ramirez",
+  "vehicle": "small_car",
+  "deliverys": 937,
+  "amount_win": 1858.17,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000619"
+  },
+  "name": "Jack Parker",
+  "vehicle": "small_car",
+  "deliverys": 133,
+  "amount_win": 1162.55,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200061a"
+  },
+  "name": "Eric Stephens",
+  "vehicle": "car",
+  "deliverys": 126,
+  "amount_win": 1692.0,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200061b"
+  },
+  "name": "Benjamin Burke",
+  "vehicle": "small_car",
+  "deliverys": 994,
+  "amount_win": 1129.81,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200061c"
+  },
+  "name": "Betty Garza",
+  "vehicle": "small_car",
+  "deliverys": 999,
+  "amount_win": 790.58,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200061d"
+  },
+  "name": "Jerry Riley",
+  "vehicle": "car",
+  "deliverys": 724,
+  "amount_win": 1633.84,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200061e"
+  },
+  "name": "Gregory Payne",
+  "vehicle": "small_car",
+  "deliverys": 160,
+  "amount_win": 1934.38,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200061f"
+  },
+  "name": "Walter George",
+  "vehicle": "car",
+  "deliverys": 925,
+  "amount_win": 1352.04,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000620"
+  },
+  "name": "Jack Shaw",
+  "vehicle": "small_car",
+  "deliverys": 145,
+  "amount_win": 514.52,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000621"
+  },
+  "name": "Anne Sims",
+  "vehicle": "car",
+  "deliverys": 547,
+  "amount_win": 1829.66,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000622"
+  },
+  "name": "Raymond Barnes",
+  "vehicle": "bike",
+  "deliverys": 879,
+  "amount_win": 679.36,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000623"
+  },
+  "name": "Gloria Carpenter",
+  "vehicle": "small_car",
+  "deliverys": 404,
+  "amount_win": 1481.66,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000624"
+  },
+  "name": "Jimmy Wright",
+  "vehicle": "bike",
+  "deliverys": 980,
+  "amount_win": 1997.94,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000625"
+  },
+  "name": "Todd Taylor",
+  "vehicle": "car",
+  "deliverys": 907,
+  "amount_win": 1877.31,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000626"
+  },
+  "name": "Jason Hawkins",
+  "vehicle": "bike",
+  "deliverys": 787,
+  "amount_win": 1041.69,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000627"
+  },
+  "name": "Sharon Ellis",
+  "vehicle": "bike",
+  "deliverys": 417,
+  "amount_win": 529.74,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000628"
+  },
+  "name": "Joan Burns",
+  "vehicle": "car",
+  "deliverys": 127,
+  "amount_win": 1995.72,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000629"
+  },
+  "name": "Deborah Harrison",
+  "vehicle": "car",
+  "deliverys": 978,
+  "amount_win": 851.89,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200062a"
+  },
+  "name": "Martha Gardner",
+  "vehicle": "car",
+  "deliverys": 134,
+  "amount_win": 1824.4,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200062b"
+  },
+  "name": "Jessica Daniels",
+  "vehicle": "bike",
+  "deliverys": 830,
+  "amount_win": 692.24,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200062c"
+  },
+  "name": "Mary Clark",
+  "vehicle": "bike",
+  "deliverys": 496,
+  "amount_win": 633.51,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200062d"
+  },
+  "name": "Diane Wright",
+  "vehicle": "car",
+  "deliverys": 389,
+  "amount_win": 541.89,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200062e"
+  },
+  "name": "Steven Frazier",
+  "vehicle": "bike",
+  "deliverys": 170,
+  "amount_win": 1417.32,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200062f"
+  },
+  "name": "Annie Mccoy",
+  "vehicle": "bike",
+  "deliverys": 934,
+  "amount_win": 1037.69,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000630"
+  },
+  "name": "Lori Edwards",
+  "vehicle": "bike",
+  "deliverys": 582,
+  "amount_win": 587.39,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000631"
+  },
+  "name": "Denise Day",
+  "vehicle": "car",
+  "deliverys": 670,
+  "amount_win": 1738.35,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000632"
+  },
+  "name": "Keith Watson",
+  "vehicle": "small_car",
+  "deliverys": 875,
+  "amount_win": 829.57,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000633"
+  },
+  "name": "Clarence Gordon",
+  "vehicle": "small_car",
+  "deliverys": 319,
+  "amount_win": 911.56,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000634"
+  },
+  "name": "Virginia Mills",
+  "vehicle": "car",
+  "deliverys": 870,
+  "amount_win": 1268.94,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000635"
+  },
+  "name": "Randy Harrison",
+  "vehicle": "small_car",
+  "deliverys": 435,
+  "amount_win": 532.65,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000636"
+  },
+  "name": "Linda Brooks",
+  "vehicle": "small_car",
+  "deliverys": 656,
+  "amount_win": 1438.24,
+  "rate": 1
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000637"
+  },
+  "name": "Juan Mendoza",
+  "vehicle": "bike",
+  "deliverys": 336,
+  "amount_win": 1131.77,
+  "rate": 4
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000638"
+  },
+  "name": "Louise Fisher",
+  "vehicle": "car",
+  "deliverys": 323,
+  "amount_win": 1265.09,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f92000639"
+  },
+  "name": "Dennis Fields",
+  "vehicle": "car",
+  "deliverys": 788,
+  "amount_win": 550.63,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200063a"
+  },
+  "name": "Deborah Jordan",
+  "vehicle": "small_car",
+  "deliverys": 152,
+  "amount_win": 770.16,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200063b"
+  },
+  "name": "Susan Hayes",
+  "vehicle": "car",
+  "deliverys": 403,
+  "amount_win": 971.32,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200063c"
+  },
+  "name": "Patricia Johnson",
+  "vehicle": "small_car",
+  "deliverys": 486,
+  "amount_win": 518.19,
+  "rate": 3
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200063d"
+  },
+  "name": "Ashley Sanchez",
+  "vehicle": "car",
+  "deliverys": 108,
+  "amount_win": 1770.63,
+  "rate": 5
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200063e"
+  },
+  "name": "Virginia Perez",
+  "vehicle": "small_car",
+  "deliverys": 142,
+  "amount_win": 1141.01,
+  "rate": 2
+}, {
+  "_id": {
+    "$oid": "5745b4fefc13ae6f9200063f"
+  },
+  "name": "Mildred Nichols",
+  "vehicle": "car",
+  "deliverys": 744,
+  "amount_win": 1538.86,
+  "rate": 2
+}]

@@ -5,7 +5,7 @@
  | Api Service
  |--------------------------------------------------------------------------
  */
-angular.module('intshop.api', []).service('API', function (ENV, $http) {
+angular.module('intshop.api.shops', []).service('API_SHOPS', function (ENV, $http) {
     return {
 
         /* Shop list
@@ -120,6 +120,6 @@ angular.module('intshop.api', []).service('API', function (ENV, $http) {
                 url: ENV.getShop1MonthInvoiceChartUrl,
                 params: {id: id}
             });
-        },
+        }
     }
 });
