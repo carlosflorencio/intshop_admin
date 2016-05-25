@@ -8,6 +8,15 @@
 angular.module('intshop.api', []).service('API', function (ENV, $http) {
     return {
 
+        /* Shop list
+           ========================================================================== */
+        getShopListPromise: function () {
+            return $http({
+                method: "GET",
+                url: ENV.getShopListUrl
+            });
+        },
+
         /* Shop details
            ========================================================================== */
         getShopDetailsPromise: function (id) {

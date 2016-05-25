@@ -9,7 +9,13 @@ angular.module('intshop.filters', [])
 
     .filter('money', function (CONSTANTS) {
         return function (number) {
-            return CONSTANTS.CURRENCY + " " + parseFloat(number).toFixed(2);
+
+            var n = parseFloat(number).toFixed(2);
+
+            if(isNaN(n))
+                n = 0;
+
+            return CONSTANTS.CURRENCY + " " + n;
         };
     })
 

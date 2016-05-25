@@ -15,6 +15,9 @@ angular.module('intshop').service('urls', function () {
         },
         linkToShopItemsPage: function(id) {
             return 'http://test.intshop.com/shop-items.jsp';
+        },
+        linkToShopDetails: function(id) {
+            return 'shop-details.jsp?id=' + id;
         }
     }
 });

@@ -1,0 +1,281 @@
+[
+  {
+    "_id": {
+      "$oid": "57112f4e1d238661e99abc74"
+    },
+    "name": "John Kangari",
+    "username": "john.kangari@gmail.com",
+    "password": "37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578",
+    "email": "john.kangari@gmail.com",
+    "cell": "05343830735",
+    "tel": "05343830735",
+    "storeName": "test store1",
+    "businessNo": "",
+    "address": "D.2 No.45 1767st",
+    "postcode": "35580",
+    "city": "izmir",
+    "regDate": {
+      "$date": "2016-04-15T18:13:34.044Z"
+    },
+    "active": true,
+    "passwordLast4": "test"
+  },
+  {
+    "_id": {
+      "$oid": "5715fbe51d238661e9d11bf1"
+    },
+    "name": "Jorge Almeida",
+    "username": "jalmeida",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "email": "jorgemiguel.jalmeida@gmail.com",
+    "cell": "0914740704",
+    "tel": "",
+    "storeName": "teste",
+    "businessNo": "",
+    "address": "Rua do Sabugueiro, n�102",
+    "postcode": "3750-041",
+    "city": "Aguada de Cima",
+    "regDate": {
+      "$date": "2016-04-19T09:35:33.371Z"
+    },
+    "active": true,
+    "passwordLast4": "3456"
+  },
+  {
+    "_id": {
+      "$oid": "5718ee631d238661e989d768"
+    },
+    "name": "Mahdi Mohseni Hosseini",
+    "username": "mahdimohseni2000@yahoo.co.uk",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "email": "mahdimohseni2000@yahoo.co.uk",
+    "cell": "07988603026",
+    "tel": "02083493228",
+    "storeName": "Mohseni",
+    "businessNo": "",
+    "address": "colton house    Princes ave ",
+    "postcode": "N3  2DB",
+    "city": "lONDON",
+    "regDate": {
+      "$date": "2016-04-21T15:14:43.033Z"
+    },
+    "active": true,
+    "cellVerified": false,
+    "passwordLast4": "3456"
+  },
+  {
+    "_id": {
+      "$oid": "5718eec91d238661e989d76b"
+    },
+    "name": "parham",
+    "username": "fah121",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "email": "p.khosro@gmail.com",
+    "cell": "07473990215",
+    "tel": "02083493822",
+    "storeName": "test",
+    "businessNo": "",
+    "address": "Calton Hosue",
+    "postcode": "N3 2DB",
+    "city": "London ",
+    "regDate": {
+      "$date": "2016-04-21T15:16:25.034Z"
+    },
+    "active": true,
+    "cellVerified": false,
+    "passwordLast4": "3456",
+    "holidays": "",
+    "availableTime": {
+      "monday": null,
+      "tuesday": null,
+      "wednesday": null,
+      "thursday": null,
+      "friday": null,
+      "saturday": null,
+      "lunchClose": null,
+      "sunday": null
+    },
+    "from": "5:00 AM",
+    "to": "5:00 AM",
+    "lunchTimeFrom": "5:00 AM",
+    "lunchTimeTo": "5:00 AM",
+    "lunchClose": null,
+    "lunchTo": "",
+    "cellChangeCount": 7
+  },
+  {
+    "_id": {
+      "$oid": "57190b3e1d238661e9174e33"
+    },
+    "name": "Neda",
+    "username": "neda",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "email": "parham_uk@hotmail.com",
+    "cell": "07473990215",
+    "tel": "",
+    "storeName": "Test",
+    "businessNo": "",
+    "address": "Calton Hosue",
+    "postcode": "N3 2DB",
+    "city": "London",
+    "regDate": {
+      "$date": "2016-04-21T17:17:50.333Z"
+    },
+    "active": true,
+    "cellVerified": false,
+    "passwordLast4": "3456"
+  },
+  {
+    "_id": {
+      "$oid": "571a82111d238661e97da9db"
+    },
+    "name": "Neda ",
+    "username": "neda_uk",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "email": "neda_hammett@uahoo.com",
+    "cell": "07575719977",
+    "tel": "",
+    "storeName": "Aixsystem",
+    "businessNo": "2536689",
+    "address": "Aixsystem, Calton House",
+    "postcode": "N3 2DB",
+    "city": "London",
+    "regDate": {
+      "$date": "2016-04-22T19:57:05.341Z"
+    },
+    "active": true,
+    "cellVerified": false,
+    "passwordLast4": "3456"
+  },
+  {
+    "_id": {
+      "$oid": "5720f6f21d2386313050d0cc"
+    },
+    "name": "parham",
+    "username": "parham2016",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "email": "Ahmad@hotmail.com",
+    "cell": "07473990215",
+    "tel": "02083493822",
+    "storeName": "Parham2016",
+    "businessNo": "",
+    "address": "Calton House ",
+    "postcode": "N3 2DB",
+    "city": "London",
+    "regDate": {
+      "$date": "2016-04-27T17:29:22.372Z"
+    },
+    "active": true,
+    "cellVerified": false,
+    "passwordLast4": "3456"
+  },
+  {
+    "_id": {
+      "$oid": "573215381d23860bd79d6d14"
+    },
+    "name": "nader",
+    "username": "nader_london",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "email": "intshops786@gmail.com",
+    "cell": "07734350373",
+    "tel": "02083493822",
+    "storeName": "nader shop",
+    "businessNo": "",
+    "address": "Aixsystem, calton house",
+    "postcode": "n3 2db",
+    "city": "London",
+    "regDate": {
+      "$date": "2016-05-10T17:07:04.704Z"
+    },
+    "active": true,
+    "cellVerified": false,
+    "passwordLast4": "3456"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "name": "jalmeida",
+    "username": "daw",
+    "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+    "email": "asd@asfg.pt",
+    "cell": "9123456789",
+    "tel": "",
+    "storeName": "ASD",
+    "businessNo": "",
+    "address": "Asda",
+    "postcode": "n3 2db",
+    "city": "London",
+    "regDate": {
+      "$date": "2016-04-13T22:31:38.005Z"
+    },
+    "active": true,
+    "passwordLast4": "1234",
+    "cellChangeCount": null,
+    "availableTime": {
+      "monday": [
+        8,
+        21
+      ],
+      "tuesday": [
+        8,
+        21
+      ],
+      "wednesday": [
+        8,
+        21
+      ],
+      "thursday": [
+        8,
+        21
+      ],
+      "friday": [
+        8,
+        21
+      ],
+      "saturday": [
+        8,
+        21
+      ],
+      "sunday": [
+        10,
+        14
+      ]
+    },
+    "type": "asian",
+    "category": "Off License",
+    "totalSales": 8521.25,
+    "shopRate": 4,
+    "totalProducts": 725
+  },
+  {
+    "_id": {
+      "$oid": "5741ad051d238643ec16d018"
+    },
+    "name": "Test Test",
+    "email": "a@a.aaa",
+    "cell": "0000000000"
+  },
+  {
+    "_id": {
+      "$oid": "57447eb81d238643ecca8578"
+    },
+    "name": "Abdula",
+    "username": "abdula",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "email": "p.khosro@gmail.com",
+    "cell": "07540109075",
+    "tel": "02084356998",
+    "storeName": "ABdulah Shop",
+    "businessNo": "",
+    "address": "Calton House,Prince Av",
+    "postcode": "N3 2DB",
+    "city": "Lonodn",
+    "regDate": {
+      "$date": "2016-05-24T16:18:00.447Z"
+    },
+    "active": true,
+    "cellVerified": false,
+    "passwordLast4": "3456"
+  }
+]

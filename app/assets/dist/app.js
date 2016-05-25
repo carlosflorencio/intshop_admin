@@ -53,6 +53,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // API ENDPOINTS
         getShopDetailsUrl: url + '/api/shop/shop-details.json',
+        getShopListUrl: url + '/api/shop/shop-list.json',
         getShopLastOrdersUrl: url + '/api/shop/resume/shop-last-orders.json',
         getShopSalesChartUrl: url + '/api/shop/resume/shop-sales-chart.json',
         getShopSuspendUrl: url + '/api/shop/shop-details.json',
@@ -480,10 +481,11 @@ angular.module('intshop').controller('shopSalesController', ["$rootScope", "API"
 | Shops Controller
 |--------------------------------------------------------------------------
 */
-angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "Restangular", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "CONSTANTS", function ($scope, $timeout, Restangular, DTOptionsBuilder,
-                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
+angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "API", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "ENV", "urls", function ($scope, $timeout, API, DTOptionsBuilder,
+                                                                  DTColumnBuilder, DTColumnDefBuilder, ENV, urls) {
 
     var vm = this;
+    vm.urls = urls;
 
     // Datatable options
     vm.dtOptions = DTOptionsBuilder.newOptions()
@@ -515,8 +517,8 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
     vm.dtInstance = {};
 
     // Fetch the table data (shop lists)
-    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
-        vm.shops = result;
+    API.getShopListPromise().then(function(response) {
+        vm.shops = response.data;
     });
 
     /* Search
@@ -568,7 +570,7 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
 
     // Image
     $scope.image = function(id) {
-        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+        return ENV.getShopImageUrlById(id);
     }
 
 }]);
@@ -581,6 +583,15 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
  */
 angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV, $http) {
     return {
+
+        /* Shop list
+           ========================================================================== */
+        getShopListPromise: function () {
+            return $http({
+                method: "GET",
+                url: ENV.getShopListUrl
+            });
+        },
 
         /* Shop details
            ========================================================================== */
@@ -699,7 +710,13 @@ angular.module('intshop.filters', [])
 
     .filter('money', ["CONSTANTS", function (CONSTANTS) {
         return function (number) {
-            return CONSTANTS.CURRENCY + " " + parseFloat(number).toFixed(2);
+
+            var n = parseFloat(number).toFixed(2);
+
+            if(isNaN(n))
+                n = 0;
+
+            return CONSTANTS.CURRENCY + " " + n;
         };
     }])
 
@@ -775,6 +792,9 @@ angular.module('intshop').service('urls', function () {
         },
         linkToShopItemsPage: function(id) {
             return 'http://test.intshop.com/shop-items.jsp';
+        },
+        linkToShopDetails: function(id) {
+            return 'shop-details.jsp?id=' + id;
         }
     }
 });

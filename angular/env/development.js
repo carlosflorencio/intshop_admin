@@ -20,6 +20,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // API ENDPOINTS
         getShopDetailsUrl: url + '/api/shop/shop-details.json',
+        getShopListUrl: url + '/api/shop/shop-list.json',
         getShopLastOrdersUrl: url + '/api/shop/resume/shop-last-orders.json',
         getShopSalesChartUrl: url + '/api/shop/resume/shop-sales-chart.json',
         getShopSuspendUrl: url + '/api/shop/shop-details.json',

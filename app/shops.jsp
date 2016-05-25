@@ -76,13 +76,13 @@
                                 <td class="shop_name">{{ shop.storeName }}</td>
                                 <td class="type_of_shop">{{ shop.type }}</td>
                                 <td class="products">{{ shop.totalProducts }}</td>
-                                <td class="sale_report">£ {{ shop.totalSales }}</td>
+                                <td class="sale_report">{{ shop.totalSales | money }}</td>
                                 <td class="rate">
                                     <input type="number" class="rating-loading rating-stars" ng-model="shop.shopRate">
                                 </td>
                                 <td class="more_info text-center">
-                                    <a ng-show="shop.active" href="shop-details.jsp?id={{ shop._id.$oid }}" class="more_info_button" title="More Info">More Info</a>
-                                    <a ng-show="!shop.active" href="shop-details.jsp?id={{ shop._id.$oid }}" class="more_info_button red_state" title="Action">!</a>
+                                    <a ng-show="shop.active" href="#" ng-href="{{ ngShops.urls.linkToShopDetails(shop._id.$oid) }}"  class="more_info_button" title="More Info">More Info</a>
+                                    <a ng-show="!shop.active" href="#" ng-href="{{ ngShops.urls.linkToShopDetails(shop._id.$oid) }}" class="more_info_button red_state" title="Action">!</a>
                                 </td>
                             </tr>
                             </tbody>

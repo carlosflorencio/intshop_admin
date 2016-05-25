@@ -5,10 +5,11 @@
 | Shops Controller
 |--------------------------------------------------------------------------
 */
-angular.module('intshop').controller('shopsController', function ($scope, $timeout, Restangular, DTOptionsBuilder,
-                                                                  DTColumnBuilder, DTColumnDefBuilder, CONSTANTS) {
+angular.module('intshop').controller('shopsController', function ($scope, $timeout, API, DTOptionsBuilder,
+                                                                  DTColumnBuilder, DTColumnDefBuilder, ENV, urls) {
 
     var vm = this;
+    vm.urls = urls;
 
     // Datatable options
     vm.dtOptions = DTOptionsBuilder.newOptions()
@@ -40,8 +41,8 @@ angular.module('intshop').controller('shopsController', function ($scope, $timeo
     vm.dtInstance = {};
 
     // Fetch the table data (shop lists)
-    Restangular.one('Retailers').getList('getRetailerList').then(function(result) {
-        vm.shops = result;
+    API.getShopListPromise().then(function(response) {
+        vm.shops = response.data;
     });
 
     /* Search
@@ -93,7 +94,7 @@ angular.module('intshop').controller('shopsController', function ($scope, $timeo
 
     // Image
     $scope.image = function(id) {
-        return CONSTANTS.SHOP_IMAGES + id + ".jpg";
+        return ENV.getShopImageUrlById(id);
     }
 
 });
