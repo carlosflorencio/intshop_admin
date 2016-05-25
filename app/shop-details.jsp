@@ -10,7 +10,7 @@
                         <!-- Sub Order text -->
                         <div class="order_list">
                             <div class="order_list_title">
-                                <a class="backto_list" href="shops.jsp" title="Back to Shops">
+                                <a class="backto_list pointer" ng-href="{{ shop.urls.linkToShopsList() }}" title="Back to Shops">
                                     <img width="6" src="assets/images/left-arrow.png" alt="Left Arrow">
                                     Back to list
                                 </a>
