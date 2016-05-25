@@ -41,7 +41,7 @@
 
                         <div class="total_sale_bottom">
                             <div class="google_chart">
-                                <div google-chart chart="salesChart" class="chart-size" style="width:100%;"></div>
+                                <div google-chart chart="resume.salesChart" class="chart-size" style="width:100%;"></div>
                             </div>
 
                             <div class="total_sale_middle">

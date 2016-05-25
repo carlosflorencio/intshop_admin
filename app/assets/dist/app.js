@@ -53,11 +53,17 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // API ENDPOINTS
         getShopDetailsUrl: url + '/api/shop/shop-details.json',
-        getShopLastOrdersUrl: url + '/api/shop/shop-last-orders.json',
-        getShopSalesChartUrl: url + '/api/shop/shop-sales-chart.json',
-        getShopSuspendUrl: url + '/api/shop/shop-sales-chart.json',
-        getShopRestoreUrl: url + '/api/shop/shop-sales-chart.json',
-        getShopSalesUrl: url + '/api/shop/shop-sales.json',
+        getShopLastOrdersUrl: url + '/api/shop/resume/shop-last-orders.json',
+        getShopSalesChartUrl: url + '/api/shop/resume/shop-sales-chart.json',
+        getShopSuspendUrl: url + '/api/shop/shop-details.json',
+        getShopRestoreUrl: url + '/api/shop/shop-details.json',
+        getShopSalesUrl: url + '/api/shop/sales/shop-sales.json',
+        getShopAllInvoicesUrl: url + '/api/shop/invoices/shop-invoices-all.json',
+        getShopDueInvoicesUrl: url + '/api/shop/invoices/shop-invoices-due.json',
+        getShopPaidInvoicesUrl: url + '/api/shop/invoices/shop-invoices-paid.json',
+        getShopYearInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-year.json',
+        getShop6MonthsInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-6m.json',
+        getShop1MonthInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-1m.json'
     }
 })());
 
@@ -195,150 +201,149 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "ut
         }
     };
 
-
-    // TODO: each tab it its controller, send events to change tabs and load data
-    //if(vm.tabIndex) {
-    //    switch (vm.tabIndex) {
-    //        case "sales":
-    //            vm.setTab(1);
-    //            break;
-    //        case "invoices":
-    //            vm.setTab(2);
-    //            break;
-    //        default:
-    //            vm.setTab(0);
-    //    }
-    //} else {
-    //    vm.setTab(0);
-    //}
-
-
-    ///* Sales tab
-    //========================================================================== */
-    //
-    //// Datatable options
-    //vm.dtOptions = DTOptionsBuilder.newOptions()
-    //    .withPaginationType('numbers')
-    //    .withOption('aaSorting', [])
-    //    //.withDisplayLength(3)
-    //    .withOption('sDom', 'rt<"dt-i-m"lip>');
-    //
-    //// Columns sortable
-    //vm.dtColumnDefs = [
-    //    DTColumnDefBuilder.newColumnDef(0).notSortable(),
-    //    DTColumnDefBuilder.newColumnDef(1),
-    //    DTColumnDefBuilder.newColumnDef(2),
-    //    DTColumnDefBuilder.newColumnDef(3),
-    //    DTColumnDefBuilder.newColumnDef(4),
-    //    DTColumnDefBuilder.newColumnDef(5),
-    //    DTColumnDefBuilder.newColumnDef(6).notSortable()
-    //];
-    //
-    //vm.dtInstance = {};
-    //
-    //vm.searchText = "";
-    //vm.searchTable = function ()
-    //{
-    //    vm.dtInstance.DataTable.search(vm.searchText);
-    //    vm.dtInstance.DataTable.search(vm.searchText).draw();
-    //};
-    //
-    //function loadTabSales() {
-    //    var tab = vm.tabs[1];
-    //    tab.isLoaded = true;
-    //
-    //    // Fetch the table data (shop lists)
-    //    Restangular.one('Retailers').getList('getRetailerList').then(function (result) {
-    //        vm.sales = result;
-    //    });
-    //}
-    //
-    //
-    ///* Invoices tab
-    //   ========================================================================== */
-    //// Datatable options
-    //vm.dtOptionsInvoices = DTOptionsBuilder.newOptions()
-    //    .withPaginationType('numbers')
-    //    .withOption('aaSorting', [])
-    //    //.withDisplayLength(3)
-    //    .withOption('sDom', 'rt<"dt-i-m"p>');
-    //
-    //vm.dtInstanceInvoices = {};
-    //
-    //vm.invoicesTabs = [
-    //    {name: "all", isLoaded: false, active: true},
-    //    {name: "paid", isLoaded: false, active: false},
-    //    {name: "due", isLoaded: false, active: false}
-    //];
-    //
-    //function loadTabInvoices() {
-    //    var tab = vm.tabs[2];
-    //    tab.isLoaded = true;
-    //
-    //    vm.setInvoicesTab(0);
-    //}
-    //
-    //// Store invoice data
-    //var invoicesData = [];
-    //
-    //vm.setInvoicesTab = function (index) {
-    //    _(vm.invoicesTabs).forEach(function (tab) {
-    //        tab.active = false;
-    //    });
-    //
-    //    var tab = vm.invoicesTabs[index];
-    //    tab.active = true;
-    //
-    //    if (!tab.isLoaded) {
-    //        switch (index) {
-    //            case 0:
-    //                loadInvoicesTabAll();
-    //                return;
-    //            case 1:
-    //                loadInvoicesTabPaid();
-    //                return;
-    //            case 2:
-    //                loadInvoicesTabDue();
-    //                return;
-    //        }
-    //    } else {
-    //        vm.invoices = invoicesData[index];
-    //    }
-    //};
-    //
-    //
-    //function loadInvoicesTabAll() {
-    //    var tab = vm.invoicesTabs[0];
-    //    tab.isLoaded = true;
-    //
-    //    // Fetch all invoices
-    //    Restangular.one('Retailers').getList('getRetailerList').then(function (result) {
-    //        invoicesData[0] = result;
-    //        vm.invoices = result;
-    //    });
-    //}
-    //
-    //function loadInvoicesTabPaid() {
-    //    var tab = vm.invoicesTabs[1];
-    //    tab.isLoaded = true;
-    //
-    //    // replace vm.invoices
-    //}
-    //
-    //function loadInvoicesTabDue() {
-    //    var tab = vm.invoicesTabs[2];
-    //    tab.isLoaded = true;
-    //
-    //    // replace vm.invoices
-    //}
-    //
-    ///* Shared
-    // ========================================================================== */
-
-
 }]);
 
 
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Shop Details Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('shopInvoicesController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ENV", "API", "DTOptionsBuilder", function ($scope, $rootScope,
+                                                                         $timeout, utils, CONSTANTS, ENV, API,
+                                                                         DTOptionsBuilder) {
+
+    var vm = this;
+    vm.test = 2;
+    vm.loaded = false;
+
+    /* When tab is selected
+     ========================================================================== */
+    $rootScope.$on('tab:shop-invoices', function (event, data) {
+        if (!vm.loaded)
+            loadData(data);
+    });
+
+    function loadData(data) {
+        vm.details = data;
+
+        // Get shop invoices chart
+        vm.setChartType(0);
+
+        // Get shop all invoices
+        vm.setInvoiceType(0);
+
+        vm.loaded = true;
+    }
+
+    /* Chart
+     ========================================================================== */
+    vm.invoicesChart = {};
+    vm.invoicesChart.type = "ColumnChart";
+
+    vm.invoicesChart.options = {
+        legend: {position: 'none'},
+        vAxis: {
+            gridlines: {
+                color: 'transparent'
+            }
+        },
+        colors: ['#3493d5']
+    };
+
+    vm.chartType = 0; // 0 = 1 year, 1 = 6 months, 2 = 1 month
+
+    // Store invoice data
+    var chartData = [];
+
+    vm.setChartType = function (type) {
+
+        if (chartData[type]) { // Get cached results
+            vm.chartType = type;
+            vm.invoicesChart.data = chartData[type];
+            return;
+        }
+
+        switch (type) {
+            case 0:
+                API.getShopInvoicesChartYearPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+
+            case 1:
+                API.getShopInvoicesChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+            case 2:
+                API.getShopInvoicesChart1MonthPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+        }
+    };
+
+    function setChartData(type, data) {
+        chartData[type] = utils.getColumnChartDataFromObject(data);
+        vm.invoicesChart.data = chartData[type];
+        vm.chartType = type;
+    }
+
+    /* Invoices tabs
+     ========================================================================== */
+    vm.invoicesType = 0; // 0 = all, 1 = due, 2 = paid
+
+    // Store invoice data
+    var invoicesData = [];
+
+    vm.setInvoiceType = function (type) {
+
+        if (invoicesData[type]) { // Get cached results
+            vm.invoicesType = type;
+            vm.invoices = invoicesData[type];
+            return;
+        }
+
+        switch (type) {
+            case 0:
+                API.getShopAllInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                    setInvoiceData(type, response.data);
+                });
+                break;
+
+            case 1:
+                API.getShopDueInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                    setInvoiceData(type, response.data);
+                });
+                break;
+            case 2:
+                API.getShopPaidInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                    setInvoiceData(type, response.data);
+                });
+                break;
+        }
+    };
+
+    function setInvoiceData(type, data) {
+        invoicesData[type] = data;
+        vm.invoices = data;
+        vm.invoicesType = type;
+    }
+
+    /* Datatable
+     ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"p>');
+
+}]);
 'use strict';
 
 /*
@@ -376,17 +381,17 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
         // Get shop sales chart
         API.getShopSalesChartPromise(vm.details._id.$oid).then(function(response) {
             vm.salesChartData = response.data;
-            $scope.salesChart.data = utils.getColumnChartDataFromObject(vm.salesChartData);
+            vm.salesChart.data = utils.getColumnChartDataFromObject(vm.salesChartData);
         });
 
         vm.loaded = true;
     }
 
     // Chart
-    $scope.salesChart = {};
-    $scope.salesChart.type = "ColumnChart";
+    vm.salesChart = {};
+    vm.salesChart.type = "ColumnChart";
 
-    $scope.salesChart.options = {
+    vm.salesChart.options = {
         legend: {position: 'none'},
         vAxis: {
             gridlines: {
@@ -576,6 +581,9 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
  */
 angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV, $http) {
     return {
+
+        /* Shop details
+           ========================================================================== */
         getShopDetailsPromise: function (id) {
             return $http({
                 method: "GET",
@@ -583,27 +591,7 @@ angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV,
                 params: {id: id}
             });
         },
-        getShopLastOrdersPromise: function (id, limit) {
-            return $http({
-                method: "GET",
-                url: ENV.getShopLastOrdersUrl,
-                params: {id: id, limit: limit}
-            });
-        },
-        getShopSalesChartPromise: function (id) {
-            return $http({
-                method: "GET",
-                url: ENV.getShopSalesChartUrl,
-                params: {id: id}
-            });
-        },
-        getShopSuspendPromise: function(id) {
-            return $http({
-                method: "GET",
-                url: ENV.getShopSuspendUrl,
-                params: {id: id}
-            });
-        },
+
         getShopRestorePromise: function(id) {
             return $http({
                 method: "GET",
@@ -611,13 +599,93 @@ angular.module('intshop.api', []).service('API', ["ENV", "$http", function (ENV,
                 params: {id: id}
             });
         },
+
+        getShopSuspendPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopSuspendUrl,
+                params: {id: id}
+            });
+        },
+
+        /* Shop resume
+           ========================================================================== */
+        getShopLastOrdersPromise: function (id, limit) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopLastOrdersUrl,
+                params: {id: id, limit: limit}
+            });
+        },
+
+        getShopSalesChartPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopSalesChartUrl,
+                params: {id: id}
+            });
+        },
+
+
+        /* Shop sales
+           ========================================================================== */
         getShopSalesPromise: function(id) {
             return $http({
                 method: "GET",
                 url: ENV.getShopSalesUrl,
                 params: {id: id}
             });
-        }
+        },
+
+        /* Shop invoices
+           ========================================================================== */
+        getShopAllInvoicesPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopAllInvoicesUrl,
+                params: {id: id}
+            });
+        },
+
+        getShopDueInvoicesPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopDueInvoicesUrl,
+                params: {id: id}
+            });
+        },
+
+        getShopPaidInvoicesPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopPaidInvoicesUrl,
+                params: {id: id}
+            });
+        },
+
+        getShopInvoicesChartYearPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopYearInvoiceChartUrl,
+                params: {id: id}
+            });
+        },
+
+        getShopInvoicesChart6MonthsPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShop6MonthsInvoiceChartUrl,
+                params: {id: id}
+            });
+        },
+
+        getShopInvoicesChart1MonthPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShop1MonthInvoiceChartUrl,
+                params: {id: id}
+            });
+        },
     }
 }]);
 'use strict';

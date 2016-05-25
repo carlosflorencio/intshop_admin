@@ -35,17 +35,17 @@ angular.module('intshop').controller('shopResumeController', function ($scope, $
         // Get shop sales chart
         API.getShopSalesChartPromise(vm.details._id.$oid).then(function(response) {
             vm.salesChartData = response.data;
-            $scope.salesChart.data = utils.getColumnChartDataFromObject(vm.salesChartData);
+            vm.salesChart.data = utils.getColumnChartDataFromObject(vm.salesChartData);
         });
 
         vm.loaded = true;
     }
 
     // Chart
-    $scope.salesChart = {};
-    $scope.salesChart.type = "ColumnChart";
+    vm.salesChart = {};
+    vm.salesChart.type = "ColumnChart";
 
-    $scope.salesChart.options = {
+    vm.salesChart.options = {
         legend: {position: 'none'},
         vAxis: {
             gridlines: {

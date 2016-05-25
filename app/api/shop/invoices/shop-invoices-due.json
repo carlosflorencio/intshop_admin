@@ -1,0 +1,128 @@
+[
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-04-13T22:31:38.005Z",
+    "value": 50,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/2"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-01-13T22:31:38.005Z",
+    "value": 25,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/3"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-04-13T22:31:38.005Z",
+    "value": 50,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/2"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-01-13T22:31:38.005Z",
+    "value": 25,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/3"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-04-13T22:31:38.005Z",
+    "value": 50,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/2"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-01-13T22:31:38.005Z",
+    "value": 25,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/3"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-04-13T22:31:38.005Z",
+    "value": 50,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/2"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-01-13T22:31:38.005Z",
+    "value": 25,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/3"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-04-13T22:31:38.005Z",
+    "value": 50,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/2"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-01-13T22:31:38.005Z",
+    "value": 25,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/3"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-04-13T22:31:38.005Z",
+    "value": 50,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/2"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-01-13T22:31:38.005Z",
+    "value": 25,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/3"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-04-13T22:31:38.005Z",
+    "value": 50,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/2"
+  },
+  {
+    "_id": {
+      "$oid": "574061a03822f9e1c0725820"
+    },
+    "$date": "2016-01-13T22:31:38.005Z",
+    "value": 25,
+    "type": "Due",
+    "download": "http://example.com/download/invoice/3"
+  }
+]

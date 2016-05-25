@@ -1,4 +1,4 @@
-<div class="data_table_area shopsview_table shops_resume_page">
+<div class="data_table_area shopsview_table shops_resume_page" ng-controller="shopInvoicesController as invoicesCtrl">
     <div class="container">
         <div class="row">
 
@@ -8,11 +8,11 @@
                     <div class="invoice_left_top">
                         <div class="invoice_paid_left">
                             <p>Invoices Paid</p>
-                            <h1>£ 250.00</h1>
+                            <h1>{{ shop.info.invoicesPaid | money }}</h1>
                         </div>
                         <div class="invoice_paid_left">
                             <p class="red">Pending</p>
-                            <h1>£ 50.00</h1>
+                            <h1>{{ shop.info.invoicesPending | money }}</h1>
                             <a href="#" class="send_alert" title="Send Alert">Send Alert</a>
                         </div>
 
@@ -23,16 +23,19 @@
                             <div class="single_left_top">
                                 <h4>Invoices Paid Graph</h4>
                                 <ul>
-                                    <li>1 Month</li>
-                                    <li>6 Months</li>
-                                    <li>1 Year</li>
+                                    <li ng-click="invoicesCtrl.setChartType(2)"
+                                        ng-class="{active: invoicesCtrl.chartType == 2}" class="pointer">1 Month</li>
+                                    <li ng-click="invoicesCtrl.setChartType(1)"
+                                        ng-class="{active: invoicesCtrl.chartType == 1}" class="pointer">6 Months</li>
+                                    <li ng-click="invoicesCtrl.setChartType(0)"
+                                        ng-class="{active: invoicesCtrl.chartType == 0}" class="pointer">1 Year</li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="total_sale_bottom">
                             <div class="google_chart">
-                                <div id="chart_div1" class="chart-size"></div>
+                                <div google-chart chart="invoicesCtrl.invoicesChart" class="chart-size" style="width:100%;"></div>
                             </div>
                         </div>
 
@@ -53,14 +56,14 @@
 
                                     <div class="invoice_history_menu">
                                         <ul>
-                                            <li ng-class="{active: invoicesTabs[0].active}">
-                                                <a ng-click="setInvoicesTab(0)" id="all" href="#" title="All">All</a>
+                                            <li ng-class="{active: invoicesCtrl.invoicesType == 0}">
+                                                <a ng-click="invoicesCtrl.setInvoiceType(0)" id="all" href="#" title="All">All</a>
                                             </li>
-                                            <li ng-class="{active: invoicesTabs[1].active}">
-                                                <a ng-click="setInvoicesTab(1)" id="paid" href="#" title="Paid">Paid</a>
+                                            <li ng-class="{active: invoicesCtrl.invoicesType == 1}">
+                                                <a ng-click="invoicesCtrl.setInvoiceType(1)" id="paid" href="#" title="Paid">Paid</a>
                                             </li>
-                                            <li ng-class="{active: invoicesTabs[2].active}">
-                                                <a ng-click="setInvoicesTab(2)" id="due" href="#" title="Due">Due</a>
+                                            <li ng-class="{active: invoicesCtrl.invoicesType == 2}">
+                                                <a ng-click="invoicesCtrl.setInvoiceType(2)" id="due" href="#" title="Due">Due</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -71,8 +74,8 @@
                                     <div class="table-responsive">
                                         <div class="table-responsive shops_sales_table">
                                             <table class="table" datatable="ng"
-                                                   dt-instance="shopDetails.dtInstanceInvoices"
-                                                   dt-options="shopDetails.dtOptionsInvoices">
+                                                   dt-instance="invoicesCtrl.dtInstance"
+                                                   dt-options="invoicesCtrl.dtOptions">
                                                 <thead ng-hide="true">
                                                 <td></td>
                                                 <td></td>
@@ -83,12 +86,12 @@
 
                                                 <!-- Single Table Row -->
                                                 <tr class="invoice_history_row"
-                                                    ng-repeat="invoice in shopDetails.invoices">
-                                                    <td class="invoice_date">{{ invoice.storeName }}</td>
-                                                    <td class="invoice_price">$ 50.00</td>
-                                                    <td class="invoice_due">Due</td>
+                                                    ng-repeat="invoice in invoicesCtrl.invoices">
+                                                    <td class="invoice_date">{{ invoice.$date | simpleDate }}</td>
+                                                    <td class="invoice_price">{{ invoice.value | money }}</td>
+                                                    <td class="invoice_due">{{ invoice.type | capitalize }}</td>
                                                     <td class="invoice_download">
-                                                        <a href="#" title="Download">
+                                                        <a ng-href="{{ invoice.download }}" title="Download">
                                                             <img width="15"
                                                                  src="assets/images/download-icon.png"
                                                                  alt="Download Ico">

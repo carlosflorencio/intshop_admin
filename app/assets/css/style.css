@@ -27,9 +27,10 @@ h1,h2,h3,h4,h5,h6 {
 html,body { height: 100% }
 body {
     font-family: 'Oxygen', sans-serif;
+
 }
 body, body.shop_page {background: #f2f5f8 none repeat scroll 0 0;
-    height: auto;}
+}
 
 
 
@@ -1112,7 +1113,7 @@ a.send_alert:hover {
     font-weight: 700;
     margin-left: 20px;
 }
-.invoice_paid_bottm_top .single_left_top ul li:last-child { color: #2d3340 }
+.invoice_paid_bottm_top .single_left_top ul li.active { color: #2d3340 }
 .contact_info.invoice_history_section {
     background: #fff none repeat scroll 0 0;
     margin-bottom: 25px;
@@ -1712,13 +1713,235 @@ a.view_all_orders_button:hover {
     float: left;
 }
 
+/* Login Page*/
+body.login_page {
+    background: #3493d5 none repeat scroll 0 0;
+    height: 100%;
+}
+.login_wrapper, .login_wrapper div {
+    height: 100%;
+}
+.login_wrapper {
+    background: #3493d5 none repeat scroll 0 0;
+}
+.login_area_tablecell, .login_area_tablecell div {
+    height: auto;
+}
+.login_area_table {
+    display: table;
+    width: 100%;
+}
+.login_area_tablecell {
+    display: table-cell;
+    vertical-align: middle;
+}
+.login_wrapper .main_login_form {
+    height: 360px;
+    margin: 0 auto;
+    max-width: 230px;
+}
+.login_title {text-align: center}
+.login_title h2 {color: #fff; margin: 0; font-size: 20px; font-weight: 700; margin-bottom: 5px}
+
+.login_top_logo {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.login_top_logo img {
+    width: 175px;
+}
+.login_title p {
+    color: #fff;
+    font-size: 11px;
+    font-weight: 400
+}
+.login_title {
+    margin-bottom: 25px;
+}
+.form-group input[type="text"], .form-group input[type="password"], .form-group input[type="email"] {
+    background: #318cca none repeat scroll 0 0;
+    border: 1px solid #71b4e2;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    height: 40px;
+    margin-bottom: 10px;
+    padding-left: 35px;
+    width: 100%;
+}
+.form-group input[type="text"]:focus, .form-group input[type="password"]:focus, .form-group input[type="email"]:focus {border: 1px solid #fff; transition: .4s}
+.form-group input[type="text"] {background-image: url("../images/username-bg.png");
+    background-position: 10px center;
+    background-repeat: no-repeat;
+    background-size: 15px auto;}
+.form-group input[type="password"] {background-image: url("../images/password-bg.png");
+    background-position: 10px center;
+    background-repeat: no-repeat;
+    background-size: 11px auto;}
+.form-group input[type="email"] {background-image: url("../images/email-icon.png");
+    background-position: 10px center;
+    background-repeat: no-repeat;
+    background-size: 16px auto;}
+
+.main_login_form .form-group.submit_button {
+    margin-bottom: 25px;
+}
+.main_login_form .form-group.submit_button.recover_pass_button {
+    margin-bottom: 43px;
+    margin-top: 35px;
+}
+.main_login_form .login_title.text-center.recover_pass_heading {
+    margin-bottom: 30px;
+}
+.form-group input[type="submit"] {background: #fff none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 5px;
+    color: #263b50;
+    font-size: 12px;
+    font-weight: 700;
+    height: 40px;
+    padding: 13px 0;
+    text-transform: uppercase;
+    width: 100%;}
+.grey-checkbox div {
+    color: #fefeff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    margin-left: 6px;
+    white-space: nowrap;
+}
+.main_login_form .form-group label {
+    cursor: pointer;
+}
+
+.main_login_form .form-group .grey-checkbox label span {border: 1px solid #fff;}
+.main_login_form .form-group .grey-checkbox [type="checkbox"]:checked + span:before  {color: #fff;}
+.main_login_form .form-group.lost_password {
+    margin: 0;
+    text-align: center;
+}
+.main_login_form .form-group.lost_password a {
+    color: #fff; opacity: .50; font-size: 11px; font-weight: 700;
+}
+.main_login_form .form-group.lost_password a {
+    color: #fff; opacity: .50; font-size: 11px; font-weight: 700;
+}
 
 
-
-
-
-
-
+.profile_image_section {
+    border-bottom: 1px solid #C8CFDF;
+    margin-bottom: 30px;
+    overflow: hidden;
+    padding-bottom: 30px;
+}
+.left_profile_image {
+    float: left;
+    margin-right: 0px;
+    width: 22%;
+}
+.left_profile_image img {
+    border: 1px solid #c7cbca;
+    border-radius: 5px;
+}
+.right_profile_text {
+    float: left;
+    width: 78%;
+}
+.right_profile_text h4 {
+    color: #3493d5;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+}
+.right_profile_text p {
+    color: #aaaaaa;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.right_profile_text a.upload_button {
+    border: 1px solid #3493d5;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    height: 23px;
+    padding-top: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 75px;
+}
+.right_profile_text a.upload_button:hover {
+    background: #3493d5;
+    color: #fff;
+    transition: .4s
+}
+.profile_name_change_form {
+    overflow: hidden;
+    padding: 0 17%;
+}
+.profile_name_change_form .form-group {margin-bottom: 20px}
+.profile_name_change_form .form-group input {
+    background: transparent none repeat scroll 0 0;
+    color: #263b50;
+    margin: 0;
+    border: 1px solid #DADADA;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0px 10px;
+}
+.profile_name_change_form .form-group input:focus, .change_password_section .form-group input[type="password"]:focus {border: 1px solid #3493d5}
+.profile_name_change_form .form-group input[type="submit"] {height: 35px; width: 45%; float: right; background: #3493D5; color: #fff; font-size: 10px; font-weight: 700; padding: 10px 0px; border: none; text-transform: uppercase}
+.profile_name_change_form .form-group input[type="reset"] {height: 35px; width: 45%; float: left; background: #E7EAF2; border: none; border-radius: 5px; color: #b3bccf; font-size: 10px; font-weight: 700; text-transform: uppercase; text-align: center}
+.order_list_title p {
+    color: #2d3340;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 8px 0 0;
+}
+.change_password_section h3 {
+    color: #263b50;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.password_changes_form {
+    padding: 0 10%;
+}
+.change_password_section .form-group input[type="password"] {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 1px solid #DADADA;
+    color: #263b50;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0 10px;
+    width: 78%
+}
+.password_changes_form .form-group input[type="submit"] {
+    background: #3493d5 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    height: 35px;
+    padding: 12px 15px;
+    text-transform: uppercase;
+    width: inherit;
+}
+.profile_name_change_form .form-group.reset_submit_button {
+    margin-bottom: 0;
+    margin-top: 30px;
+    overflow: hidden;
+}
+.password_changes_form .google_recaptcha {
+    margin-bottom: 30px;
+    margin-top: 23px;
+}
 
 
 
