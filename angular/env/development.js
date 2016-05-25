@@ -42,7 +42,10 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getShop1MonthInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-1m.json',
 
         // Drivers
-        getDriversListUrl: url + '/api/drivers/drivers-list.json'
+        getDriversListUrl: url + '/api/drivers/drivers-list.json',
+
+        // Orders
+        getOrdersListUrl: url + '/api/orders/orders-list.json'
     }
 })());
 

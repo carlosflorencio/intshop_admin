@@ -2,10 +2,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| Drivers Controller
+| Orders Controller
 |--------------------------------------------------------------------------
 */
-angular.module('intshop').controller('driversController', function (API_DRIVERS, DTOptionsBuilder,
+angular.module('intshop').controller('ordersController', function (API_ORDERS, DTOptionsBuilder,
                                                                     DTColumnDefBuilder, ENV, urls) {
 
     var vm = this;
@@ -28,18 +28,19 @@ angular.module('intshop').controller('driversController', function (API_DRIVERS,
 
     // Columns sortable
     vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(0),
         DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2).notSortable(),
+        DTColumnDefBuilder.newColumnDef(2),
         DTColumnDefBuilder.newColumnDef(3),
         DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5).notSortable(),
-        DTColumnDefBuilder.newColumnDef(6).notSortable()
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6),
+        DTColumnDefBuilder.newColumnDef(7).notSortable()
     ];
 
     // Fetch the table data (shop lists)
-    API_DRIVERS.getDriversListPromise().then(function(response) {
-        vm.drivers = response.data;
+    API_ORDERS.getOrdersListPromise().then(function(response) {
+        vm.orders = response.data;
     });
 
     /* Search
@@ -54,41 +55,5 @@ angular.module('intshop').controller('driversController', function (API_DRIVERS,
 
     /* Functions
        ========================================================================== */
-    vm.image = function(id) {
-        return ENV.getDriverImageUrlById(id);
-    };
-
-    vm.carImage = function(type) {
-        switch (type) {
-            case 'bike':
-                return ENV.getDriverVehicleImageUrlByType('bike');
-            case 'small_car':
-                return ENV.getDriverVehicleImageUrlByType('small-car');
-            default:
-                return ENV.getDriverVehicleImageUrlByType('car');
-        }
-    };
-
-    vm.carImageSize = function(type) {
-        switch (type) {
-            case 'bike':
-                return 20;
-            case 'small_car':
-                return 35;
-            default:
-                return 45;
-        }
-    };
-
-    vm.carName = function(type) {
-        switch (type) {
-            case 'bike':
-                return 'Bike';
-            case 'small_car':
-                return 'Small Car';
-            default:
-                return 'Car';
-        }
-    }
 
 });

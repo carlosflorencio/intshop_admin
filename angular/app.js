@@ -12,7 +12,8 @@ angular.module('intshop', [
     'intshop.filters',
     'intshop.env',
     'intshop.api.shops',
-    'intshop.api.drivers'
+    'intshop.api.drivers',
+    'intshop.api.orders'
 ]);
 
 /**

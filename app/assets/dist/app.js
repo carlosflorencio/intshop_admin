@@ -12,7 +12,8 @@ angular.module('intshop', [
     'intshop.filters',
     'intshop.env',
     'intshop.api.shops',
-    'intshop.api.drivers'
+    'intshop.api.drivers',
+    'intshop.api.orders'
 ]);
 
 /**
@@ -76,7 +77,10 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getShop1MonthInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-1m.json',
 
         // Drivers
-        getDriversListUrl: url + '/api/drivers/drivers-list.json'
+        getDriversListUrl: url + '/api/drivers/drivers-list.json',
+
+        // Orders
+        getOrdersListUrl: url + '/api/orders/orders-list.json'
     }
 })());
 
@@ -103,7 +107,7 @@ angular.module('intshop').config(["$provide", "$httpProvider", function ($provid
 
 /*
 |--------------------------------------------------------------------------
-| Shops Controller
+| Drivers Controller
 |--------------------------------------------------------------------------
 */
 angular.module('intshop').controller('driversController', ["API_DRIVERS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_DRIVERS, DTOptionsBuilder,
@@ -224,6 +228,65 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
     }
 
 
+
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Orders Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('ordersController', ["API_ORDERS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_ORDERS, DTOptionsBuilder,
+                                                                    DTColumnDefBuilder, ENV, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Datatable options
+       ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>')
+        .withOption('drawCallback', function (settings) {
+            if(settings.aoData.length > 0) {
+                $("#rating-stars, .rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+            }
+        });
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6),
+        DTColumnDefBuilder.newColumnDef(7).notSortable()
+    ];
+
+    // Fetch the table data (shop lists)
+    API_ORDERS.getOrdersListPromise().then(function(response) {
+        vm.orders = response.data;
+    });
+
+    /* Search
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search(vm.searchText);
+        vm.dtInstance.DataTable.search(vm.searchText).draw();
+    };
+
+
+    /* Functions
+       ========================================================================== */
 
 }]);
 'use strict';
@@ -699,6 +762,27 @@ angular.module('intshop.api.drivers', []).service('API_DRIVERS', ["ENV", "$http"
             return $http({
                 method: "GET",
                 url: ENV.getDriversListUrl
+            });
+        }
+
+    }
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Api Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop.api.orders', []).service('API_ORDERS', ["ENV", "$http", function (ENV, $http) {
+    return {
+
+        /* Orders list
+           ========================================================================== */
+        getOrdersListPromise: function () {
+            return $http({
+                method: "GET",
+                url: ENV.getOrdersListUrl
             });
         }
 
