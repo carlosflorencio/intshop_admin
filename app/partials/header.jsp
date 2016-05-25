@@ -24,7 +24,7 @@
 <body>
 
 
-<div class="top_bar" ng-controller="headerController">
+<div class="top_bar" ng-controller="headerController as header">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -41,7 +41,9 @@
                 <!-- Top logo -->
                 <div class="header_logo">
                     <div class="logo">
-                        <a href="index.html"><img src="assets/images/logo.png" alt="ONO Logo"></a>
+                        <a ng-href="{{ header.urls.linkToHome() }}" target="Dashboard">
+                            <img src="assets/images/logo.png" alt="ONO Logo">
+                        </a>
                     </div>
                 </div>
 
@@ -49,17 +51,20 @@
                 <div class="top_menu">
                     <div class="dashboard_menu navbar-collapse collapse">
                         <ul id="menu" class="loged_user_menu nav navbar-nav">
-                            <li ng-class="{active: isActivePage(['shops', 'shop-details'])}">
-                                <a href="shops.jsp">Shops</a>
+                            <li ng-class="{active: header.isActivePage(['dashboard'])}">
+                                <a ng-href="{{ header.urls.linkToHome() }}" title="Dashboard">Dashboard</a>
                             </li>
-                            <li ng-class="{active: isActivePage('drivers')}">
-                                <a href="drivers.jsp">Drivers</a>
+                            <li ng-class="{active: header.isActivePage(['shops', 'shop-details'])}">
+                                <a ng-href="{{ header.urls.linkToShopsList() }}" title="Shops">Shops</a>
                             </li>
-                            <li ng-class="{active: isActivePage('orders')}">
-                                <a href="orders.jsp">Orders List</a>
+                            <li ng-class="{active: header.isActivePage('drivers')}">
+                                <a ng-href="{{ header.urls.linkToDriversList() }}" title="Drivers">Drivers</a>
                             </li>
-                            <li ng-class="{active: isActivePage('clients')}">
-                                <a href="clients.jsp">Clients</a>
+                            <li ng-class="{active: header.isActivePage('orders')}">
+                                <a ng-href="{{ header.urls.linkToOrdersList() }}" title="Orders">Orders List</a>
+                            </li>
+                            <li ng-class="{active: header.isActivePage('clients')}">
+                                <a ng-href="{{ header.urls.linkToClientsList() }}" title="Clients">Clients</a>
                             </li>
                         </ul>
                     </div>
