@@ -53,7 +53,7 @@
                                     <th>Name</th>
                                     <th>Date</th>
                                     <th>Price</th>
-                                    <th>shop</th>
+                                    <th>Shop</th>
                                     <th>Fee to</th>
                                     <th>Driver</th>
                                     <th>Statues</th>

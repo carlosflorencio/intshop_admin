@@ -23,6 +23,9 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getDriverVehicleImageUrlByType: function (type) {
             return url + "/assets/images/" + type + ".png";
         },
+        getClientImageUrlById: function (id) {
+            return url + "/assets/images/user-image.jpg";
+        },
 
         // API ENDPOINTS
 
@@ -45,7 +48,10 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getDriversListUrl: url + '/api/drivers/drivers-list.json',
 
         // Orders
-        getOrdersListUrl: url + '/api/orders/orders-list.json'
+        getOrdersListUrl: url + '/api/orders/orders-list.json',
+
+        // Clients
+        getClientsListUrl: url + '/api/clients/clients-list.json'
     }
 })());
 

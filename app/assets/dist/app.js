@@ -13,7 +13,8 @@ angular.module('intshop', [
     'intshop.env',
     'intshop.api.shops',
     'intshop.api.drivers',
-    'intshop.api.orders'
+    'intshop.api.orders',
+    'intshop.api.clients'
 ]);
 
 /**
@@ -58,6 +59,9 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getDriverVehicleImageUrlByType: function (type) {
             return url + "/assets/images/" + type + ".png";
         },
+        getClientImageUrlById: function (id) {
+            return url + "/assets/images/user-image.jpg";
+        },
 
         // API ENDPOINTS
 
@@ -80,7 +84,10 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getDriversListUrl: url + '/api/drivers/drivers-list.json',
 
         // Orders
-        getOrdersListUrl: url + '/api/orders/orders-list.json'
+        getOrdersListUrl: url + '/api/orders/orders-list.json',
+
+        // Clients
+        getClientsListUrl: url + '/api/clients/clients-list.json'
     }
 })());
 
@@ -200,6 +207,59 @@ angular.module('intshop').controller('driversController', ["API_DRIVERS", "DTOpt
 'use strict';
 
 /*
+|--------------------------------------------------------------------------
+| Clients Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('clientsController', ["API_CLIENTS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_CLIENTS, DTOptionsBuilder,
+                                                                    DTColumnDefBuilder, ENV, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Datatable options
+       ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>');
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4).notSortable()
+    ];
+
+    // Fetch the table data (shop lists)
+    API_CLIENTS.getClientsListPromise().then(function(response) {
+        vm.clients = response.data;
+    });
+
+    /* Search
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search(vm.searchText);
+        vm.dtInstance.DataTable.search(vm.searchText).draw();
+    };
+
+
+    /* Functions
+       ========================================================================== */
+    vm.image = function(id) {
+        return ENV.getClientImageUrlById(id);
+    }
+}]);
+'use strict';
+
+/*
  |--------------------------------------------------------------------------
  | Header Controller
  |--------------------------------------------------------------------------
@@ -228,65 +288,6 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
     }
 
 
-
-}]);
-'use strict';
-
-/*
-|--------------------------------------------------------------------------
-| Orders Controller
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').controller('ordersController', ["API_ORDERS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_ORDERS, DTOptionsBuilder,
-                                                                    DTColumnDefBuilder, ENV, urls) {
-
-    var vm = this;
-    vm.urls = urls;
-
-    /* Datatable options
-       ========================================================================== */
-    vm.dtInstance = {};
-
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('numbers')
-        .withOption('aaSorting', [])
-        //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>')
-        .withOption('drawCallback', function (settings) {
-            if(settings.aoData.length > 0) {
-                $("#rating-stars, .rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
-            }
-        });
-
-    // Columns sortable
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0),
-        DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2),
-        DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5),
-        DTColumnDefBuilder.newColumnDef(6),
-        DTColumnDefBuilder.newColumnDef(7).notSortable()
-    ];
-
-    // Fetch the table data (shop lists)
-    API_ORDERS.getOrdersListPromise().then(function(response) {
-        vm.orders = response.data;
-    });
-
-    /* Search
-       ========================================================================== */
-    vm.searchText = "";
-    vm.searchTable = function ()
-    {
-        vm.dtInstance.DataTable.search(vm.searchText);
-        vm.dtInstance.DataTable.search(vm.searchText).draw();
-    };
-
-
-    /* Functions
-       ========================================================================== */
 
 }]);
 'use strict';
@@ -650,6 +651,60 @@ angular.module('intshop').controller('shopSalesController', ["$rootScope", "API_
 
 /*
 |--------------------------------------------------------------------------
+| Orders Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('ordersController', ["API_ORDERS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_ORDERS, DTOptionsBuilder,
+                                                                    DTColumnDefBuilder, ENV, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Datatable options
+       ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>');;
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6),
+        DTColumnDefBuilder.newColumnDef(7).notSortable()
+    ];
+
+    // Fetch the table data (shop lists)
+    API_ORDERS.getOrdersListPromise().then(function(response) {
+        vm.orders = response.data;
+    });
+
+    /* Search
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search(vm.searchText);
+        vm.dtInstance.DataTable.search(vm.searchText).draw();
+    };
+
+
+    /* Functions
+       ========================================================================== */
+
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
 | Shops Controller
 |--------------------------------------------------------------------------
 */
@@ -745,6 +800,27 @@ angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "
         return ENV.getShopImageUrlById(id);
     }
 
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Api Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop.api.clients', []).service('API_CLIENTS', ["ENV", "$http", function (ENV, $http) {
+    return {
+
+        /* Clients list
+           ========================================================================== */
+        getClientsListPromise: function () {
+            return $http({
+                method: "GET",
+                url: ENV.getClientsListUrl
+            });
+        }
+
+    }
 }]);
 'use strict';
 
@@ -1011,7 +1087,7 @@ angular.module('intshop').service('urls', function () {
             return 'clients.jsp'
         },
         linkToOrderInfo: function(id) {
-            return 'orders-info.jsp?id=' + id;
+            return 'order-info.jsp?id=' + id;
         },
         linkToOrdersList: function() {
             return 'orders.jsp'
@@ -1023,7 +1099,10 @@ angular.module('intshop').service('urls', function () {
             return 'shop-details.jsp?id=' + id;
         },
         linkToDriversDetails: function(id) {
-            return 'drivers-details.jsp?id=' + id;
+            return 'driver-details.jsp?id=' + id;
+        },
+        linkToClientDetails: function(id) {
+            return 'client-details.jsp?id=' + id;
         }
     }
 });

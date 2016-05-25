@@ -13,7 +13,8 @@ angular.module('intshop', [
     'intshop.env',
     'intshop.api.shops',
     'intshop.api.drivers',
-    'intshop.api.orders'
+    'intshop.api.orders',
+    'intshop.api.clients'
 ]);
 
 /**

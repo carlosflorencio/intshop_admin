@@ -22,7 +22,7 @@ var paths = {
 };
 
 var server = 'intshop-admin.dev:8080',
-    page = '/orders.jsp',
+    page = '/clients.jsp',
     env = 'development'; // development or production (will change angular configs)
 
 /*

@@ -2,10 +2,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| Orders Controller
+| Clients Controller
 |--------------------------------------------------------------------------
 */
-angular.module('intshop').controller('ordersController', function (API_ORDERS, DTOptionsBuilder,
+angular.module('intshop').controller('clientsController', function (API_CLIENTS, DTOptionsBuilder,
                                                                     DTColumnDefBuilder, ENV, urls) {
 
     var vm = this;
@@ -19,23 +19,20 @@ angular.module('intshop').controller('ordersController', function (API_ORDERS, D
         .withPaginationType('numbers')
         .withOption('aaSorting', [])
         //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>');;
+        .withOption('sDom', 'rt<"dt-i-m"lip>');
 
     // Columns sortable
     vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0),
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
         DTColumnDefBuilder.newColumnDef(1),
         DTColumnDefBuilder.newColumnDef(2),
         DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5),
-        DTColumnDefBuilder.newColumnDef(6),
-        DTColumnDefBuilder.newColumnDef(7).notSortable()
+        DTColumnDefBuilder.newColumnDef(4).notSortable()
     ];
 
     // Fetch the table data (shop lists)
-    API_ORDERS.getOrdersListPromise().then(function(response) {
-        vm.orders = response.data;
+    API_CLIENTS.getClientsListPromise().then(function(response) {
+        vm.clients = response.data;
     });
 
     /* Search
@@ -50,5 +47,7 @@ angular.module('intshop').controller('ordersController', function (API_ORDERS, D
 
     /* Functions
        ========================================================================== */
-
+    vm.image = function(id) {
+        return ENV.getClientImageUrlById(id);
+    }
 });

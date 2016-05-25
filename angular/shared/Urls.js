@@ -20,7 +20,7 @@ angular.module('intshop').service('urls', function () {
             return 'clients.jsp'
         },
         linkToOrderInfo: function(id) {
-            return 'orders-info.jsp?id=' + id;
+            return 'order-info.jsp?id=' + id;
         },
         linkToOrdersList: function() {
             return 'orders.jsp'
@@ -32,7 +32,10 @@ angular.module('intshop').service('urls', function () {
             return 'shop-details.jsp?id=' + id;
         },
         linkToDriversDetails: function(id) {
-            return 'drivers-details.jsp?id=' + id;
+            return 'driver-details.jsp?id=' + id;
+        },
+        linkToClientDetails: function(id) {
+            return 'client-details.jsp?id=' + id;
         }
     }
 });
