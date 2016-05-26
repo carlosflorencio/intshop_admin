@@ -55,7 +55,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
             return url + "/assets/images/tesco.jpg";
         },
         getDriverImageUrlById: function (id) {
-            return url + "/assets/images/image-icon.png";
+            return url + "/assets/images/user-image.jpg";
         },
         getDriverVehicleImageUrlByType: function (type) {
             return url + "/assets/images/" + type + ".png";
@@ -83,6 +83,20 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // Drivers
         getDriversListUrl: url + '/api/drivers/drivers-list.json',
+        getDriverDetailsUrl: url + '/api/drivers/driver-details.json',
+        getDriverSuspendUrl: url + '/api/drivers/driver-details.json',
+        getDriverRestoreUrl: url + '/api/drivers/driver-details.json',
+        getDriverDeliveryChart1YearUrl: url + '/api/drivers/resume/driver-chart-year.json',
+        getDriverDeliveryChart6MonthsUrl: url + '/api/drivers/resume/driver-chart-6m.json',
+        getDriverDeliveryChart1MonthUrl: url + '/api/drivers/resume/driver-chart-1m.json',
+        getDriverLastInvoicesUrl: url + '/api/drivers/resume/driver-last-invoices.json',
+        getDriverDeliverysListUrl: url + '/api/drivers/deliverys/driver-deliverys.json',
+        getDriverInvoicesChart1MonthUrl: url + '/api/drivers/invoices/driver-chart-1m.json',
+        getDriverInvoicesChart6MonthsUrl: url + '/api/drivers/invoices/driver-chart-6m.json',
+        getDriverInvoicesChart1YearUrl: url + '/api/drivers/invoices/driver-chart-year.json',
+        getDriverInvoicesListAllUrl: url + '/api/drivers/invoices/driver-invoices-all.json',
+        getDriverInvoicesListDueUrl: url + '/api/drivers/invoices/driver-invoices-due.json',
+        getDriverInvoicesListPaidUrl: url + '/api/drivers/invoices/driver-invoices-paid.json',
 
         // Orders
         getOrdersListUrl: url + '/api/orders/orders-list.json',
@@ -168,6 +182,354 @@ angular.module('intshop').controller('clientsController', ["API_CLIENTS", "DTOpt
     vm.image = function(id) {
         return ENV.getClientImageUrlById(id);
     }
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Dashboard Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('dashboardController', ["API_STATS", "ENV", "urls", "utils", function (API_STATS, ENV, urls, utils) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Dashboard Tabs
+     ========================================================================== */
+    vm.statsType = 0; // 0 = last 7 days, 1 = last month, 2 = all time
+
+    // Store stats data
+    var statsData = [];
+
+    vm.setStatsType = function (type) {
+
+        if (statsData[type]) { // Get cached results
+            vm.statsType = type;
+            vm.data = statsData[type];
+
+            vm.shopsChart.data = statsData[type].shops.chart;
+            vm.driversChart.data = statsData[type].drivers.chart;
+            vm.pieChart.data = statsData[type].stats.chart;
+            return;
+        }
+
+        switch (type) {
+            case 0:
+                API_STATS.getStatsLast7daysPromise().then(function (response) {
+                    setStatsData(type, response.data);
+                });
+                vm.suffix = 'last week';
+                break;
+
+            case 1:
+                API_STATS.getStatsLastMonthPromise().then(function (response) {
+                    setStatsData(type, response.data);
+                });
+                vm.suffix = 'last month';
+                break;
+            case 2:
+                API_STATS.getStatsAllTimePromise().then(function (response) {
+                    setStatsData(type, response.data);
+                });
+                vm.suffix = 'all time';
+                break;
+        }
+    };
+
+    vm.setStatsType(0);
+
+    function setStatsData(type, data) {
+        statsData[type] = data;
+        statsData[type].shops.chart = utils.getColumnChartDataFromObject(data.shops.chart);
+        statsData[type].drivers.chart = utils.getColumnChartDataFromObject(data.drivers.chart);
+        statsData[type].stats.chart = utils.getColumnChartDataFromObject(data.stats.chart);
+
+        vm.data = data;
+        vm.statsType = type;
+
+        vm.shopsChart.data = statsData[type].shops.chart;
+        vm.driversChart.data = statsData[type].drivers.chart;
+        vm.pieChart.data = statsData[type].stats.chart;
+    }
+
+    /* Shop column chart
+     ========================================================================== */
+    vm.shopsChart = {};
+    vm.shopsChart.type = "ColumnChart";
+
+    vm.shopsChart.options = {
+        legend: {position: 'none'},
+        vAxis: {
+            gridlines: {
+                color: 'transparent'
+            }
+        },
+        colors: ['#3493d5']
+    };
+
+    /* Drivers column chart
+     ========================================================================== */
+    vm.driversChart = {};
+    vm.driversChart.type = "ColumnChart";
+
+    vm.driversChart.options = {
+        legend: {position: 'none'},
+        vAxis: {
+            gridlines: {
+                color: 'transparent'
+            }
+        },
+        colors: ['#3493d5']
+    };
+
+    /* Pie chart
+     ========================================================================== */
+    vm.pieChart = {};
+    vm.pieChart.type = "PieChart";
+
+    vm.pieChart.options = {
+        legend: {
+            position: 'none'
+        },
+        title: '',
+        pieHole: 0.85,
+        slices: {
+            0: {
+                color: '#263B50'
+            },
+            1: {
+                color: '#3493D5'
+            }
+        }
+    };
+
+
+
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Driver Details Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('driverDetailsController', ["$rootScope", "utils", "$timeout", "API_DRIVERS", "urls", function ($rootScope, utils,
+                                                                        $timeout,
+                                                                        API_DRIVERS, urls) {
+
+    var vm = this;
+
+    /* Driver Details
+     ========================================================================== */
+    vm.driverId = utils.getUrlParameter.id;
+    vm.tabIndex = utils.getUrlParameter.tab;
+    vm.urls = urls;
+
+    API_DRIVERS.getDriverDetailsPromise(vm.driverId).then(function (response) {
+        vm.info = response.data;
+
+        vm.setTab(0);
+    });
+
+    /* Tabs
+     ========================================================================== */
+    vm.tabs = [
+        {name: "driver-resume", active: true},
+        {name: "driver-deliverys", active: false},
+        {name: "driver-invoices", active: false}
+    ];
+
+    vm.setTab = function (index) {
+        _(vm.tabs).forEach(function (tab) {
+            tab.active = false;
+        });
+
+        vm.tabs[index].active = true;
+        vm.tab = vm.tabs[index];
+        $rootScope.$broadcast('tab:' + vm.tabs[index].name, vm.info);
+    };
+
+    /* Suspend & Restore driver
+     ========================================================================== */
+    vm.suspend = function () {
+        swal({
+            title: "Are you sure?",
+            text: "You are about to suspend the driver!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, suspend it!",
+            closeOnConfirm: false
+        }, function () {
+            swal("Driver Suspended!", "", "success");
+
+            API_DRIVERS.getDriverSuspendPromise(vm.driverId).then(function(response) {
+                if(response.status == 200) {
+                    vm.info.active = false;
+                }
+            });
+        });
+    };
+
+    vm.restore = function() {
+        swal("Driver restored!", "", "success");
+
+        API_DRIVERS.getDriverRestorePromise(vm.driverId).then(function(response) {
+            if(response.status == 200) {
+                vm.info.active = true;
+            }
+        });
+    };
+
+    /* Search input
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        if(vm.tab.name == 'driver-deliverys') {
+            $rootScope.$broadcast('tab:' + vm.tab.name + ":search", vm.searchText);
+        }
+    };
+
+}]);
+
+
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Driver Details Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('driverResumeController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ENV", "API_DRIVERS", function ($scope, $rootScope,
+                                                                       $timeout, utils, CONSTANTS, ENV, API_DRIVERS) {
+
+    var vm = this;
+    vm.loaded = false;
+
+    /* When tab is selected
+     ========================================================================== */
+    $rootScope.$on('tab:driver-resume', function (event, data) {
+        if(!vm.loaded)
+            loadData(data);
+    });
+
+    function loadData(data) {
+        vm.details = data;
+
+        // Activate jquery star rating plugin, ugly but ... :$
+        $timeout(function () {
+            $("#rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+        }, 200);
+
+        // Get driver last invoices
+        API_DRIVERS.getDriverLastInvoicesPromise(vm.details._id.$oid, 5).then(function(response) {
+            vm.invoices = response.data;
+        });
+
+        // Load 1 year deliverys chart
+        vm.setChartType(0);
+
+        vm.loaded = true;
+    }
+
+
+    /* Functions
+     ========================================================================== */
+    // Image
+    vm.image = function (id) {
+        return ENV.getDriverImageUrlById(id);
+    };
+
+    vm.carImage = function(type) {
+        switch (type) {
+            case 'bike':
+                return ENV.getDriverVehicleImageUrlByType('bike');
+            case 'small_car':
+                return ENV.getDriverVehicleImageUrlByType('small-car');
+            default:
+                return ENV.getDriverVehicleImageUrlByType('car');
+        }
+    };
+
+    vm.carImageSize = function(type) {
+        switch (type) {
+            case 'bike':
+                return 20;
+            case 'small_car':
+                return 35;
+            default:
+                return 45;
+        }
+    };
+
+    vm.carName = function(type) {
+        switch (type) {
+            case 'bike':
+                return 'Bike';
+            case 'small_car':
+                return 'Small Car';
+            default:
+                return 'Car';
+        }
+    };
+
+    /* Chart
+     ========================================================================== */
+    vm.deliverysChart = {};
+    vm.deliverysChart.type = "ColumnChart";
+
+    vm.deliverysChart.options = {
+        legend: {position: 'none'},
+        vAxis: {
+            gridlines: {
+                color: 'transparent'
+            }
+        },
+        colors: ['#3493d5']
+    };
+
+    vm.chartType = 0; // 0 = 1 year, 1 = 6 months, 2 = 1 month
+
+    // Store invoice data
+    var chartData = [];
+
+    vm.setChartType = function (type) {
+
+        if (chartData[type]) { // Get cached results
+            vm.chartType = type;
+            vm.deliverysChart.data = chartData[type];
+            return;
+        }
+
+        switch (type) {
+            case 0:
+                API_DRIVERS.getDriverDeliverysChart1YearPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+
+            case 1:
+                API_DRIVERS.getDriverDeliverysChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+            case 2:
+                API_DRIVERS.getDriverDeliverysChart1MonthPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+        }
+    };
+
+    function setChartData(type, data) {
+        chartData[type] = utils.getColumnChartDataFromObject(data);
+        vm.deliverysChart.data = chartData[type];
+        vm.chartType = type;
+    }
+
+
 }]);
 'use strict';
 
@@ -292,130 +654,6 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
 
         return page === vm.activePage;
     }
-
-
-
-}]);
-'use strict';
-
-/*
- |--------------------------------------------------------------------------
- | Dashboard Controller
- |--------------------------------------------------------------------------
- */
-angular.module('intshop').controller('dashboardController', ["API_STATS", "ENV", "urls", "utils", function (API_STATS, ENV, urls, utils) {
-
-    var vm = this;
-    vm.urls = urls;
-
-    /* Dashboard Tabs
-     ========================================================================== */
-    vm.statsType = 0; // 0 = last 7 days, 1 = last month, 2 = all time
-
-    // Store stats data
-    var statsData = [];
-
-    vm.setStatsType = function (type) {
-
-        if (statsData[type]) { // Get cached results
-            vm.statsType = type;
-            vm.data = statsData[type];
-
-            vm.shopsChart.data = statsData[type].shops.chart;
-            vm.driversChart.data = statsData[type].drivers.chart;
-            vm.pieChart.data = statsData[type].stats.chart;
-            return;
-        }
-
-        switch (type) {
-            case 0:
-                API_STATS.getStatsLast7daysPromise().then(function (response) {
-                    setStatsData(type, response.data);
-                });
-                vm.suffix = 'last week';
-                break;
-
-            case 1:
-                API_STATS.getStatsLastMonthPromise().then(function (response) {
-                    setStatsData(type, response.data);
-                });
-                vm.suffix = 'last month';
-                break;
-            case 2:
-                API_STATS.getStatsAllTimePromise().then(function (response) {
-                    setStatsData(type, response.data);
-                });
-                vm.suffix = 'all time';
-                break;
-        }
-    };
-
-    vm.setStatsType(0);
-
-    function setStatsData(type, data) {
-        statsData[type] = data;
-        statsData[type].shops.chart = utils.getColumnChartDataFromObject(data.shops.chart);
-        statsData[type].drivers.chart = utils.getColumnChartDataFromObject(data.drivers.chart);
-        statsData[type].stats.chart = utils.getColumnChartDataFromObject(data.stats.chart);
-
-        vm.data = data;
-        vm.statsType = type;
-
-        vm.shopsChart.data = statsData[type].shops.chart;
-        vm.driversChart.data = statsData[type].drivers.chart;
-        vm.pieChart.data = statsData[type].stats.chart;
-    }
-
-    /* Shop column chart
-     ========================================================================== */
-    vm.shopsChart = {};
-    vm.shopsChart.type = "ColumnChart";
-
-    vm.shopsChart.options = {
-        legend: {position: 'none'},
-        vAxis: {
-            gridlines: {
-                color: 'transparent'
-            }
-        },
-        colors: ['#3493d5']
-    };
-
-    /* Drivers column chart
-     ========================================================================== */
-    vm.driversChart = {};
-    vm.driversChart.type = "ColumnChart";
-
-    vm.driversChart.options = {
-        legend: {position: 'none'},
-        vAxis: {
-            gridlines: {
-                color: 'transparent'
-            }
-        },
-        colors: ['#3493d5']
-    };
-
-    /* Pie chart
-     ========================================================================== */
-    vm.pieChart = {};
-    vm.pieChart.type = "PieChart";
-
-    vm.pieChart.options = {
-        legend: {
-            position: 'none'
-        },
-        title: '',
-        pieHole: 0.85,
-        slices: {
-            0: {
-                color: '#263B50'
-            },
-            1: {
-                color: '#3493D5'
-            }
-        }
-    };
 
 
 
@@ -963,14 +1201,125 @@ angular.module('intshop.api.drivers', []).service('API_DRIVERS', ["ENV", "$http"
     return {
 
         /* Drivers list
-           ========================================================================== */
+         ========================================================================== */
         getDriversListPromise: function () {
             return $http({
                 method: "GET",
                 url: ENV.getDriversListUrl
             });
-        }
+        },
 
+        /* Driver details
+         ========================================================================== */
+        getDriverDetailsPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverDetailsUrl,
+                params: {id: id}
+            });
+        },
+
+        getDriverRestorePromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverRestoreUrl,
+                params: {id: id}
+            });
+        },
+
+        getDriverSuspendPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverSuspendUrl,
+                params: {id: id}
+            });
+        },
+
+        /* Resume tab
+         ========================================================================== */
+        getDriverDeliverysChart1YearPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverDeliveryChart1YearUrl,
+                params: {id: id}
+            });
+        },
+        getDriverDeliverysChart6MonthsPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverDeliveryChart6MonthsUrl,
+                params: {id: id}
+            });
+        },
+        getDriverDeliverysChart1MonthPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverDeliveryChart1MonthUrl,
+                params: {id: id}
+            });
+        },
+        getDriverLastInvoicesPromise: function (id, limit) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverLastInvoicesUrl,
+                params: {id: id, limit: limit}
+            });
+        },
+
+        /* Deliverys tab
+         ========================================================================== */
+        getDriverDeliverysListPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverDeliverysListUrl,
+                params: {id: id}
+            });
+        },
+
+        /* Invoices tab
+         ========================================================================== */
+        getDriverInvoicesChart1YearPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverInvoicesChart1YearUrl,
+                params: {id: id}
+            });
+        },
+        getDriverInvoicesChart6MonthsPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverInvoicesChart6MonthsUrl,
+                params: {id: id}
+            });
+        },
+        getDriverInvoicesChart1MonthPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverInvoicesChart1MonthUrl,
+                params: {id: id}
+            });
+        },
+        getDriverInvoicesListAllPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverInvoicesListAllUrl,
+                params: {id: id}
+            });
+        },
+        getDriverInvoicesListPaidPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverInvoicesListPaidUrl,
+                params: {id: id}
+            });
+        },
+        getDriverInvoicesListDuePromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverInvoicesListDueUrl,
+                params: {id: id}
+            });
+        }
     }
 }]);
 'use strict';

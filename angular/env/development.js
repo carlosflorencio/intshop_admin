@@ -18,7 +18,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
             return url + "/assets/images/tesco.jpg";
         },
         getDriverImageUrlById: function (id) {
-            return url + "/assets/images/image-icon.png";
+            return url + "/assets/images/user-image.jpg";
         },
         getDriverVehicleImageUrlByType: function (type) {
             return url + "/assets/images/" + type + ".png";
@@ -46,6 +46,20 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // Drivers
         getDriversListUrl: url + '/api/drivers/drivers-list.json',
+        getDriverDetailsUrl: url + '/api/drivers/driver-details.json',
+        getDriverSuspendUrl: url + '/api/drivers/driver-details.json',
+        getDriverRestoreUrl: url + '/api/drivers/driver-details.json',
+        getDriverDeliveryChart1YearUrl: url + '/api/drivers/resume/driver-chart-year.json',
+        getDriverDeliveryChart6MonthsUrl: url + '/api/drivers/resume/driver-chart-6m.json',
+        getDriverDeliveryChart1MonthUrl: url + '/api/drivers/resume/driver-chart-1m.json',
+        getDriverLastInvoicesUrl: url + '/api/drivers/resume/driver-last-invoices.json',
+        getDriverDeliverysListUrl: url + '/api/drivers/deliverys/driver-deliverys.json',
+        getDriverInvoicesChart1MonthUrl: url + '/api/drivers/invoices/driver-chart-1m.json',
+        getDriverInvoicesChart6MonthsUrl: url + '/api/drivers/invoices/driver-chart-6m.json',
+        getDriverInvoicesChart1YearUrl: url + '/api/drivers/invoices/driver-chart-year.json',
+        getDriverInvoicesListAllUrl: url + '/api/drivers/invoices/driver-invoices-all.json',
+        getDriverInvoicesListDueUrl: url + '/api/drivers/invoices/driver-invoices-due.json',
+        getDriverInvoicesListPaidUrl: url + '/api/drivers/invoices/driver-invoices-paid.json',
 
         // Orders
         getOrdersListUrl: url + '/api/orders/orders-list.json',

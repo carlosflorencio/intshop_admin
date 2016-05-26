@@ -51,13 +51,13 @@
                 <div class="top_menu">
                     <div class="dashboard_menu navbar-collapse collapse">
                         <ul id="menu" class="loged_user_menu nav navbar-nav">
-                            <li ng-class="{active: header.isActivePage(['dashboard'])}">
+                            <li ng-class="{active: header.isActivePage(['dashboard', 'index'])}">
                                 <a ng-href="{{ header.urls.linkToHome() }}" title="Dashboard">Dashboard</a>
                             </li>
                             <li ng-class="{active: header.isActivePage(['shops', 'shop-details'])}">
                                 <a ng-href="{{ header.urls.linkToShopsList() }}" title="Shops">Shops</a>
                             </li>
-                            <li ng-class="{active: header.isActivePage('drivers')}">
+                            <li ng-class="{active: header.isActivePage(['drivers', 'driver-details'])}">
                                 <a ng-href="{{ header.urls.linkToDriversList() }}" title="Drivers">Drivers</a>
                             </li>
                             <li ng-class="{active: header.isActivePage('orders')}">
