@@ -36,6 +36,9 @@ angular.module('intshop').service('urls', function () {
         },
         linkToClientDetails: function(id) {
             return 'client-details.jsp?id=' + id;
+        },
+        linkToDelivery: function(id) {
+            return 'delivery.jsp?id=' + id;
         }
     }
 });

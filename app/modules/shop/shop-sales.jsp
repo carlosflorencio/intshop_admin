@@ -18,7 +18,6 @@
                         </thead>
                         <tbody>
 
-                        <!-- Single Table Row -->
                         <tr class="table_row" ng-repeat="sale in ::sales.list">
                             <td class="sales_name">{{ sale.name }}</td>
                             <td class="sales_date">{{ sale.$date | simpleDate }}</td>
