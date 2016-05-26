@@ -2,7 +2,7 @@
 
 /*
  |--------------------------------------------------------------------------
- | Driver Sales Controller
+ | Driver Deliverys Controller
  |--------------------------------------------------------------------------
  */
 angular.module('intshop').controller('driverDeliverysController', function ($rootScope, API_DRIVERS, DTOptionsBuilder,
@@ -51,7 +51,7 @@ angular.module('intshop').controller('driverDeliverysController', function ($roo
         DTColumnDefBuilder.newColumnDef(6).notSortable()
     ];
 
-    $rootScope.$on('tab:drivers-deliverys:search', function (event, search) {
+    $rootScope.$on('tab:driver-deliverys:search', function (event, search) {
         vm.dtInstance.DataTable.search(search);
         vm.dtInstance.DataTable.search(search).draw();
     });

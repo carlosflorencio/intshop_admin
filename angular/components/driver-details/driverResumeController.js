@@ -2,7 +2,7 @@
 
 /*
  |--------------------------------------------------------------------------
- | Driver Details Controller
+ | Driver Resume Controller
  |--------------------------------------------------------------------------
  */
 angular.module('intshop').controller('driverResumeController', function ($scope, $rootScope,

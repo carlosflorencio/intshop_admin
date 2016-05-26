@@ -2,11 +2,11 @@
 
 /*
  |--------------------------------------------------------------------------
- | Shop Invoices Controller
+ | Driver Invoices Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopInvoicesController', function ($scope, $rootScope,
-                                                                         $timeout, utils, CONSTANTS, ENV, API_SHOPS,
+angular.module('intshop').controller('driverInvoicesController', function ($scope, $rootScope,
+                                                                         $timeout, utils, CONSTANTS, ENV, API_DRIVERS,
                                                                          DTOptionsBuilder) {
 
     var vm = this;
@@ -15,7 +15,7 @@ angular.module('intshop').controller('shopInvoicesController', function ($scope,
 
     /* When tab is selected
      ========================================================================== */
-    $rootScope.$on('tab:shop-invoices', function (event, data) {
+    $rootScope.$on('tab:driver-invoices', function (event, data) {
         if (!vm.loaded)
             loadData(data);
     });
@@ -62,18 +62,18 @@ angular.module('intshop').controller('shopInvoicesController', function ($scope,
 
         switch (type) {
             case 0:
-                API_SHOPS.getShopInvoicesChartYearPromise(vm.details._id.$oid).then(function (response) {
+                API_DRIVERS.getDriverInvoicesChart1YearPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
 
             case 1:
-                API_SHOPS.getShopInvoicesChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
+                API_DRIVERS.getDriverInvoicesChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
             case 2:
-                API_SHOPS.getShopInvoicesChart1MonthPromise(vm.details._id.$oid).then(function (response) {
+                API_DRIVERS.getDriverInvoicesChart1MonthPromise(vm.details._id.$oid).then(function (response) {
                     setChartData(type, response.data);
                 });
                 break;
@@ -103,18 +103,18 @@ angular.module('intshop').controller('shopInvoicesController', function ($scope,
 
         switch (type) {
             case 0:
-                API_SHOPS.getShopAllInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_DRIVERS.getDriverInvoicesListAllPromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;
 
             case 1:
-                API_SHOPS.getShopDueInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_DRIVERS.getDriverInvoicesListPaidPromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;
             case 2:
-                API_SHOPS.getShopPaidInvoicesPromise(vm.details._id.$oid).then(function (response) {
+                API_DRIVERS.getDriverInvoicesListDuePromise(vm.details._id.$oid).then(function (response) {
                     setInvoiceData(type, response.data);
                 });
                 break;

@@ -2,7 +2,7 @@
 
 /*
  |--------------------------------------------------------------------------
- | Shop Details Controller
+ | Shop Resume Controller
  |--------------------------------------------------------------------------
  */
 angular.module('intshop').controller('shopResumeController', function ($scope, $rootScope,
