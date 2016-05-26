@@ -1,0 +1,63 @@
+{
+  "shops": {
+    "invoicesPaid": 233.21,
+    "invoicesPending": 25.22,
+    "chart": {
+      "label1": "Day",
+      "label2": "Invoices",
+      "Monday": 3,
+      "Tuesday": 21,
+      "Wednesday": 35,
+      "Thursday": 12,
+      "Friday": 24,
+      "Saturday": 43,
+      "Sunday": 19
+    }
+  },
+  "drivers": {
+    "invoicesPaid": 125.11,
+    "invoicesPending": 362.32,
+    "chart": {
+      "label1": "Day",
+      "label2": "Invoices",
+      "Monday": 35,
+      "Tuesday": 12,
+      "Wednesday": 66,
+      "Thursday": 2,
+      "Friday": 52,
+      "Saturday": 12,
+      "Sunday": 42
+    }
+  },
+  "stats": {
+    "activity": 20,
+    "paid_users": 1441,
+    "total_orders": 2523,
+    "paid_shops": 1225,
+    "total_sales_report": 456548,
+    "chart": {
+      "label1": "Type",
+      "label2": "Paid",
+      "Paid by Shops": 55,
+      "Paid by Users": 45
+    }
+  },
+  "other": {
+    "drivers": {
+      "activity": 10,
+      "total": 212
+    },
+    "clients": {
+      "activity": -3,
+      "total": 421
+    },
+    "shops": {
+      "activity": 0,
+      "total": 32
+    },
+    "shops_removed": {
+      "activity": 7,
+      "total": 5
+    }
+  }
+}

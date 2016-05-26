@@ -7,15 +7,31 @@
  */
 angular.module('intshop.filters', [])
 
-    .filter('money', function (CONSTANTS) {
+    .filter('money', function (CONSTANTS, utils) {
         return function (number) {
 
             var n = parseFloat(number).toFixed(2);
 
             if(isNaN(n))
                 n = 0;
+            else
+                n = utils.number_format(n, 2, '.', ' ');
 
             return CONSTANTS.CURRENCY + " " + n;
+        };
+    })
+
+    .filter('number_format', function (CONSTANTS, utils) {
+        return function (number) {
+
+            var n = parseFloat(number).toFixed(2);
+
+            if(isNaN(n))
+                n = 0;
+            else
+                n = utils.number_format(n, 0, '.', ' ');
+
+            return n;
         };
     })
 

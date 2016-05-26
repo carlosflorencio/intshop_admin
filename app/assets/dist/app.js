@@ -14,7 +14,8 @@ angular.module('intshop', [
     'intshop.api.shops',
     'intshop.api.drivers',
     'intshop.api.orders',
-    'intshop.api.clients'
+    'intshop.api.clients',
+    'intshop.api.stats'
 ]);
 
 /**
@@ -87,7 +88,12 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getOrdersListUrl: url + '/api/orders/orders-list.json',
 
         // Clients
-        getClientsListUrl: url + '/api/clients/clients-list.json'
+        getClientsListUrl: url + '/api/clients/clients-list.json',
+
+        // Stats
+        getStatsLast7days: url + '/api/stats/stats-7days.json',
+        getStatsLastMonth: url + '/api/stats/stats-last-month.json',
+        getStatsAllTime: url + '/api/stats/stats-all-time.json'
     }
 })());
 
@@ -109,6 +115,59 @@ angular.module('intshop').config(["$provide", "$httpProvider", function ($provid
 
 
     $httpProvider.interceptors.push('myHttpInterceptor');
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Clients Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('clientsController', ["API_CLIENTS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_CLIENTS, DTOptionsBuilder,
+                                                                    DTColumnDefBuilder, ENV, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Datatable options
+       ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>');
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4).notSortable()
+    ];
+
+    // Fetch the table data (shop lists)
+    API_CLIENTS.getClientsListPromise().then(function(response) {
+        vm.clients = response.data;
+    });
+
+    /* Search
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search(vm.searchText);
+        vm.dtInstance.DataTable.search(vm.searchText).draw();
+    };
+
+
+    /* Functions
+       ========================================================================== */
+    vm.image = function(id) {
+        return ENV.getClientImageUrlById(id);
+    }
 }]);
 'use strict';
 
@@ -207,59 +266,6 @@ angular.module('intshop').controller('driversController', ["API_DRIVERS", "DTOpt
 'use strict';
 
 /*
-|--------------------------------------------------------------------------
-| Clients Controller
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').controller('clientsController', ["API_CLIENTS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_CLIENTS, DTOptionsBuilder,
-                                                                    DTColumnDefBuilder, ENV, urls) {
-
-    var vm = this;
-    vm.urls = urls;
-
-    /* Datatable options
-       ========================================================================== */
-    vm.dtInstance = {};
-
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('numbers')
-        .withOption('aaSorting', [])
-        //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>');
-
-    // Columns sortable
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).notSortable(),
-        DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2),
-        DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4).notSortable()
-    ];
-
-    // Fetch the table data (shop lists)
-    API_CLIENTS.getClientsListPromise().then(function(response) {
-        vm.clients = response.data;
-    });
-
-    /* Search
-       ========================================================================== */
-    vm.searchText = "";
-    vm.searchTable = function ()
-    {
-        vm.dtInstance.DataTable.search(vm.searchText);
-        vm.dtInstance.DataTable.search(vm.searchText).draw();
-    };
-
-
-    /* Functions
-       ========================================================================== */
-    vm.image = function(id) {
-        return ENV.getClientImageUrlById(id);
-    }
-}]);
-'use strict';
-
-/*
  |--------------------------------------------------------------------------
  | Header Controller
  |--------------------------------------------------------------------------
@@ -288,6 +294,184 @@ angular.module('intshop').controller('headerController', ["$scope", "$location",
     }
 
 
+
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Dashboard Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('dashboardController', ["API_STATS", "ENV", "urls", "utils", function (API_STATS, ENV, urls, utils) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Dashboard Tabs
+     ========================================================================== */
+    vm.statsType = 0; // 0 = last 7 days, 1 = last month, 2 = all time
+
+    // Store stats data
+    var statsData = [];
+
+    vm.setStatsType = function (type) {
+
+        if (statsData[type]) { // Get cached results
+            vm.statsType = type;
+            vm.data = statsData[type];
+
+            vm.shopsChart.data = statsData[type].shops.chart;
+            vm.driversChart.data = statsData[type].drivers.chart;
+            vm.pieChart.data = statsData[type].stats.chart;
+            return;
+        }
+
+        switch (type) {
+            case 0:
+                API_STATS.getStatsLast7daysPromise().then(function (response) {
+                    setStatsData(type, response.data);
+                });
+                vm.suffix = 'last week';
+                break;
+
+            case 1:
+                API_STATS.getStatsLastMonthPromise().then(function (response) {
+                    setStatsData(type, response.data);
+                });
+                vm.suffix = 'last month';
+                break;
+            case 2:
+                API_STATS.getStatsAllTimePromise().then(function (response) {
+                    setStatsData(type, response.data);
+                });
+                vm.suffix = 'all time';
+                break;
+        }
+    };
+
+    vm.setStatsType(0);
+
+    function setStatsData(type, data) {
+        statsData[type] = data;
+        statsData[type].shops.chart = utils.getColumnChartDataFromObject(data.shops.chart);
+        statsData[type].drivers.chart = utils.getColumnChartDataFromObject(data.drivers.chart);
+        statsData[type].stats.chart = utils.getColumnChartDataFromObject(data.stats.chart);
+
+        vm.data = data;
+        vm.statsType = type;
+
+        vm.shopsChart.data = statsData[type].shops.chart;
+        vm.driversChart.data = statsData[type].drivers.chart;
+        vm.pieChart.data = statsData[type].stats.chart;
+    }
+
+    /* Shop column chart
+     ========================================================================== */
+    vm.shopsChart = {};
+    vm.shopsChart.type = "ColumnChart";
+
+    vm.shopsChart.options = {
+        legend: {position: 'none'},
+        vAxis: {
+            gridlines: {
+                color: 'transparent'
+            }
+        },
+        colors: ['#3493d5']
+    };
+
+    /* Drivers column chart
+     ========================================================================== */
+    vm.driversChart = {};
+    vm.driversChart.type = "ColumnChart";
+
+    vm.driversChart.options = {
+        legend: {position: 'none'},
+        vAxis: {
+            gridlines: {
+                color: 'transparent'
+            }
+        },
+        colors: ['#3493d5']
+    };
+
+    /* Pie chart
+     ========================================================================== */
+    vm.pieChart = {};
+    vm.pieChart.type = "PieChart";
+
+    vm.pieChart.options = {
+        legend: {
+            position: 'none'
+        },
+        title: '',
+        pieHole: 0.85,
+        slices: {
+            0: {
+                color: '#263B50'
+            },
+            1: {
+                color: '#3493D5'
+            }
+        }
+    };
+
+
+
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Orders Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('ordersController', ["API_ORDERS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_ORDERS, DTOptionsBuilder,
+                                                                    DTColumnDefBuilder, ENV, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Datatable options
+       ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>');;
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5),
+        DTColumnDefBuilder.newColumnDef(6),
+        DTColumnDefBuilder.newColumnDef(7).notSortable()
+    ];
+
+    // Fetch the table data (shop lists)
+    API_ORDERS.getOrdersListPromise().then(function(response) {
+        vm.orders = response.data;
+    });
+
+    /* Search
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search(vm.searchText);
+        vm.dtInstance.DataTable.search(vm.searchText).draw();
+    };
+
+
+    /* Functions
+       ========================================================================== */
 
 }]);
 'use strict';
@@ -651,60 +835,6 @@ angular.module('intshop').controller('shopSalesController', ["$rootScope", "API_
 
 /*
 |--------------------------------------------------------------------------
-| Orders Controller
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').controller('ordersController', ["API_ORDERS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_ORDERS, DTOptionsBuilder,
-                                                                    DTColumnDefBuilder, ENV, urls) {
-
-    var vm = this;
-    vm.urls = urls;
-
-    /* Datatable options
-       ========================================================================== */
-    vm.dtInstance = {};
-
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('numbers')
-        .withOption('aaSorting', [])
-        //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>');;
-
-    // Columns sortable
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0),
-        DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2),
-        DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5),
-        DTColumnDefBuilder.newColumnDef(6),
-        DTColumnDefBuilder.newColumnDef(7).notSortable()
-    ];
-
-    // Fetch the table data (shop lists)
-    API_ORDERS.getOrdersListPromise().then(function(response) {
-        vm.orders = response.data;
-    });
-
-    /* Search
-       ========================================================================== */
-    vm.searchText = "";
-    vm.searchTable = function ()
-    {
-        vm.dtInstance.DataTable.search(vm.searchText);
-        vm.dtInstance.DataTable.search(vm.searchText).draw();
-    };
-
-
-    /* Functions
-       ========================================================================== */
-
-}]);
-'use strict';
-
-/*
-|--------------------------------------------------------------------------
 | Shops Controller
 |--------------------------------------------------------------------------
 */
@@ -993,20 +1123,70 @@ angular.module('intshop.api.shops', []).service('API_SHOPS', ["ENV", "$http", fu
 
 /*
  |--------------------------------------------------------------------------
+ | Api Service
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop.api.stats', []).service('API_STATS', ["ENV", "$http", function (ENV, $http) {
+    return {
+
+        /* Stats
+           ========================================================================== */
+        getStatsLast7daysPromise: function () {
+            return $http({
+                method: "GET",
+                url: ENV.getStatsLast7days
+            });
+        },
+
+        getStatsLastMonthPromise: function () {
+            return $http({
+                method: "GET",
+                url: ENV.getStatsLastMonth
+            });
+        },
+
+        getStatsAllTimePromise: function () {
+            return $http({
+                method: "GET",
+                url: ENV.getStatsAllTime
+            });
+        }
+    }
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
  | Filters
  |--------------------------------------------------------------------------
  */
 angular.module('intshop.filters', [])
 
-    .filter('money', ["CONSTANTS", function (CONSTANTS) {
+    .filter('money', ["CONSTANTS", "utils", function (CONSTANTS, utils) {
         return function (number) {
 
             var n = parseFloat(number).toFixed(2);
 
             if(isNaN(n))
                 n = 0;
+            else
+                n = utils.number_format(n, 2, '.', ' ');
 
             return CONSTANTS.CURRENCY + " " + n;
+        };
+    }])
+
+    .filter('number_format', ["CONSTANTS", "utils", function (CONSTANTS, utils) {
+        return function (number) {
+
+            var n = parseFloat(number).toFixed(2);
+
+            if(isNaN(n))
+                n = 0;
+            else
+                n = utils.number_format(n, 0, '.', ' ');
+
+            return n;
         };
     }])
 
@@ -1224,7 +1404,74 @@ angular.module('intshop').service('utils', ["$window", function ($window) {
             res.rows = rows;
 
             return res;
+        },
+
+        number_format: function(number, decimals, dec_point, thousands_sep) {
+            // http://kevin.vanzonneveld.net
+            // +   original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+            // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+            // +     bugfix by: Michael White (http://getsprink.com)
+            // +     bugfix by: Benjamin Lupton
+            // +     bugfix by: Allan Jensen (http://www.winternet.no)
+            // +    revised by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+            // +     bugfix by: Howard Yeend
+            // +    revised by: Luke Smith (http://lucassmith.name)
+            // +     bugfix by: Diogo Resende
+            // +     bugfix by: Rival
+            // +      input by: Kheang Hok Chin (http://www.distantia.ca/)
+            // +   improved by: davook
+            // +   improved by: Brett Zamir (http://brett-zamir.me)
+            // +      input by: Jay Klehr
+            // +   improved by: Brett Zamir (http://brett-zamir.me)
+            // +      input by: Amir Habibi (http://www.residence-mixte.com/)
+            // +     bugfix by: Brett Zamir (http://brett-zamir.me)
+            // +   improved by: Theriault
+            // +   improved by: Drew Noakes
+            // *     example 1: number_format(1234.56);
+            // *     returns 1: '1,235'
+            // *     example 2: number_format(1234.56, 2, ',', ' ');
+            // *     returns 2: '1 234,56'
+            // *     example 3: number_format(1234.5678, 2, '.', '');
+            // *     returns 3: '1234.57'
+            // *     example 4: number_format(67, 2, ',', '.');
+            // *     returns 4: '67,00'
+            // *     example 5: number_format(1000);
+            // *     returns 5: '1,000'
+            // *     example 6: number_format(67.311, 2);
+            // *     returns 6: '67.31'
+            // *     example 7: number_format(1000.55, 1);
+            // *     returns 7: '1,000.6'
+            // *     example 8: number_format(67000, 5, ',', '.');
+            // *     returns 8: '67.000,00000'
+            // *     example 9: number_format(0.9, 0);
+            // *     returns 9: '1'
+            // *    example 10: number_format('1.20', 2);
+            // *    returns 10: '1.20'
+            // *    example 11: number_format('1.20', 4);
+            // *    returns 11: '1.2000'
+            // *    example 12: number_format('1.2000', 3);
+            // *    returns 12: '1.200'
+            var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                toFixedFix = function (n, prec) {
+                    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+                    var k = Math.pow(10, prec);
+                    return Math.round(n * k) / k;
+                },
+                s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
         }
+
+
 
     }
 }]);

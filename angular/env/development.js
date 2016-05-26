@@ -51,7 +51,12 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getOrdersListUrl: url + '/api/orders/orders-list.json',
 
         // Clients
-        getClientsListUrl: url + '/api/clients/clients-list.json'
+        getClientsListUrl: url + '/api/clients/clients-list.json',
+
+        // Stats
+        getStatsLast7days: url + '/api/stats/stats-7days.json',
+        getStatsLastMonth: url + '/api/stats/stats-last-month.json',
+        getStatsAllTime: url + '/api/stats/stats-all-time.json'
     }
 })());
 

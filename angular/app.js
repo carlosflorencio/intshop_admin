@@ -14,7 +14,8 @@ angular.module('intshop', [
     'intshop.api.shops',
     'intshop.api.drivers',
     'intshop.api.orders',
-    'intshop.api.clients'
+    'intshop.api.clients',
+    'intshop.api.stats'
 ]);
 
 /**
