@@ -14,4 +14,4 @@
 - gulp (will start all tasks and watch files to compile on change also reloads the browser)
 
 ### Todo
-- Add gulp task to minify the styles and scripts for production
+- Deliverys / Order page, make print styles
