@@ -120,6 +120,14 @@ angular.module('intshop.api.shops', []).service('API_SHOPS', function (ENV, $htt
                 url: ENV.getShop1MonthInvoiceChartUrl,
                 params: {id: id}
             });
+        },
+
+        getShopInvoiceSendAlertPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopInvoiceSendAlertUrl,
+                params: {id: id}
+            });
         }
     }
 });

@@ -80,6 +80,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getShopYearInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-year.json',
         getShop6MonthsInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-6m.json',
         getShop1MonthInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-1m.json',
+        getShopInvoiceSendAlertUrl: url + '/api/shop/invoices/shop-chart-1m.json',
 
         // Drivers
         getDriversListUrl: url + '/api/drivers/drivers-list.json',
@@ -97,6 +98,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getDriverInvoicesListAllUrl: url + '/api/drivers/invoices/driver-invoices-all.json',
         getDriverInvoicesListDueUrl: url + '/api/drivers/invoices/driver-invoices-due.json',
         getDriverInvoicesListPaidUrl: url + '/api/drivers/invoices/driver-invoices-paid.json',
+        getDriverInvoicesSendAlertUrl: url + '/api/drivers/invoices/driver-invoices-paid.json',
 
         // Orders
         getOrdersListUrl: url + '/api/orders/orders-list.json',
@@ -591,6 +593,14 @@ angular.module('intshop').controller('driverInvoicesController', ["$scope", "$ro
         .withOption('aaSorting', [])
         //.withDisplayLength(3)
         .withOption('sDom', 'rt<"dt-i-m"p>');
+
+    /* Send alert
+       ========================================================================== */
+    vm.sendAlert = function() {
+        API_DRIVERS.getDriverInvoicesSendAlertPromise(vm.details._id.$oid).then(function(response) {
+            console.log(response.status);
+        });
+    }
 
 }]);
 'use strict';
@@ -1137,6 +1147,14 @@ angular.module('intshop').controller('shopInvoicesController', ["$scope", "$root
         //.withDisplayLength(3)
         .withOption('sDom', 'rt<"dt-i-m"p>');
 
+
+    /* Send alert
+     ========================================================================== */
+    vm.sendAlert = function() {
+        API_SHOPS.getShopInvoiceSendAlertPromise(vm.details._id.$oid).then(function(response) {
+            console.log(response.status);
+        });
+    }
 }]);
 'use strict';
 
@@ -1517,6 +1535,13 @@ angular.module('intshop.api.drivers', []).service('API_DRIVERS', ["ENV", "$http"
                 url: ENV.getDriverInvoicesListDueUrl,
                 params: {id: id}
             });
+        },
+        getDriverInvoicesSendAlertPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverInvoicesSendAlertUrl,
+                params: {id: id}
+            });
         }
     }
 }]);
@@ -1661,6 +1686,14 @@ angular.module('intshop.api.shops', []).service('API_SHOPS', ["ENV", "$http", fu
             return $http({
                 method: "GET",
                 url: ENV.getShop1MonthInvoiceChartUrl,
+                params: {id: id}
+            });
+        },
+
+        getShopInvoiceSendAlertPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getShopInvoiceSendAlertUrl,
                 params: {id: id}
             });
         }

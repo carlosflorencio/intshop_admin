@@ -127,6 +127,13 @@ angular.module('intshop.api.drivers', []).service('API_DRIVERS', function (ENV, 
                 url: ENV.getDriverInvoicesListDueUrl,
                 params: {id: id}
             });
+        },
+        getDriverInvoicesSendAlertPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getDriverInvoicesSendAlertUrl,
+                params: {id: id}
+            });
         }
     }
 });

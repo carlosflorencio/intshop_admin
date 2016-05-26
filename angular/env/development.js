@@ -43,6 +43,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getShopYearInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-year.json',
         getShop6MonthsInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-6m.json',
         getShop1MonthInvoiceChartUrl: url + '/api/shop/invoices/shop-chart-1m.json',
+        getShopInvoiceSendAlertUrl: url + '/api/shop/invoices/shop-chart-1m.json',
 
         // Drivers
         getDriversListUrl: url + '/api/drivers/drivers-list.json',
@@ -60,6 +61,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getDriverInvoicesListAllUrl: url + '/api/drivers/invoices/driver-invoices-all.json',
         getDriverInvoicesListDueUrl: url + '/api/drivers/invoices/driver-invoices-due.json',
         getDriverInvoicesListPaidUrl: url + '/api/drivers/invoices/driver-invoices-paid.json',
+        getDriverInvoicesSendAlertUrl: url + '/api/drivers/invoices/driver-invoices-paid.json',
 
         // Orders
         getOrdersListUrl: url + '/api/orders/orders-list.json',

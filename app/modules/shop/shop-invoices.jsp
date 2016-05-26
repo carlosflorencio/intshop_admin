@@ -13,7 +13,7 @@
                         <div class="invoice_paid_left">
                             <p class="red">Pending</p>
                             <h1>{{ shop.info.invoicesPending | money }}</h1>
-                            <a href="#" class="send_alert" title="Send Alert">Send Alert</a>
+                            <a href="#" ng-click="invoicesCtrl.sendAlert()" class="send_alert" title="Send Alert">Send Alert</a>
                         </div>
 
                     </div>

@@ -137,4 +137,12 @@ angular.module('intshop').controller('driverInvoicesController', function ($scop
         //.withDisplayLength(3)
         .withOption('sDom', 'rt<"dt-i-m"p>');
 
+    /* Send alert
+       ========================================================================== */
+    vm.sendAlert = function() {
+        API_DRIVERS.getDriverInvoicesSendAlertPromise(vm.details._id.$oid).then(function(response) {
+            console.log(response.status);
+        });
+    }
+
 });

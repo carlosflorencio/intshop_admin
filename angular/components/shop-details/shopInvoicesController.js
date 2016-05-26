@@ -137,4 +137,12 @@ angular.module('intshop').controller('shopInvoicesController', function ($scope,
         //.withDisplayLength(3)
         .withOption('sDom', 'rt<"dt-i-m"p>');
 
+
+    /* Send alert
+     ========================================================================== */
+    vm.sendAlert = function() {
+        API_SHOPS.getShopInvoiceSendAlertPromise(vm.details._id.$oid).then(function(response) {
+            console.log(response.status);
+        });
+    }
 });
