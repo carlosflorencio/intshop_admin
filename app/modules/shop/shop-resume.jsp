@@ -204,7 +204,7 @@
                                         </td>
                                         <td class="driver_by">{{ order.driver_by | capitalize }}</td>
                                         <td class="view_link">
-                                            <a ng-href="{{ shop.urls.linkToOrderInfo(order._id.$oid) }}" title="View">View</a>
+                                            <a ng-href="{{ shop.urls.linkToOrderInfo(order._id.$oid, 'shop-resume') }}" title="View">View</a>
                                         </td>
                                     </tr>
 

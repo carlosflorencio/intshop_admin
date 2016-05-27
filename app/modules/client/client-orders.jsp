@@ -50,7 +50,7 @@
                                 </div>
                             </td>
                             <td class="sales_views">
-                                <a title="View" ng-href="{{ client.urls.linkToOrderInfo(order._id.$oid) }}"
+                                <a title="View" ng-href="{{ client.urls.linkToOrderInfo(order._id.$oid, 'user-orders') }}"
                                    class="sales_view_button pointer">
                                     View
                                 </a>

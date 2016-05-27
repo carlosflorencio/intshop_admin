@@ -41,7 +41,7 @@
                 <!-- Top logo -->
                 <div class="header_logo">
                     <div class="logo">
-                        <a ng-href="{{ header.urls.linkToHome() }}" target="Dashboard">
+                        <a ng-href="{{ header.urls.linkToHome() }}" title="Dashboard">
                             <img src="assets/images/logo.png" alt="ONO Logo">
                         </a>
                     </div>
@@ -60,7 +60,7 @@
                             <li ng-class="{active: header.isActivePage(['drivers', 'driver-details'])}">
                                 <a ng-href="{{ header.urls.linkToDriversList() }}" title="Drivers">Drivers</a>
                             </li>
-                            <li ng-class="{active: header.isActivePage('orders')}">
+                            <li ng-class="{active: header.isActivePage(['orders', 'order-info'])}">
                                 <a ng-href="{{ header.urls.linkToOrdersList() }}" title="Orders">Orders List</a>
                             </li>
                             <li ng-class="{active: header.isActivePage(['clients', 'client-details'])}">

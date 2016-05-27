@@ -19,8 +19,9 @@ angular.module('intshop').service('urls', function () {
         linkToClientsList: function() {
             return 'clients.jsp'
         },
-        linkToOrderInfo: function(id) {
-            return 'order-info.jsp?id=' + id;
+        linkToOrderInfo: function(id, from) {
+            from = typeof from !== 'undefined' ? from : 'orders';
+            return 'order-info.jsp?id=' + id + '&from=' + from;
         },
         linkToOrdersList: function() {
             return 'orders.jsp'
@@ -28,17 +29,20 @@ angular.module('intshop').service('urls', function () {
         linkToShopItemsPage: function(id) {
             return 'http://test.intshop.com/shop-items.jsp';
         },
-        linkToShopDetails: function(id) {
-            return 'shop-details.jsp?id=' + id;
+        linkToShopDetails: function(id, tab) {
+            tab = typeof tab !== 'undefined' ? tab : 0;
+            return 'shop-details.jsp?id=' + id + '&tab=' + tab;
         },
-        linkToDriversDetails: function(id) {
-            return 'driver-details.jsp?id=' + id;
+        linkToDriversDetails: function(id, tab) {
+            tab = typeof tab !== 'undefined' ? tab : 0;
+            return 'driver-details.jsp?id=' + id + '&tab=' + tab;
         },
-        linkToClientDetails: function(id) {
-            return 'client-details.jsp?id=' + id;
+        linkToClientDetails: function(id, tab) {
+            tab = typeof tab !== 'undefined' ? tab : 0;
+            return 'client-details.jsp?id=' + id + '&tab=' + tab;
         },
         linkToDelivery: function(id) {
-            return 'delivery.jsp?id=' + id;
+            return 'order-info.jsp?id=' + id + '&from=deliverys';
         }
     }
 });

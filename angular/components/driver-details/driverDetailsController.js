@@ -20,7 +20,7 @@ angular.module('intshop').controller('driverDetailsController', function ($rootS
     API_DRIVERS.getDriverDetailsPromise(vm.driverId).then(function (response) {
         vm.info = response.data;
 
-        vm.setTab(0);
+        vm.setTab(vm.tabIndex ? vm.tabIndex : 0);
     });
 
     /* Tabs

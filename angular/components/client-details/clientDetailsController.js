@@ -20,7 +20,7 @@ angular.module('intshop').controller('clientDetailsController', function ($rootS
     API_CLIENTS.getClientDetailsPromise(vm.clientId).then(function (response) {
         vm.info = response.data;
 
-        vm.setTab(0);
+        vm.setTab(vm.tabIndex ? vm.tabIndex : 0);
     });
 
     /* Tabs

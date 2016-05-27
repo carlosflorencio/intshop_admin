@@ -26,6 +26,11 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getClientImageUrlById: function (id) {
             return url + "/assets/images/user-image.jpg";
         },
+        getItemImageUrlById: function (id) {
+            var img = Math.random() >= 0.5 ? 'product_thumb1.jpg' : 'product_thumb2.jpg';
+
+            return url + "/assets/images/" + img;
+        },
 
         // API ENDPOINTS
 
@@ -65,6 +70,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // Orders
         getOrdersListUrl: url + '/api/orders/orders-list.json',
+        getOrdersDetailsUrl: url + '/api/orders/order-details.json',
 
         // Clients
         getClientsListUrl: url + '/api/clients/clients-list.json',

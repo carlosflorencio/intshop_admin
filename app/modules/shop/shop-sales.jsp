@@ -34,7 +34,10 @@
                             </td>
                             <td class="sales_driverby">{{ sale.driver_by }}</td>
                             <td class="sales_views">
-                                <a href="#" class="sales_view_button" title="View">View</a>
+                                <a ng-href="{{ sales.urls.linkToOrderInfo(sale._id.$oid, 'shop-sales') }}"
+                                   class="sales_view_button pointer" title="View">
+                                    View
+                                </a>
                             </td>
                         </tr>
 

@@ -6,10 +6,11 @@
  |--------------------------------------------------------------------------
  */
 angular.module('intshop').controller('shopSalesController', function ($rootScope, API_SHOPS, DTOptionsBuilder,
-                                                                      DTColumnDefBuilder) {
+                                                                      DTColumnDefBuilder, urls) {
 
     var vm = this;
     vm.loaded = false;
+    vm.urls = urls;
 
     /* When tab is selected
      ========================================================================== */
@@ -21,7 +22,7 @@ angular.module('intshop').controller('shopSalesController', function ($rootScope
     function loadData(data) {
         vm.details = data;
 
-        // Get shop last orders
+        // Get shop sales
         API_SHOPS.getShopSalesPromise(vm.details._id.$oid).then(function(response) {
             vm.list = response.data;
         });

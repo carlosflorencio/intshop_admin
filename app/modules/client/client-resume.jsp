@@ -168,7 +168,7 @@
                                             </div>
                                         </td>
                                         <td class="view_link">
-                                            <a title="View" ng-href="{{ client.urls.linkToOrderInfo(order._id.$oid) }}"
+                                            <a title="View" ng-href="{{ client.urls.linkToOrderInfo(order._id.$oid, 'client-resume') }}"
                                                class="sales_view_button pointer">
                                                 View
                                             </a>

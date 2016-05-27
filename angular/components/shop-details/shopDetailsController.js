@@ -20,7 +20,7 @@ angular.module('intshop').controller('shopDetailsController', function ($rootSco
     API_SHOPS.getShopDetailsPromise(vm.shopId).then(function (response) {
         vm.info = response.data;
 
-        vm.setTab(0);
+        vm.setTab(vm.tabIndex ? vm.tabIndex : 0);
     });
 
     /* Tabs

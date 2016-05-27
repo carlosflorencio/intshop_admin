@@ -63,6 +63,11 @@ angular.module('intshop.env', []).constant('ENV', (function () {
         getClientImageUrlById: function (id) {
             return url + "/assets/images/user-image.jpg";
         },
+        getItemImageUrlById: function (id) {
+            var img = Math.random() >= 0.5 ? 'product_thumb1.jpg' : 'product_thumb2.jpg';
+
+            return url + "/assets/images/" + img;
+        },
 
         // API ENDPOINTS
 
@@ -102,6 +107,7 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // Orders
         getOrdersListUrl: url + '/api/orders/orders-list.json',
+        getOrdersDetailsUrl: url + '/api/orders/order-details.json',
 
         // Clients
         getClientsListUrl: url + '/api/clients/clients-list.json',
@@ -163,7 +169,7 @@ angular.module('intshop').controller('clientDetailsController', ["$rootScope", "
     API_CLIENTS.getClientDetailsPromise(vm.clientId).then(function (response) {
         vm.info = response.data;
 
-        vm.setTab(0);
+        vm.setTab(vm.tabIndex ? vm.tabIndex : 0);
     });
 
     /* Tabs
@@ -702,7 +708,7 @@ angular.module('intshop').controller('driverDetailsController', ["$rootScope", "
     API_DRIVERS.getDriverDetailsPromise(vm.driverId).then(function (response) {
         vm.info = response.data;
 
-        vm.setTab(0);
+        vm.setTab(vm.tabIndex ? vm.tabIndex : 0);
     });
 
     /* Tabs
@@ -1055,6 +1061,39 @@ angular.module('intshop').controller('driverResumeController', ["$scope", "$root
 'use strict';
 
 /*
+ |--------------------------------------------------------------------------
+ | Header Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('headerController', ["$scope", "$location", "urls", function ($scope, $location, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    // Active page (if shops.jsp page then activePage = shops)
+    vm.activePage = function () {
+        var url = $location.absUrl(),
+            file = url.substring(url.lastIndexOf('/')+1);
+
+        return file.substr(0, file.lastIndexOf('.'));
+    }();
+
+    vm.isActivePage = function(page) {
+
+        // is array?
+        if(page.constructor === Array) {
+            return page.indexOf(vm.activePage) != -1;
+        }
+
+        return page === vm.activePage;
+    }
+
+
+
+}]);
+'use strict';
+
+/*
 |--------------------------------------------------------------------------
 | Drivers Controller
 |--------------------------------------------------------------------------
@@ -1150,33 +1189,72 @@ angular.module('intshop').controller('driversController', ["API_DRIVERS", "DTOpt
 
 /*
  |--------------------------------------------------------------------------
- | Header Controller
+ | Order Info Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('headerController', ["$scope", "$location", "urls", function ($scope, $location, urls) {
+angular.module('intshop').controller('orderInfoController', ["ENV", "API_ORDERS", "urls", "utils", "$timeout", function (ENV, API_ORDERS, urls, utils, $timeout) {
 
     var vm = this;
     vm.urls = urls;
 
-    // Active page (if shops.jsp page then activePage = shops)
-    vm.activePage = function () {
-        var url = $location.absUrl(),
-            file = url.substring(url.lastIndexOf('/')+1);
+    vm.orderId = utils.getUrlParameter.id;
+    vm.from = utils.getUrlParameter.from;
+    vm.clientId = null;
+    vm.shopId = null;
+    vm.driverId = null;
 
-        return file.substr(0, file.lastIndexOf('.'));
-    }();
+    // Get order info
+    API_ORDERS.getOrdersDetailsPromise(vm.orderId).then(function(response) {
+        vm.info = response.data;
+        vm.clientId = vm.info.client._id.$oid;
+        vm.shopId = vm.info.shop._id.$oid;
+        vm.driverId = vm.info.driver._id.$oid;
 
-    vm.isActivePage = function(page) {
+        // Activate jquery star rating plugin, ugly but ... :$
+        $timeout(function () {
+            $(".rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+        }, 200);
+    });
 
-        // is array?
-        if(page.constructor === Array) {
-            return page.indexOf(vm.activePage) != -1;
+
+    /* Functions
+     ========================================================================== */
+    // Product image
+    vm.image = function (id) {
+        return ENV.getItemImageUrlById(id);
+    };
+
+    vm.backTitle = function() {
+        switch(vm.from) {
+            case 'deliverys':
+                return 'Back to Deliverys';
+            case 'shop-sales':
+                return 'Back to Shop Sales';
+            case 'client-resume':
+                return 'Back to Client';
+            case 'shop-resume':
+                return 'Back to Shop';
+            default:
+                return 'Back to Orders';
         }
+    };
 
-        return page === vm.activePage;
+    vm.backLink = function() {
+        switch(vm.from) {
+            case 'deliverys':
+                return urls.linkToDriversDetails(vm.driverId, 1);
+            case 'user-orders':
+                return urls.linkToClientDetails(vm.clientId, 1);
+            case 'shop-sales':
+                return urls.linkToShopDetails(vm.shopId, 1);
+            case 'client-resume':
+                return urls.linkToClientDetails(vm.clientId);
+            case 'shop-resume':
+                return urls.linkToShopDetails(vm.shopId, 0);
+            default:
+                return urls.linkToOrdersList();
+        }
     }
-
-
 
 }]);
 'use strict';
@@ -1255,7 +1333,7 @@ angular.module('intshop').controller('shopDetailsController', ["$rootScope", "ut
     API_SHOPS.getShopDetailsPromise(vm.shopId).then(function (response) {
         vm.info = response.data;
 
-        vm.setTab(0);
+        vm.setTab(vm.tabIndex ? vm.tabIndex : 0);
     });
 
     /* Tabs
@@ -1548,11 +1626,12 @@ angular.module('intshop').controller('shopResumeController', ["$scope", "$rootSc
  | Shop Sales Controller
  |--------------------------------------------------------------------------
  */
-angular.module('intshop').controller('shopSalesController', ["$rootScope", "API_SHOPS", "DTOptionsBuilder", "DTColumnDefBuilder", function ($rootScope, API_SHOPS, DTOptionsBuilder,
-                                                                      DTColumnDefBuilder) {
+angular.module('intshop').controller('shopSalesController', ["$rootScope", "API_SHOPS", "DTOptionsBuilder", "DTColumnDefBuilder", "urls", function ($rootScope, API_SHOPS, DTOptionsBuilder,
+                                                                      DTColumnDefBuilder, urls) {
 
     var vm = this;
     vm.loaded = false;
+    vm.urls = urls;
 
     /* When tab is selected
      ========================================================================== */
@@ -1564,7 +1643,7 @@ angular.module('intshop').controller('shopSalesController', ["$rootScope", "API_
     function loadData(data) {
         vm.details = data;
 
-        // Get shop last orders
+        // Get shop sales
         API_SHOPS.getShopSalesPromise(vm.details._id.$oid).then(function(response) {
             vm.list = response.data;
         });
@@ -1951,6 +2030,16 @@ angular.module('intshop.api.orders', []).service('API_ORDERS', ["ENV", "$http", 
                 method: "GET",
                 url: ENV.getOrdersListUrl
             });
+        },
+
+        /* Order details
+           ========================================================================== */
+        getOrdersDetailsPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getOrdersDetailsUrl,
+                params: {id: id}
+            });
         }
 
     }
@@ -2242,8 +2331,9 @@ angular.module('intshop').service('urls', function () {
         linkToClientsList: function() {
             return 'clients.jsp'
         },
-        linkToOrderInfo: function(id) {
-            return 'order-info.jsp?id=' + id;
+        linkToOrderInfo: function(id, from) {
+            from = typeof from !== 'undefined' ? from : 'orders';
+            return 'order-info.jsp?id=' + id + '&from=' + from;
         },
         linkToOrdersList: function() {
             return 'orders.jsp'
@@ -2251,17 +2341,20 @@ angular.module('intshop').service('urls', function () {
         linkToShopItemsPage: function(id) {
             return 'http://test.intshop.com/shop-items.jsp';
         },
-        linkToShopDetails: function(id) {
-            return 'shop-details.jsp?id=' + id;
+        linkToShopDetails: function(id, tab) {
+            tab = typeof tab !== 'undefined' ? tab : 0;
+            return 'shop-details.jsp?id=' + id + '&tab=' + tab;
         },
-        linkToDriversDetails: function(id) {
-            return 'driver-details.jsp?id=' + id;
+        linkToDriversDetails: function(id, tab) {
+            tab = typeof tab !== 'undefined' ? tab : 0;
+            return 'driver-details.jsp?id=' + id + '&tab=' + tab;
         },
-        linkToClientDetails: function(id) {
-            return 'client-details.jsp?id=' + id;
+        linkToClientDetails: function(id, tab) {
+            tab = typeof tab !== 'undefined' ? tab : 0;
+            return 'client-details.jsp?id=' + id + '&tab=' + tab;
         },
         linkToDelivery: function(id) {
-            return 'delivery.jsp?id=' + id;
+            return 'order-info.jsp?id=' + id + '&from=deliverys';
         }
     }
 });
