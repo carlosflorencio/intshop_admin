@@ -1061,39 +1061,6 @@ angular.module('intshop').controller('driverResumeController', ["$scope", "$root
 'use strict';
 
 /*
- |--------------------------------------------------------------------------
- | Header Controller
- |--------------------------------------------------------------------------
- */
-angular.module('intshop').controller('headerController', ["$scope", "$location", "urls", function ($scope, $location, urls) {
-
-    var vm = this;
-    vm.urls = urls;
-
-    // Active page (if shops.jsp page then activePage = shops)
-    vm.activePage = function () {
-        var url = $location.absUrl(),
-            file = url.substring(url.lastIndexOf('/')+1);
-
-        return file.substr(0, file.lastIndexOf('.'));
-    }();
-
-    vm.isActivePage = function(page) {
-
-        // is array?
-        if(page.constructor === Array) {
-            return page.indexOf(vm.activePage) != -1;
-        }
-
-        return page === vm.activePage;
-    }
-
-
-
-}]);
-'use strict';
-
-/*
 |--------------------------------------------------------------------------
 | Drivers Controller
 |--------------------------------------------------------------------------
@@ -1183,6 +1150,39 @@ angular.module('intshop').controller('driversController', ["API_DRIVERS", "DTOpt
                 return 'Car';
         }
     }
+
+}]);
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Header Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('headerController', ["$scope", "$location", "urls", function ($scope, $location, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    // Active page (if shops.jsp page then activePage = shops)
+    vm.activePage = function () {
+        var url = $location.absUrl(),
+            file = url.substring(url.lastIndexOf('/')+1);
+
+        return file.substr(0, file.lastIndexOf('.'));
+    }();
+
+    vm.isActivePage = function(page) {
+
+        // is array?
+        if(page.constructor === Array) {
+            return page.indexOf(vm.activePage) != -1;
+        }
+
+        return page === vm.activePage;
+    }
+
+
 
 }]);
 'use strict';
@@ -2355,6 +2355,12 @@ angular.module('intshop').service('urls', function () {
         },
         linkToDelivery: function(id) {
             return 'order-info.jsp?id=' + id + '&from=deliverys';
+        },
+        logout: function() {
+            return 'logout.jsp';
+        },
+        linkToUserProfile: function() {
+            return 'profile.jsp';
         }
     }
 });

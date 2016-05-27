@@ -13,6 +13,7 @@
     <link href="assets/dist/all.css" rel="stylesheet">
 
     <!-- Scripts -->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="assets/dist/scripts.js"></script>
     <script src="assets/dist/app.js"></script>
 
@@ -79,9 +80,12 @@
                                         <span class="angle_down"><img src="assets/images/arrow_down_gray.png" alt=""></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#">Profile</a></li>
-                                        <li><a href="#">Setting</a></li>
-                                        <li><a href="login.html">Log out</a></li>
+                                        <li>
+                                            <a ng-href="{{ header.urls.linkToUserProfile() }}">Profile</a>
+                                        </li>
+                                        <li>
+                                            <a ng-href="{{ header.urls.logout() }}">Log out</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>

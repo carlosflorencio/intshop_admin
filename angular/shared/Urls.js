@@ -43,6 +43,12 @@ angular.module('intshop').service('urls', function () {
         },
         linkToDelivery: function(id) {
             return 'order-info.jsp?id=' + id + '&from=deliverys';
+        },
+        logout: function() {
+            return 'logout.jsp';
+        },
+        linkToUserProfile: function() {
+            return 'profile.jsp';
         }
     }
 });
