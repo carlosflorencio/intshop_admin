@@ -58,4 +58,11 @@ angular.module('intshop.filters', [])
         return function (string) {
             return string.charAt(0).toUpperCase() + string.slice(1)
         };
-    });
+    })
+
+    .filter('hashtag', function () {
+        return function (string) {
+            return "#" + string;
+        };
+    })
+;
