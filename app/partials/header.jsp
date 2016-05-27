@@ -63,7 +63,7 @@
                             <li ng-class="{active: header.isActivePage('orders')}">
                                 <a ng-href="{{ header.urls.linkToOrdersList() }}" title="Orders">Orders List</a>
                             </li>
-                            <li ng-class="{active: header.isActivePage('clients')}">
+                            <li ng-class="{active: header.isActivePage(['clients', 'client-details'])}">
                                 <a ng-href="{{ header.urls.linkToClientsList() }}" title="Clients">Clients</a>
                             </li>
                         </ul>
