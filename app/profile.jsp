@@ -1,6 +1,6 @@
 <%@include file="partials/header.jsp" %>
 
-<div>
+<div ng-controller="profileController as profile">
 
     <!-- Sub Bar -->
     <div class="subbar_area shopsview_page dashboard_subbar">
