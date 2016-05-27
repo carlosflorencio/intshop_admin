@@ -105,6 +105,15 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // Clients
         getClientsListUrl: url + '/api/clients/clients-list.json',
+        getClientDetailsUrl: url + '/api/clients/client-details.json',
+        getClientOrdersChart1MonthUrl: url + '/api/clients/resume/client-chart-1m.json',
+        getClientOrdersChart6MonthsUrl: url + '/api/clients/resume/client-chart-6m.json',
+        getClientOrdersChart1YearUrl: url + '/api/clients/resume/client-chart-year.json',
+        getClientLastOrdersUrl: url + '/api/clients/resume/client-last-orders.json',
+        getClientReviewsListUrl: url + '/api/clients/reviews/client-reviews.json',
+        getClientOrdersListUrl: url + '/api/clients/orders/client-orders.json',
+        getClientSuspendUrl: url + '/api/clients/client-details.json',
+        getClientRestoreUrl: url + '/api/clients/client-details.json',
 
         // Stats
         getStatsLast7days: url + '/api/stats/stats-7days.json',
@@ -135,55 +144,187 @@ angular.module('intshop').config(["$provide", "$httpProvider", function ($provid
 'use strict';
 
 /*
-|--------------------------------------------------------------------------
-| Clients Controller
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').controller('clientsController', ["API_CLIENTS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_CLIENTS, DTOptionsBuilder,
-                                                                    DTColumnDefBuilder, ENV, urls) {
+ |--------------------------------------------------------------------------
+ | Client Details Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('clientDetailsController', ["$rootScope", "utils", "$timeout", "API_CLIENTS", "urls", function ($rootScope, utils,
+                                                                        $timeout,
+                                                                        API_CLIENTS, urls) {
 
     var vm = this;
+
+    /* Client Details
+     ========================================================================== */
+    vm.clientId = utils.getUrlParameter.id;
+    vm.tabIndex = utils.getUrlParameter.tab;
     vm.urls = urls;
 
-    /* Datatable options
-       ========================================================================== */
-    vm.dtInstance = {};
+    API_CLIENTS.getClientDetailsPromise(vm.clientId).then(function (response) {
+        vm.info = response.data;
 
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('numbers')
-        .withOption('aaSorting', [])
-        //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>');
-
-    // Columns sortable
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).notSortable(),
-        DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2),
-        DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4).notSortable()
-    ];
-
-    // Fetch the table data (shop lists)
-    API_CLIENTS.getClientsListPromise().then(function(response) {
-        vm.clients = response.data;
+        vm.setTab(0);
     });
 
-    /* Search
+    /* Tabs
+     ========================================================================== */
+    vm.tabs = [
+        {name: "client-resume", active: true},
+        {name: "client-orders", active: false},
+        {name: "client-reviews", active: false}
+    ];
+
+    vm.setTab = function (index) {
+        _(vm.tabs).forEach(function (tab) {
+            tab.active = false;
+        });
+
+        vm.tabs[index].active = true;
+        vm.tab = vm.tabs[index];
+        $rootScope.$broadcast('tab:' + vm.tabs[index].name, vm.info);
+    };
+
+    /* Suspend & Restore driver
+     ========================================================================== */
+    vm.suspend = function () {
+        swal({
+            title: "Are you sure?",
+            text: "You are about to suspend the client!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, suspend it!",
+            closeOnConfirm: false
+        }, function () {
+            swal("Driver Suspended!", "", "success");
+
+            API_CLIENTS.getClientSuspendPromise(vm.clientId).then(function(response) {
+                if(response.status == 200) {
+                    vm.info.active = false;
+                }
+            });
+        });
+    };
+
+    vm.restore = function() {
+        swal("Client restored!", "", "success");
+
+        API_CLIENTS.getClientRestorePromise(vm.clientId).then(function(response) {
+            if(response.status == 200) {
+                vm.info.active = true;
+            }
+        });
+    };
+
+    /* Search input
        ========================================================================== */
     vm.searchText = "";
     vm.searchTable = function ()
     {
-        vm.dtInstance.DataTable.search(vm.searchText);
-        vm.dtInstance.DataTable.search(vm.searchText).draw();
+        if(vm.tab.name == 'client-orders' || vm.tab.name == 'client-reviews') {
+            $rootScope.$broadcast('tab:' + vm.tab.name + ":search", vm.searchText);
+        }
     };
+
+}]);
+
+
+'use strict';
+
+/*
+ |--------------------------------------------------------------------------
+ | Client Resume Controller
+ |--------------------------------------------------------------------------
+ */
+angular.module('intshop').controller('clientResumeController', ["$scope", "$rootScope", "$timeout", "utils", "CONSTANTS", "ENV", "API_CLIENTS", function ($scope, $rootScope,
+                                                                       $timeout, utils, CONSTANTS, ENV, API_CLIENTS) {
+
+    var vm = this;
+    vm.loaded = false;
+
+    /* When tab is selected
+     ========================================================================== */
+    $rootScope.$on('tab:client-resume', function (event, data) {
+        if(!vm.loaded)
+            loadData(data);
+    });
+
+    function loadData(data) {
+        vm.details = data;
+
+        // Get client last orders
+        API_CLIENTS.getClientLastOrdersPromise(vm.details._id.$oid, 5).then(function(response) {
+            vm.orders = response.data;
+        });
+
+        // Load 1 year orders chart
+        vm.setChartType(0);
+
+        vm.loaded = true;
+    }
 
 
     /* Functions
-       ========================================================================== */
-    vm.image = function(id) {
+     ========================================================================== */
+    // Image
+    vm.image = function (id) {
         return ENV.getClientImageUrlById(id);
+    };
+
+    /* Chart
+     ========================================================================== */
+    vm.ordersChart = {};
+    vm.ordersChart.type = "ColumnChart";
+
+    vm.ordersChart.options = {
+        legend: {position: 'none'},
+        vAxis: {
+            gridlines: {
+                color: 'transparent'
+            }
+        },
+        colors: ['#3493d5']
+    };
+
+    vm.chartType = 0; // 0 = 1 year, 1 = 6 months, 2 = 1 month
+
+    // Store invoice data
+    var chartData = [];
+
+    vm.setChartType = function (type) {
+
+        if (chartData[type]) { // Get cached results
+            vm.chartType = type;
+            vm.ordersChart.data = chartData[type];
+            return;
+        }
+
+        switch (type) {
+            case 0:
+                API_CLIENTS.getClientOrdersChart1YearPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+
+            case 1:
+                API_CLIENTS.getClientOrdersChart6MonthsPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+            case 2:
+                API_CLIENTS.getClientOrdersChart1MonthPromise(vm.details._id.$oid).then(function (response) {
+                    setChartData(type, response.data);
+                });
+                break;
+        }
+    };
+
+    function setChartData(type, data) {
+        chartData[type] = utils.getColumnChartDataFromObject(data);
+        vm.ordersChart.data = chartData[type];
+        vm.chartType = type;
     }
+
 }]);
 'use strict';
 
@@ -308,6 +449,59 @@ angular.module('intshop').controller('dashboardController', ["API_STATS", "ENV",
 
 
 
+}]);
+'use strict';
+
+/*
+|--------------------------------------------------------------------------
+| Clients Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('clientsController', ["API_CLIENTS", "DTOptionsBuilder", "DTColumnDefBuilder", "ENV", "urls", function (API_CLIENTS, DTOptionsBuilder,
+                                                                    DTColumnDefBuilder, ENV, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    /* Datatable options
+       ========================================================================== */
+    vm.dtInstance = {};
+
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>');
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4).notSortable()
+    ];
+
+    // Fetch the table data (shop lists)
+    API_CLIENTS.getClientsListPromise().then(function(response) {
+        vm.clients = response.data;
+    });
+
+    /* Search
+       ========================================================================== */
+    vm.searchText = "";
+    vm.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search(vm.searchText);
+        vm.dtInstance.DataTable.search(vm.searchText).draw();
+    };
+
+
+    /* Functions
+       ========================================================================== */
+    vm.image = function(id) {
+        return ENV.getClientImageUrlById(id);
+    }
 }]);
 'use strict';
 
@@ -923,6 +1117,106 @@ angular.module('intshop').controller('ordersController', ["API_ORDERS", "DTOptio
 'use strict';
 
 /*
+|--------------------------------------------------------------------------
+| Shops Controller
+|--------------------------------------------------------------------------
+*/
+angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "API_SHOPS", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "ENV", "urls", function ($scope, $timeout, API_SHOPS, DTOptionsBuilder,
+                                                                  DTColumnBuilder, DTColumnDefBuilder, ENV, urls) {
+
+    var vm = this;
+    vm.urls = urls;
+
+    // Datatable options
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('numbers')
+        .withOption('aaSorting', [])
+        //.withDisplayLength(3)
+        .withOption('sDom', 'rt<"dt-i-m"lip>')
+        .withOption('drawCallback', function (settings) {
+            if(settings.aoData.length > 0) {
+                // Move this code to a directive
+                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
+                //$timeout(function() {
+                //    compute();
+                //}, 0);
+            }
+        });
+
+    // Columns sortable
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3),
+        DTColumnDefBuilder.newColumnDef(4),
+        DTColumnDefBuilder.newColumnDef(5).notSortable(),
+        DTColumnDefBuilder.newColumnDef(6).notSortable()
+    ];
+
+    vm.dtInstance = {};
+
+    // Fetch the table data (shop lists)
+    API_SHOPS.getShopListPromise().then(function(response) {
+        vm.shops = response.data;
+    });
+
+    /* Search
+       ========================================================================== */
+    $scope.searchText = "";
+    $scope.searchTable = function ()
+    {
+        vm.dtInstance.DataTable.search($scope.searchText);
+        vm.dtInstance.DataTable.search($scope.searchText).draw();
+    };
+
+    /* Select rows
+       ========================================================================== */
+    //vm.selected = {};
+    //vm.selectAll = false;
+    //vm.toggleAll = toggleAll;
+    //vm.toggleOne = toggleOne;
+    //
+    //function toggleAll (selectAll, selectedItems) {
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            selectedItems[id] = selectAll;
+    //        }
+    //    }
+    //}
+    //function toggleOne (selectedItems) {
+    //    console.log(selectedItems);
+    //    for (var id in selectedItems) {
+    //        if (selectedItems.hasOwnProperty(id)) {
+    //            if(!selectedItems[id]) {
+    //                vm.selectAll = false;
+    //                return;
+    //            }
+    //        }
+    //    }
+    //    vm.selectAll = true;
+    //}
+
+    //function compute() {
+    //    // Get the current rows
+    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
+    //
+    //    vm.selectAll = false;
+    //    vm.selected = {};
+    //    _(displayedRows[0]).forEach(function(index) {
+    //        vm.selected[vm.shops[index]._id.$oid] = false;
+    //    });
+    //}
+
+    // Image
+    $scope.image = function(id) {
+        return ENV.getShopImageUrlById(id);
+    }
+
+}]);
+'use strict';
+
+/*
  |--------------------------------------------------------------------------
  | Shop Details Controller
  |--------------------------------------------------------------------------
@@ -1288,106 +1582,6 @@ angular.module('intshop').controller('shopSalesController', ["$rootScope", "API_
 'use strict';
 
 /*
-|--------------------------------------------------------------------------
-| Shops Controller
-|--------------------------------------------------------------------------
-*/
-angular.module('intshop').controller('shopsController', ["$scope", "$timeout", "API_SHOPS", "DTOptionsBuilder", "DTColumnBuilder", "DTColumnDefBuilder", "ENV", "urls", function ($scope, $timeout, API_SHOPS, DTOptionsBuilder,
-                                                                  DTColumnBuilder, DTColumnDefBuilder, ENV, urls) {
-
-    var vm = this;
-    vm.urls = urls;
-
-    // Datatable options
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('numbers')
-        .withOption('aaSorting', [])
-        //.withDisplayLength(3)
-        .withOption('sDom', 'rt<"dt-i-m"lip>')
-        .withOption('drawCallback', function (settings) {
-            if(settings.aoData.length > 0) {
-                // Move this code to a directive
-                $("#rating-stars,.rating-stars").rating({displayOnly: true, step: 0.5, size: 'xs'});
-                //$timeout(function() {
-                //    compute();
-                //}, 0);
-            }
-        });
-
-    // Columns sortable
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).notSortable(),
-        DTColumnDefBuilder.newColumnDef(1),
-        DTColumnDefBuilder.newColumnDef(2),
-        DTColumnDefBuilder.newColumnDef(3),
-        DTColumnDefBuilder.newColumnDef(4),
-        DTColumnDefBuilder.newColumnDef(5).notSortable(),
-        DTColumnDefBuilder.newColumnDef(6).notSortable()
-    ];
-
-    vm.dtInstance = {};
-
-    // Fetch the table data (shop lists)
-    API_SHOPS.getShopListPromise().then(function(response) {
-        vm.shops = response.data;
-    });
-
-    /* Search
-       ========================================================================== */
-    $scope.searchText = "";
-    $scope.searchTable = function ()
-    {
-        vm.dtInstance.DataTable.search($scope.searchText);
-        vm.dtInstance.DataTable.search($scope.searchText).draw();
-    };
-
-    /* Select rows
-       ========================================================================== */
-    //vm.selected = {};
-    //vm.selectAll = false;
-    //vm.toggleAll = toggleAll;
-    //vm.toggleOne = toggleOne;
-    //
-    //function toggleAll (selectAll, selectedItems) {
-    //    for (var id in selectedItems) {
-    //        if (selectedItems.hasOwnProperty(id)) {
-    //            selectedItems[id] = selectAll;
-    //        }
-    //    }
-    //}
-    //function toggleOne (selectedItems) {
-    //    console.log(selectedItems);
-    //    for (var id in selectedItems) {
-    //        if (selectedItems.hasOwnProperty(id)) {
-    //            if(!selectedItems[id]) {
-    //                vm.selectAll = false;
-    //                return;
-    //            }
-    //        }
-    //    }
-    //    vm.selectAll = true;
-    //}
-
-    //function compute() {
-    //    // Get the current rows
-    //    var displayedRows = vm.dtInstance.DataTable.rows({ page: 'current' });
-    //
-    //    vm.selectAll = false;
-    //    vm.selected = {};
-    //    _(displayedRows[0]).forEach(function(index) {
-    //        vm.selected[vm.shops[index]._id.$oid] = false;
-    //    });
-    //}
-
-    // Image
-    $scope.image = function(id) {
-        return ENV.getShopImageUrlById(id);
-    }
-
-}]);
-'use strict';
-
-/*
  |--------------------------------------------------------------------------
  | Api Service
  |--------------------------------------------------------------------------
@@ -1402,8 +1596,84 @@ angular.module('intshop.api.clients', []).service('API_CLIENTS', ["ENV", "$http"
                 method: "GET",
                 url: ENV.getClientsListUrl
             });
-        }
+        },
 
+        /* Client details
+           ========================================================================== */
+        getClientDetailsPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientDetailsUrl,
+                params: {id: id}
+            });
+        },
+
+        getClientRestorePromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientRestoreUrl,
+                params: {id: id}
+            });
+        },
+
+        getClientSuspendPromise: function(id) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientSuspendUrl,
+                params: {id: id}
+            });
+        },
+
+        /* Resume tab
+         ========================================================================== */
+        getClientOrdersChart1YearPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientOrdersChart1YearUrl,
+                params: {id: id}
+            });
+        },
+        getClientOrdersChart6MonthsPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientOrdersChart6MonthsUrl,
+                params: {id: id}
+            });
+        },
+        getClientOrdersChart1MonthPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientOrdersChart1MonthUrl,
+                params: {id: id}
+            });
+        },
+        getClientLastOrdersPromise: function (id, limit) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientLastOrdersUrl,
+                params: {id: id, limit: limit}
+            });
+        },
+
+        /* Orders tab
+         ========================================================================== */
+        getClientOrdersListPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientOrdersListUrl,
+                params: {id: id}
+            });
+        },
+
+        /* Reviews tab
+         ========================================================================== */
+        getClientReviewsListPromise: function (id) {
+            return $http({
+                method: "GET",
+                url: ENV.getClientReviewsListUrl,
+                params: {id: id}
+            });
+        }
     }
 }]);
 'use strict';
