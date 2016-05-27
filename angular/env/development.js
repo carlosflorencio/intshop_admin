@@ -68,6 +68,13 @@ angular.module('intshop.env', []).constant('ENV', (function () {
 
         // Clients
         getClientsListUrl: url + '/api/clients/clients-list.json',
+        getClientDetailsUrl: url + '/api/clients/clients-details.json',
+        getClientOrdersChart1MonthUrl: url + '/api/clients/resume/client-chart-1m.json',
+        getClientOrdersChart6MonthsUrl: url + '/api/clients/resume/client-chart-6m.json',
+        getClientOrdersChart1YearUrl: url + '/api/clients/resume/client-chart-year.json',
+        getClientLastOrdersUrl: url + '/api/clients/resume/client-last-orders.json',
+        getClientReviewsListUrl: url + '/api/clients/reviews/client-reviews.json',
+        getClientOrdersListUrl: url + '/api/clients/orders/client-orders.json',
 
         // Stats
         getStatsLast7days: url + '/api/stats/stats-7days.json',

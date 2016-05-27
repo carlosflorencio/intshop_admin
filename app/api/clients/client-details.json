@@ -1,0 +1,23 @@
+{
+  "_id": {
+    "$oid": "23423423423423423"
+  },
+  "name": "John Doe",
+  "signup_origin": "Facebook",
+  "born": "01/01/1900",
+  "cell": "+351 912 345 678",
+  "email": "jalmeida@asfg.pt",
+  "address": "72 Ballards Lane",
+  "city": "London",
+  "postcode": "n3 2db",
+  "newsletter": true,
+  "active": true,
+  "card": {
+    "number": "1234 5678 9012 3456",
+    "expiration": "10/2020"
+  },
+  "regDate": {
+    "$date": "2016-04-13T22:31:38.005Z"
+  },
+  "total_orders": 1231
+}
